@@ -1,0 +1,8 @@
+﻿		[HttpPost]
+        [Route("$route$", Name = "$routeName$")]
+        public async Task<IActionResult> Create$objectTypeName$([FromBody] $objectNamespace$.$objectTypeName$ value)
+        {
+            _db.$objectNamespace$_$objectTypeName$.Add(value);
+            await _db.SaveChangesAsync();
+            return Ok(value);
+        }

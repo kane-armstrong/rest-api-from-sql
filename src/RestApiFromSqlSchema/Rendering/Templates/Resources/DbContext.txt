@@ -1,0 +1,21 @@
+﻿$generatedCodeDisclaimer$
+using Microsoft.EntityFrameworkCore;
+
+namespace $objectNamespace$
+{
+    public class $objectTypeName$ : DbContext
+    {
+$dbSets$
+
+		public $objectTypeName$(DbContextOptions<$objectTypeName$> options) : base(options)
+		{
+		}
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
+
+$modelBuilderKeys$
+		}
+	}
+}

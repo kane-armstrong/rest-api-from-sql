@@ -1,0 +1,11 @@
+﻿		[HttpGet]
+        [Route("$route$", Name = "$routeName$")]
+        public async Task<ActionResult<$objectNamespace$.$objectTypeName$>> Get$objectTypeName$($identifiers$)
+        {
+            var result = await _db.$objectNamespace$_$objectTypeName$.FirstOrDefaultAsync($identifiersPredicate$);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return result;
+        }
