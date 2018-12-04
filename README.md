@@ -19,12 +19,16 @@ Limitations:
 
 * Does not support tables without primary keys
 * Does not support generating navigation properties
+* Does not support the SQL hierarchyid system data type (currently maps to string, but untested for create/edit)
+* Does not support the geometry system data type (can't fix until 2.2)
 * No tests
 
 Planned:
 
 * Generate FluentValidation validators and plug them into the MVC request pipeline with a filter to map ModelState validation errors
 to an error schema
+* Avoid IDENTITY_INSERT errors on write (e.g. separate object with the IDENTITY column removed on generated
+POST endpoints)
 
 Maybes:
 
