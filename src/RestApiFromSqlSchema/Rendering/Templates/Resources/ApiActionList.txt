@@ -1,0 +1,6 @@
+﻿		[HttpGet]
+        [Route("$route$", Name = "$routeName$")]
+        public async Task<ActionResult<IEnumerable<$objectNamespace$.$objectTypeName$>>> List$objectTypeName$(int pageIndex, int pageSize)
+        {
+            return await _db.$objectNamespace$_$objectTypeName$.$orderBy$Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+        }

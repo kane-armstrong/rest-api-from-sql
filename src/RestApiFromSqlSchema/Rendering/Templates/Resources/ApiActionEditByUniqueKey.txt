@@ -1,0 +1,14 @@
+﻿		[HttpPut("$route$", Name = "$routeName$")]
+        public async Task<IActionResult> Edit$objectTypeName$By$route$($identifiers$, [FromBody] $objectNamespace$.$objectTypeName$ $modelVariableName$)
+        {
+            var $existingEntityVariableName$ = await _db.$objectNamespace$_$objectTypeName$.FirstOrDefaultAsync($identifiersPredicate$);
+            if ($existingEntityVariableName$ == null)
+            {
+                return NotFound();
+            }
+
+$editActionEdits$
+            _db.$objectNamespace$_$objectTypeName$.Update($existingEntityVariableName$);
+            await _db.SaveChangesAsync();
+            return NoContent();
+        }

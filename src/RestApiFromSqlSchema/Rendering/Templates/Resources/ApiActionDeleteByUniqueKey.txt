@@ -1,0 +1,12 @@
+﻿		[HttpDelete("$route$", Name = "$routeName$")]
+        public async Task<IActionResult> Delete$objectTypeName$By$route$($identifiers$)
+        {
+            var existing = await _db.$objectNamespace$_$objectTypeName$.FirstOrDefaultAsync($identifiersPredicate$);
+            if (existing == null)
+            {
+                return NotFound();
+            }
+            _db.$objectNamespace$_$objectTypeName$.Remove(existing);
+            await _db.SaveChangesAsync();
+            return NoContent();
+        }
