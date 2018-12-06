@@ -4,9 +4,11 @@ This is a simple, unamabitious code generation tool. It looks at the schema of a
 and generates a REST API for it, with typical CRUD endpoints that support both filtering on 
 primary key and (optionally) on unique key, as additional endpoints.
 
+## Example
+
 Quick summary of the generated API:
 
-* ASP.NET Core 2.1
+* ASP.NET Core 2.2
 * Swagger support
 * Generates one class per table 
 * Generates an EntityFramework DbContext with support for both primary and composite keys
@@ -20,7 +22,6 @@ Limitations:
 * Does not support tables without primary keys
 * Does not support generating navigation properties
 * Does not support the SQL hierarchyid system data type (currently maps to string, but untested for create/edit)
-* Does not support the geometry system data type (can't fix until 2.2)
 * No tests
 
 Planned:
@@ -35,3 +36,8 @@ Maybes:
 * Support generating an alternative API - CQRS/Mediator/ProjectTo
 * Implement support for other database engines (sort of already there as the schema exploration is behind an interface and 
 pluggable via builder - but makes liberal use of schema names, not all engines treat schema the same way MSSQL does)
+
+## Example Executable Invocation
+
+`.\Armsoft.RestApiFromSqlSchema.CLI.exe -c "Server=<server>;Initial Catalog=AdventureWorks2016CTP3;Persist Security Info=False;User ID=<user>;Password=<password>;
+MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;" -s "AdventureWorksApi" -d "c:\temp\generated code\AdventureWorksApi2" -p "AdventureWorksApi"`
