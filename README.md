@@ -4,7 +4,7 @@ This is a simple, unamabitious code generation tool. It looks at the schema of a
 and generates a REST API for it, with typical CRUD endpoints that support both filtering on 
 primary key and (optionally) on unique key, as additional endpoints.
 
-## Example
+See the samples folder for an example of how to call the executable and the output of a successful invocation.
 
 Quick summary of the generated API:
 
@@ -36,8 +36,3 @@ Maybes:
 * Support generating an alternative API - CQRS/Mediator/ProjectTo
 * Implement support for other database engines (sort of already there as the schema exploration is behind an interface and 
 pluggable via builder - but makes liberal use of schema names, not all engines treat schema the same way MSSQL does)
-
-## Example Executable Invocation
-
-`.\Armsoft.RestApiFromSqlSchema.CLI.exe -c "Server=<server>;Initial Catalog=AdventureWorks2016CTP3;Persist Security Info=False;User ID=<user>;Password=<password>;
-MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;" -s "AdventureWorksApi" -d "c:\temp\generated code\AdventureWorksApi2" -p "AdventureWorksApi"`
