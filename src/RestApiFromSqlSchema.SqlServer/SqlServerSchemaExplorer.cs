@@ -130,14 +130,16 @@ namespace Armsoft.RestApiFromSqlSchema.SqlServer
             { "varbinary", "byte[]" },
             { "varchar", "string" },
             { "xml", "string" },
-            { "hierarchyid", "string" }
+            { "hierarchyid", "string" },
+            { "geography", "Point" }
         };
 
         internal static readonly List<string> NonNullableDataTypes = new List<string>
         {
             "string",
             "byte[]",
-            "object"
+            "object",
+            "Point"
         };
     }
 }
