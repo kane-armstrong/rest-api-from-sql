@@ -4,8 +4,8 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Solution.Global.Sections
 {
     public class SolutionConfigurationPlatform
     {
-        internal static string GlobalSectionId = "SolutionConfigurationPlatforms";
-        internal static GlobalSectionType GlobalSectionType = GlobalSectionType.preSolution;
+        internal const string GlobalSectionId = "SolutionConfigurationPlatforms";
+        internal static readonly GlobalSectionType GlobalSectionType = GlobalSectionType.preSolution;
 
         public BuildConfiguration BuildConfiguration { get; }
         public CpuConfiguration CpuConfiguration { get; }

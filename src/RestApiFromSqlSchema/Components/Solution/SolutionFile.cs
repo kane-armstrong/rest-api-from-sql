@@ -22,21 +22,21 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Solution
         private readonly Guid _solutionGuid;
         private readonly List<ProjectFile> _projects;
 
-        public readonly string SolutionDirectory;
-        public readonly string SolutionName;
+        private readonly string _solutionDirectory;
+        private readonly string _solutionName;
 
-        private string SolutionPath => $"{SolutionDirectory}\\{SolutionName}.sln";
+        private string SolutionPath => $"{_solutionDirectory}\\{_solutionName}.sln";
 
         public SolutionFile(string directory, string name)
         {
             _projects = new List<ProjectFile>();
-            SolutionDirectory = directory;
-            SolutionName = name;
+            _solutionDirectory = directory;
+            _solutionName = name;
             _solutionGuid = Guid.NewGuid();
             _sharedProjectId = Guid.NewGuid();
         }
 
-        private string GenerateProjectRootPath(ProjectFile project) => $"{SolutionDirectory}\\{project.Name}";
+        private string GenerateProjectRootPath(ProjectFile project) => $"{_solutionDirectory}\\{project.Name}";
 
         public void AddProject(ProjectFile project)
         {
@@ -76,7 +76,7 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Solution
 
         private void CreateDirectories()
         {
-            CreateDirectoryIfNotExists(SolutionDirectory);
+            CreateDirectoryIfNotExists(_solutionDirectory);
             foreach (var projectFile in _projects)
             {
                 var root = GenerateProjectRootPath(projectFile);
@@ -104,7 +104,7 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Solution
             var projectSectionsBuilder = new StringBuilder();
             foreach (var project in _projects)
             {
-                projectSectionsBuilder.AppendLine(GenerateProjectFileContent(project, SolutionDirectory));
+                projectSectionsBuilder.AppendLine(GenerateProjectFileContent(project, _solutionDirectory));
             }
 
             string projectsSection;
@@ -129,7 +129,7 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Solution
             return template.Render();
         }
 
-        private string GenerateProjectFileContent(ProjectFile project, string solutionDirectory)
+        private static string GenerateProjectFileContent(ProjectFile project, string solutionDirectory)
         {
             var template = new Template(TemplateContent.ProjectSection, '$', '$');
             template.Add(TemplateKeys.ProjectId, project.Id.ToString().ToUpper());

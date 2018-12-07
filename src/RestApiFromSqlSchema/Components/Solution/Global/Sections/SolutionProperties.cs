@@ -4,8 +4,8 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Solution.Global.Sections
 {
     public class SolutionProperties
     {
-        internal static string GlobalSectionId = "SolutionProperties";
-        internal static GlobalSectionType GlobalSectionType = GlobalSectionType.preSolution;
+        internal const string GlobalSectionId = "SolutionProperties";
+        internal static readonly GlobalSectionType GlobalSectionType = GlobalSectionType.preSolution;
 
         public bool HideSolutionNode { get; }
 

@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Globalization;
 using Armsoft.RestApiFromSqlSchema.Components.Solution.Global.Enumerations;
 
 namespace Armsoft.RestApiFromSqlSchema.Components.Solution.Global.Sections
 {
     public class ProjectConfigurationPlatform
     {
-        internal static string GlobalSectionId = "ProjectConfigurationPlatforms";
-        internal static GlobalSectionType GlobalSectionType = GlobalSectionType.postSolution;
+        internal const string GlobalSectionId = "ProjectConfigurationPlatforms";
+        internal static readonly GlobalSectionType GlobalSectionType = GlobalSectionType.postSolution;
 
         public BuildConfiguration BuildConfiguration { get; }
         public CpuConfiguration CpuConfiguration { get; }

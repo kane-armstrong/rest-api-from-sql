@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Armsoft.RestApiFromSqlSchema.Components.Schema;
+﻿using Armsoft.RestApiFromSqlSchema.Components.Schema;
 using Armsoft.RestApiFromSqlSchema.Components.Templates.WebApi;
 using Armsoft.RestApiFromSqlSchema.Extensions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
 {
-    public class ApiControllerTemplateGenerator
+    public static class ApiControllerTemplateGenerator
     {
-        public ApiControllerTemplate Generate(Table table)
+        public static ApiControllerTemplate Generate(Table table)
         {
             var config = new ApiControllerTemplate
             {
@@ -40,7 +40,7 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
             return config;
         }
 
-        private GetByIdApiActionTemplate ConfigureGetByUniqueKeyTemplate(Table table, IGrouping<string, Constraint> group)
+        private static GetByIdApiActionTemplate ConfigureGetByUniqueKeyTemplate(Table table, IGrouping<string, Constraint> group)
         {
             var columns = table.Columns.Where(x => group.Select(y => y).Any(z => z.ColumnName.ActualName == x.ActualName)).ToList();
             return new GetByIdApiActionTemplate
@@ -51,7 +51,7 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
             };
         }
 
-        private EditApiActionTemplate ConfigureEditByUniqueKeyTemplate(Table table, IGrouping<string, Constraint> group)
+        private static EditApiActionTemplate ConfigureEditByUniqueKeyTemplate(Table table, IGrouping<string, Constraint> group)
         {
             var filterableColumns = table.Columns.Where(x => group.Select(y => y).Any(z => z.ColumnName.ActualName == x.ActualName)).ToList();
             return new EditApiActionTemplate
@@ -63,7 +63,7 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
             };
         }
 
-        private DeleteApiActionTemplate ConfigureDeleteByUniqueKeyTemplate(Table table, IGrouping<string, Constraint> group)
+        private static DeleteApiActionTemplate ConfigureDeleteByUniqueKeyTemplate(Table table, IGrouping<string, Constraint> group)
         {
             var filterableColumns = table.Columns.Where(x => group.Select(y => y).Any(z => z.ColumnName.ActualName == x.ActualName)).ToList();
             return new DeleteApiActionTemplate
@@ -74,7 +74,7 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
             };
         }
 
-        private ListApiActionTemplate ConfigureListApiActionTemplate(Table table)
+        private static ListApiActionTemplate ConfigureListApiActionTemplate(Table table)
         {
             var orderByColumns = new List<Column>();
             if (table.HasKeyColumn)
@@ -95,7 +95,7 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
             };
         }
 
-        private GetByIdApiActionTemplate ConfigureGetByIdApiActionTemplate(Table table)
+        private static GetByIdApiActionTemplate ConfigureGetByIdApiActionTemplate(Table table)
         {
             return new GetByIdApiActionTemplate
             {
@@ -105,7 +105,7 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
             };
         }
 
-        private CreateApiActionTemplate ConfigureCreateApiActionTemplate(Table table)
+        private static CreateApiActionTemplate ConfigureCreateApiActionTemplate(Table table)
         {
             return new CreateApiActionTemplate
             {
@@ -114,7 +114,7 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
             };
         }
 
-        private EditApiActionTemplate ConfigureEditApiActionTemplate(Table table)
+        private static EditApiActionTemplate ConfigureEditApiActionTemplate(Table table)
         {
             return new EditApiActionTemplate
             {
@@ -127,7 +127,7 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
             };
         }
 
-        private DeleteApiActionTemplate ConfigureDeleteApiActionTemplate(Table table)
+        private static DeleteApiActionTemplate ConfigureDeleteApiActionTemplate(Table table)
         {
             return new DeleteApiActionTemplate
             {

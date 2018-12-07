@@ -1,6 +1,6 @@
 ﻿namespace Armsoft.RestApiFromSqlSchema.Rendering.Templates
 {
-    internal class SharedTemplateKeys
+    internal static class SharedTemplateKeys
     {
         internal const string Route = "route";
         internal const string RouteName = "routeName";

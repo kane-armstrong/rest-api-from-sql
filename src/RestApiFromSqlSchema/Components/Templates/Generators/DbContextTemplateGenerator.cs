@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Armsoft.RestApiFromSqlSchema.Components.Schema;
+﻿using Armsoft.RestApiFromSqlSchema.Components.Schema;
 using Armsoft.RestApiFromSqlSchema.Components.Templates.EntityFramework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
 {
-    public class DbContextTemplateGenerator
+    public static class DbContextTemplateGenerator
     {
-        public DbContextTemplate Generate(IList<Table> tables, string dbContextNamespace, string dbContextTypeName)
+        public static DbContextTemplate Generate(IList<Table> tables, string dbContextNamespace, string dbContextTypeName)
         {
             return new DbContextTemplate
             {

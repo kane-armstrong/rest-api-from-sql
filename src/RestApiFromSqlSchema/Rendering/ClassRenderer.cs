@@ -1,25 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Antlr4.StringTemplate;
+﻿using Antlr4.StringTemplate;
 using Armsoft.RestApiFromSqlSchema.Components.Templates;
 using Armsoft.RestApiFromSqlSchema.Rendering.Templates;
 using Armsoft.RestApiFromSqlSchema.Rendering.Templates.Resources;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Armsoft.RestApiFromSqlSchema.Rendering
 {
-    public class ClassRenderer
+    public static class ClassRenderer
     {
         private const string Tab = "\t";
         private const char StartDelimiter = '$';
         private const char EndDelimiter = '$';
 
-        private static List<string> NotMappedDataTypes = new List<string>
+        private static readonly List<string> NotMappedDataTypes = new List<string>
         {
             "object"
         };
 
-        public string Render(ClassTemplate configuration)
+        public static string Render(ClassTemplate configuration)
         {
             var template = new Template(TemplateContent.Class, StartDelimiter, EndDelimiter);
 

@@ -24,8 +24,8 @@ namespace Armsoft.RestApiFromSqlSchema.SqlServer
 
         public async Task<IList<Table>> GetTablesAsync(CancellationToken cancellationToken)
         {
-            var columnSchema = await GetColumnSchemaOfAllTablesAsync(cancellationToken);
-            var constraints = (await GetConstraintsOfAllTablesAsync(cancellationToken)).ToList();
+            var columnSchema = await GetColumnSchemaOfAllTablesAsync(cancellationToken).ConfigureAwait(false);
+            var constraints = (await GetConstraintsOfAllTablesAsync(cancellationToken).ConfigureAwait(false)).ToList();
 
             var schemas = columnSchema.GroupBy(x => x.TableSchema);
 
