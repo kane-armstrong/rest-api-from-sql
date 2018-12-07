@@ -7,13 +7,13 @@ using Armsoft.RestApiFromSqlSchema.Rendering.Templates.Resources;
 
 namespace Armsoft.RestApiFromSqlSchema.Rendering
 {
-    public class DbContextRenderer
+    public static class DbContextRenderer
     {
         private const string Tab = "\t";
         private const char StartDelimiter = '$';
         private const char EndDelimiter = '$';
 
-        public string Render(DbContextTemplate configuration)
+        public static string Render(DbContextTemplate configuration)
         {
             var template = new Template(TemplateContent.DbContext, StartDelimiter, EndDelimiter);
 

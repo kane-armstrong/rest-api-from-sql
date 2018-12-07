@@ -5,7 +5,7 @@ using CommandLine;
 
 namespace Armsoft.RestApiFromSqlSchema.CLI
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main(string[] args)
         {

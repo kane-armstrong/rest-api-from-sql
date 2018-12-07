@@ -2,9 +2,9 @@
 
 namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
 {
-    public class ClassTemplateGenerator
+    public static class ClassTemplateGenerator
     {
-        public ClassTemplate Generate(Table table, string typeName)
+        public static ClassTemplate Generate(Table table, string typeName)
         {
             return new ClassTemplate
             {

@@ -5,8 +5,8 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Solution.Global.Sections
 {
     public class ExtensibilityGlobals
     {
-        internal static string GlobalSectionId = "ExtensibilityGlobals";
-        internal static GlobalSectionType GlobalSectionType = GlobalSectionType.postSolution;
+        internal const string GlobalSectionId = "ExtensibilityGlobals";
+        internal static readonly GlobalSectionType GlobalSectionType = GlobalSectionType.postSolution;
 
         public Guid SolutionGuid { get; }
 

@@ -10,13 +10,13 @@ using Armsoft.RestApiFromSqlSchema.Rendering.Templates.Resources;
 
 namespace Armsoft.RestApiFromSqlSchema.Rendering
 {
-    public class ApiControllerRenderer
+    public static class ApiControllerRenderer
     {
         private const string Tab = "\t";
         private const char StartDelimiter = '$';
         private const char EndDelimiter = '$';
 
-        public string Render(ApiControllerTemplate configuration)
+        public static string Render(ApiControllerTemplate configuration)
         {
             var template = new Template(TemplateContent.ApiController, StartDelimiter, EndDelimiter);
 
@@ -63,8 +63,7 @@ namespace Armsoft.RestApiFromSqlSchema.Rendering
             return template.Render();
         }
 
-        // todo duplicate code
-        private string RenderGetByUniqueKeyAction(GetByIdApiActionTemplate configuration, string typeNamespace, string typeName)
+        private static string RenderGetByUniqueKeyAction(GetByIdApiActionTemplate configuration, string typeNamespace, string typeName)
         {
             var identifiers = configuration.FilterableColumns.Count == 1
                 ? GenerateIdentifiers(configuration.FilterableColumns.First())
@@ -82,7 +81,7 @@ namespace Armsoft.RestApiFromSqlSchema.Rendering
             return template.Render();
         }
 
-        private string RenderEditByUniqueKeyAction(EditApiActionTemplate configuration, string typeNamespace, string typeName)
+        private static string RenderEditByUniqueKeyAction(EditApiActionTemplate configuration, string typeNamespace, string typeName)
         {
             var identifiers = configuration.FilterableColumns.Count == 1
                 ? GenerateIdentifiers(configuration.FilterableColumns.First())
@@ -109,7 +108,7 @@ namespace Armsoft.RestApiFromSqlSchema.Rendering
             return template.Render();
         }
 
-        private string RenderDeleteByUniqueKeyAction(DeleteApiActionTemplate configuration, string typeNamespace, string typeName)
+        private static string RenderDeleteByUniqueKeyAction(DeleteApiActionTemplate configuration, string typeNamespace, string typeName)
         {
             var identifiers = configuration.FilterableColumns.Count == 1
                 ? GenerateIdentifiers(configuration.FilterableColumns.First())
@@ -127,7 +126,7 @@ namespace Armsoft.RestApiFromSqlSchema.Rendering
             return template.Render();
         }
 
-        private string RenderListAction(ListApiActionTemplate configuration, string typeNamespace, string typeName)
+        private static string RenderListAction(ListApiActionTemplate configuration, string typeNamespace, string typeName)
         {
             var template = new Template(TemplateContent.ApiActionList, StartDelimiter, EndDelimiter);
 
@@ -140,7 +139,7 @@ namespace Armsoft.RestApiFromSqlSchema.Rendering
             return template.Render();
         }
 
-        private object RenderGetByIdAction(GetByIdApiActionTemplate configuration, string typeNamespace, string typeName)
+        private static object RenderGetByIdAction(GetByIdApiActionTemplate configuration, string typeNamespace, string typeName)
         {
             var identifiers = configuration.FilterableColumns.Count == 1
                 ? GenerateIdentifiers(configuration.FilterableColumns.First())
@@ -158,7 +157,7 @@ namespace Armsoft.RestApiFromSqlSchema.Rendering
             return template.Render();
         }
 
-        private object RenderCreateAction(CreateApiActionTemplate configuration, string typeNamespace, string typeName)
+        private static object RenderCreateAction(CreateApiActionTemplate configuration, string typeNamespace, string typeName)
         {
             var template = new Template(TemplateContent.ApiActionCreate, StartDelimiter, EndDelimiter);
 
@@ -170,7 +169,7 @@ namespace Armsoft.RestApiFromSqlSchema.Rendering
             return template.Render();
         }
 
-        private object RenderEditAction(EditApiActionTemplate configuration, string typeNamespace, string typeName)
+        private static object RenderEditAction(EditApiActionTemplate configuration, string typeNamespace, string typeName)
         {
             var identifiers = configuration.FilterableColumns.Count == 1
                 ? GenerateIdentifiers(configuration.FilterableColumns.First())
@@ -197,7 +196,7 @@ namespace Armsoft.RestApiFromSqlSchema.Rendering
             return template.Render();
         }
 
-        private object RenderDeleteAction(DeleteApiActionTemplate configuration, string typeNamespace, string typeName)
+        private static object RenderDeleteAction(DeleteApiActionTemplate configuration, string typeNamespace, string typeName)
         {
             var identifiers = configuration.FilterableColumns.Count == 1
                 ? GenerateIdentifiers(configuration.FilterableColumns.First())
@@ -234,18 +233,18 @@ namespace Armsoft.RestApiFromSqlSchema.Rendering
 
         private static string GenerateOrderBy(IList<Column> columns)
         {
-            var orderBy = "";
+            var orderByBuilder = new StringBuilder();
             for (var i = 0; i < columns.Count; i++)
             {
                 if (i == 0)
                 {
-                    orderBy = $"OrderBy(x => x.{columns[i].ActualName}).";
+                    orderByBuilder.Append($"OrderBy(x => x.{columns[i].ActualName}).");
                     continue;
                 }
 
-                orderBy += $"ThenBy(x => x.{columns[i].ActualName}).";
+                orderByBuilder.Append($"ThenBy(x => x.{columns[i].ActualName}).");
             }
-            return orderBy;
+            return orderByBuilder.ToString();
         }
     }
 }
