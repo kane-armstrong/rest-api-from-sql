@@ -8,31 +8,29 @@ See the samples folder for an example of how to call the executable and the outp
 
 Quick summary of the generated API:
 
-* ASP.NET Core 2.2
-* Swagger support
-* Generates one class per table 
-* Generates an EntityFramework DbContext with support for both primary and composite keys
-* Generates an API controller for each entity (typical CRUD, i.e.. paginated index, get by id/unique key, create, edit, delete)
-* Maps schema/table name to namespace/type name, e.g. HumanResources.Shift becomes `namespace HumanResources { public class Shift { ... } }`
-* Always includes both schema and table name when naming or referencing things (to avoid ambiguity errors)
-* Modifies class/property names as necessary for syntax/conflict purposes (annotates using data annotations to keep the ORM happy)
+  * ASP.NET Core 2.2
+  * Swagger support
+  * Generates one class per table 
+  * Generates an EntityFramework DbContext with support for both primary and composite keys
+  * Generates an API controller for each entity (typical CRUD, i.e.. paginated index, get by id/unique key, create, edit, delete)
+  * Maps schema/table name to namespace/type name, e.g. HumanResources.Shift becomes `namespace HumanResources { public class Shift { ... } }`
+  * Always includes both schema and table name when naming or referencing things (to avoid ambiguity errors)
+  * Modifies class/property names as necessary for syntax/conflict purposes (annotates using data annotations to keep the ORM happy)
 
 Limitations:
 
-* Does not support tables without primary keys
-* Does not support generating navigation properties
-* Does not support the SQL hierarchyid system data type (currently maps to string, but untested for create/edit)
-* No tests
+  * Does not support tables without primary keys
+  * Does not support generating navigation properties
+  * Does not support the SQL hierarchyid system data type (currently maps to string, but untested for create/edit)
+  * No tests
 
 Planned:
 
-* Generate FluentValidation validators and plug them into the MVC request pipeline with a filter to map ModelState validation errors
-to an error schema
-* Avoid IDENTITY_INSERT errors on write (e.g. separate object with the IDENTITY column removed on generated
-POST endpoints)
+  * Generate FluentValidation validators and plug them into the MVC request pipeline with a filter to map ModelState validation errors to an error schema
+  * Avoid IDENTITY_INSERT errors on write (e.g. separate object with the IDENTITY column removed on generated POST endpoints)
 
 Maybes:
 
-* Support generating an alternative API - CQRS/Mediator/ProjectTo
-* Implement support for other database engines (sort of already there as the schema exploration is behind an interface and 
+  * Support generating an alternative API - CQRS/Mediator/ProjectTo
+  * Implement support for other database engines (sort of already there as the schema exploration is behind an interface and 
 pluggable via builder - but makes liberal use of schema names, not all engines treat schema the same way MSSQL does)
