@@ -1,5 +1,7 @@
 # REST API Generator
 
+[![Build status](https://ci.appveyor.com/api/projects/status/8c5pi7t1ccr33e7n/branch/master?svg=true)](https://ci.appveyor.com/project/kane-armstrong/rest-api-from-sql/branch/master)
+
 This is a simple, unamabitious code generation tool. It looks at the schema of a SQL database 
 and generates a REST API for it, with typical CRUD endpoints that support both filtering on 
 primary key and (optionally) on unique key, as additional endpoints.
