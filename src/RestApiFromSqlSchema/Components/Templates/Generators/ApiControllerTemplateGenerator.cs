@@ -129,6 +129,18 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
 
         private static EditApiActionTemplate ConfigureEditApiActionTemplate(Table table)
         {
+            var keyColumns = new List<Column>();
+
+            if (table.HasCompositeKey)
+            {
+                keyColumns.AddRange(table.CompositeKeyColumns);
+            }
+
+            if (table.HasKeyColumn)
+            {
+                keyColumns.Add(table.KeyColumn);
+            }
+
             return new EditApiActionTemplate
             {
                 Route = GenerateActionRoute(table),
@@ -136,7 +148,8 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
                 FilterableColumns = FindFilterableColumns(table),
                 EditableColumns = table.Columns,
                 ExistingEntityVariableName = "existing",
-                ModelVariableName = "value"
+                ModelVariableName = "value",
+                KeyColumns = keyColumns
             };
         }
 
