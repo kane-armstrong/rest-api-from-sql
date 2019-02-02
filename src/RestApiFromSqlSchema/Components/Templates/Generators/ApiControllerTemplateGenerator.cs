@@ -53,13 +53,26 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
 
         private static EditApiActionTemplate ConfigureEditByUniqueKeyTemplate(Table table, IGrouping<string, Constraint> group)
         {
+            var keyColumns = new List<Column>();
+
+            if (table.HasCompositeKey)
+            {
+                keyColumns.AddRange(table.CompositeKeyColumns);
+            }
+
+            if (table.HasKeyColumn)
+            {
+                keyColumns.Add(table.KeyColumn);
+            }
+
             var filterableColumns = table.Columns.Where(x => group.Select(y => y).Any(z => z.ColumnName.ActualName == x.ActualName)).ToList();
             return new EditApiActionTemplate
             {
                 Route = string.Join("_", group.Select(x => x).Select(x => x.ColumnName.ActualName)),
                 RouteName = $"Edit_{table.SchemaName}_{table.Name.ActualName}_By_{string.Join("_", group.Select(x => x.ColumnName.ActualName))}",
                 FilterableColumns = filterableColumns,
-                EditableColumns = table.Columns
+                EditableColumns = table.Columns,
+                KeyColumns = keyColumns
             };
         }
 
@@ -116,6 +129,18 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
 
         private static EditApiActionTemplate ConfigureEditApiActionTemplate(Table table)
         {
+            var keyColumns = new List<Column>();
+
+            if (table.HasCompositeKey)
+            {
+                keyColumns.AddRange(table.CompositeKeyColumns);
+            }
+
+            if (table.HasKeyColumn)
+            {
+                keyColumns.Add(table.KeyColumn);
+            }
+
             return new EditApiActionTemplate
             {
                 Route = GenerateActionRoute(table),
@@ -123,7 +148,8 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
                 FilterableColumns = FindFilterableColumns(table),
                 EditableColumns = table.Columns,
                 ExistingEntityVariableName = "existing",
-                ModelVariableName = "value"
+                ModelVariableName = "value",
+                KeyColumns = keyColumns
             };
         }
 
