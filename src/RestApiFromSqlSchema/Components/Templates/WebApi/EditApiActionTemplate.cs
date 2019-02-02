@@ -9,6 +9,7 @@ namespace Armsoft.RestApiFromSqlSchema.Components.Templates.WebApi
         public string RouteName { get; set; }
         public IList<Column> FilterableColumns { get; set; }
         public IList<Column> EditableColumns { get; set; }
+        public IList<Column> KeyColumns { get; set; }
 
         /// <summary>
         ///     Gets or sets the name of the variable that is retrieved from the database

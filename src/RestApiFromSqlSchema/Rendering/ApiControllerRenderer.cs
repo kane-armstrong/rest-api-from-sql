@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Antlr4.StringTemplate;
+﻿using Antlr4.StringTemplate;
 using Armsoft.RestApiFromSqlSchema.Components.Schema;
 using Armsoft.RestApiFromSqlSchema.Components.Templates.WebApi;
 using Armsoft.RestApiFromSqlSchema.Extensions;
 using Armsoft.RestApiFromSqlSchema.Rendering.Templates;
 using Armsoft.RestApiFromSqlSchema.Rendering.Templates.Resources;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Armsoft.RestApiFromSqlSchema.Rendering
 {
@@ -88,7 +88,10 @@ namespace Armsoft.RestApiFromSqlSchema.Rendering
                 : GenerateIdentifiers(configuration.FilterableColumns);
 
             var editBuilder = new StringBuilder();
-            foreach (var column in configuration.EditableColumns)
+            var editableColumns = configuration.KeyColumns != null && configuration.KeyColumns.Any()
+                ? configuration.EditableColumns.Except(configuration.KeyColumns)
+                : configuration.EditableColumns;
+            foreach (var column in editableColumns)
             {
                 editBuilder.AppendLine($"{Tab}{Tab}{Tab}{configuration.ExistingEntityVariableName}.{column.LegalCsharpName} = {configuration.ModelVariableName}.{column.LegalCsharpName};");
             }
