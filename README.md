@@ -30,9 +30,13 @@ Planned:
 
   * Generate FluentValidation validators and plug them into the MVC request pipeline with a filter to map ModelState validation errors to an error schema
   * Avoid IDENTITY_INSERT errors on write (e.g. separate object with the IDENTITY column removed on generated POST endpoints)
+  * Fix fody constantly breaking CI builds (this could mean removing it entirely)
+  * Port to .NET Core
 
 Maybes:
 
   * Support generating an alternative API - CQRS/Mediator/ProjectTo
   * Implement support for other database engines (sort of already there as the schema exploration is behind an interface and 
 pluggable via builder - but makes liberal use of schema names, not all engines treat schema the same way MSSQL does)
+  * Desktop UI for flexibility in what to generate and configuration
+  * Use Roslyn instead of templates
