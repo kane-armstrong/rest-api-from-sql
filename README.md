@@ -8,6 +8,26 @@ primary key and (optionally) on unique key, as additional endpoints.
 
 See the samples folder for an example of how to call the executable and the output of a successful invocation.
 
+Example bash invocation:
+
+```
+Armsoft.RestApiFromSqlSchema.CLI.exe \
+-c "Server=localhost;Initial Catalog=Chinook;Persist Security Info=False;User ID=<user>;Password=<password>;" \
+-s "ChinookApi" \
+-d "c:\temp\generated code\ChinookApi" \
+-p "ChinookApi"
+```
+
+Example PowerShell invocation:
+
+```
+.\Armsoft.RestApiFromSqlSchema.CLI.exe `
+-c "Server=localhost;Initial Catalog=Chinook;Persist Security Info=False;Integrated Security=true;" `
+-s "ChinookApi" `
+-d "c:\temp\generated code\Chinook" `
+-p "ChinookApi" 
+```
+
 Quick summary of the generated API:
 
   * ASP.NET Core 2.2
