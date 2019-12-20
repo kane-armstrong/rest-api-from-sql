@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29318.209
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{877005FF-A8AA-4FC3-ADB3-84D97C80E6EE}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{57983A95-8BCD-420B-92DB-8AEE444C6854}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57983A95-8BCD-420B-92DB-8AEE444C6854}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
