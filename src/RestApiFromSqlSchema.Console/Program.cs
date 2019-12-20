@@ -3,7 +3,7 @@ using RestApiFromSqlSchema.Builders;
 using RestApiFromSqlSchema.SqlServer;
 using System;
 
-namespace RestApiFromSqlSchema.CLI
+namespace RestApiFromSqlSchema.Console
 {
     internal static class Program
     {
@@ -11,7 +11,7 @@ namespace RestApiFromSqlSchema.CLI
         {
             using var parser = new Parser(options =>
             {
-                options.HelpWriter = Console.Error;
+                options.HelpWriter = System.Console.Error;
                 options.CaseSensitive = false;
                 options.IgnoreUnknownArguments = true;
                 options.EnableDashDash = true;

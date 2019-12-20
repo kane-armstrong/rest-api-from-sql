@@ -11,7 +11,7 @@ See the samples folder for an example of how to call the executable and the outp
 Example bash invocation:
 
 ```
-Armsoft.RestApiFromSqlSchema.CLI.exe \
+Armsoft.RestApiFromSqlSchema.Console.exe \
 -c "Server=localhost;Initial Catalog=Chinook;Persist Security Info=False;User ID=<user>;Password=<password>;" \
 -s "ChinookApi" \
 -d "c:\temp\generated code\ChinookApi" \
@@ -21,7 +21,7 @@ Armsoft.RestApiFromSqlSchema.CLI.exe \
 Example PowerShell invocation:
 
 ```
-.\Armsoft.RestApiFromSqlSchema.CLI.exe `
+.\Armsoft.RestApiFromSqlSchema.Console.exe `
 -c "Server=localhost;Initial Catalog=Chinook;Persist Security Info=False;Integrated Security=true;" `
 -s "ChinookApi" `
 -d "c:\temp\generated code\Chinook" `
