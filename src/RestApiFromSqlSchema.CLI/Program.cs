@@ -9,7 +9,7 @@ namespace Armsoft.RestApiFromSqlSchema.CLI
     {
         private static void Main(string[] args)
         {
-            var parser = new Parser(options =>
+            using var parser = new Parser(options =>
             {
                 options.HelpWriter = Console.Error;
                 options.CaseSensitive = false;
