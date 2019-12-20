@@ -1,75 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A5CB8830-415C-41A7-88DC-F8C2B3CF9283}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Armsoft.RestApiFromSqlSchema.SqlServer</RootNamespace>
-    <AssemblyName>Armsoft.RestApiFromSqlSchema.SqlServer</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Dapper.1.60.6\lib\net451\Dapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Pedantic.IO.EmbeddedResource, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Pedantic.IO.EmbeddedResource.0.9.0-pre-02\lib\net11\Pedantic.IO.EmbeddedResource.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <None Remove="Internal\Resources\GetColumnSchema.sql" />
+    <None Remove="Internal\Resources\GetTableConstraints.sql" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Internal\ColumnSchema.cs" />
-    <Compile Include="Internal\StringExtensions.cs" />
-    <Compile Include="Internal\Resources\QueryContent.cs" />
-    <Compile Include="SqlServerSchemaExplorer.cs" />
-    <Compile Include="Internal\TableConstraints.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Internal\Resources\GetColumnSchema.sql" />
-  </ItemGroup>
-  <ItemGroup>
+    <EmbeddedResource Include="Internal\Resources\GetColumnSchema.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Internal\Resources\GetTableConstraints.sql" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\RestApiFromSqlSchema\RestApiFromSqlSchema.csproj">
-      <Project>{6bd71c77-a8cd-41d5-9e90-0fca63360100}</Project>
-      <Name>RestApiFromSqlSchema</Name>
-    </ProjectReference>
+    <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="Pedantic.IO.EmbeddedResource" Version="0.9.0-pre-02" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <ProjectReference Include="..\RestApiFromSqlSchema\RestApiFromSqlSchema.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>
