@@ -1,6 +1,6 @@
 # REST API Generator
 
-[![Build status](https://ci.appveyor.com/api/projects/status/8c5pi7t1ccr33e7n/branch/master?svg=true)](https://ci.appveyor.com/project/kane-armstrong/rest-api-from-sql/branch/master)
+[![Build Status](https://dev.azure.com/kanearmstrong/RestApiFromSqlSchema/_apis/build/status/kane-armstrong.rest-api-from-sql?branchName=master)](https://dev.azure.com/kanearmstrong/RestApiFromSqlSchema/_build/latest?definitionId=5&branchName=master)
 
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=kane-armstrong/rest-api-from-sql)](https://dependabot.com)
 
