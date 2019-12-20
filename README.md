@@ -50,8 +50,7 @@ Planned:
 
   * Generate FluentValidation validators and plug them into the MVC request pipeline with a filter to map ModelState validation errors to an error schema
   * Avoid IDENTITY_INSERT errors on write (e.g. separate object with the IDENTITY column removed on generated POST endpoints)
-  * Fix fody constantly breaking CI builds (this could mean removing it entirely)
-  * Port to .NET Core
+  * Generate .NET Core 3.1 code (do we want to keep .NET Core 2.2?)
 
 Maybes:
 
