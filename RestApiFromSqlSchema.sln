@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestApiFromSqlSchema.CLI", "src\RestApiFromSqlSchema.CLI\RestApiFromSqlSchema.CLI.csproj", "{80EBCFCF-DB9C-4B38-861B-593C6AA53BEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestApiFromSqlSchema.Console", "src\RestApiFromSqlSchema.Console\RestApiFromSqlSchema.Console.csproj", "{80EBCFCF-DB9C-4B38-861B-593C6AA53BEE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestApiFromSqlSchema.SqlServer", "src\RestApiFromSqlSchema.SqlServer\RestApiFromSqlSchema.SqlServer.csproj", "{E3EC0569-C7CB-40F4-95A1-09D141DB5C0E}"
 EndProject

@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace RestApiFromSqlSchema.CLI
+namespace RestApiFromSqlSchema.Console
 {
     public class Options
     {
