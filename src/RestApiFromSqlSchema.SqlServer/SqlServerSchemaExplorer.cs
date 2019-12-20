@@ -4,12 +4,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Armsoft.RestApiFromSqlSchema.Components.Schema;
-using Armsoft.RestApiFromSqlSchema.SqlServer.Internal;
-using Armsoft.RestApiFromSqlSchema.SqlServer.Internal.Resources;
 using Dapper;
+using RestApiFromSqlSchema.Components.Schema;
+using RestApiFromSqlSchema.SqlServer.Internal;
+using RestApiFromSqlSchema.SqlServer.Internal.Resources;
 
-namespace Armsoft.RestApiFromSqlSchema.SqlServer
+namespace RestApiFromSqlSchema.SqlServer
 {
     public class SqlServerSchemaExplorer : ISchemaExplorer
     {

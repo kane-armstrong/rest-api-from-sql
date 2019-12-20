@@ -1,4 +1,4 @@
-﻿namespace Armsoft.RestApiFromSqlSchema.Rendering.Templates
+﻿namespace RestApiFromSqlSchema.Rendering.Templates
 {
     internal static class SharedTemplateKeys
     {

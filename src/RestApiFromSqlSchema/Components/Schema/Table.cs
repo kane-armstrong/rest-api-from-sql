@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Schema
+namespace RestApiFromSqlSchema.Components.Schema
 {
     public class Table
     {

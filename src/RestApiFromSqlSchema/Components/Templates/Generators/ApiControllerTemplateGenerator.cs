@@ -1,10 +1,10 @@
-﻿using Armsoft.RestApiFromSqlSchema.Components.Schema;
-using Armsoft.RestApiFromSqlSchema.Components.Templates.WebApi;
-using Armsoft.RestApiFromSqlSchema.Extensions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using RestApiFromSqlSchema.Components.Schema;
+using RestApiFromSqlSchema.Components.Templates.WebApi;
+using RestApiFromSqlSchema.Extensions;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
+namespace RestApiFromSqlSchema.Components.Templates.Generators
 {
     public static class ApiControllerTemplateGenerator
     {

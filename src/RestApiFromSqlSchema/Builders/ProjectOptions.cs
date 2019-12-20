@@ -1,4 +1,4 @@
-﻿namespace Armsoft.RestApiFromSqlSchema.Builders
+﻿namespace RestApiFromSqlSchema.Builders
 {
     public class ProjectOptions
     {

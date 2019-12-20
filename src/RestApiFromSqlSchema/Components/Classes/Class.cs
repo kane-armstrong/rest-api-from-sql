@@ -1,6 +1,6 @@
-﻿using Armsoft.RestApiFromSqlSchema.Components.Schema;
+﻿using RestApiFromSqlSchema.Components.Schema;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Classes
+namespace RestApiFromSqlSchema.Components.Classes
 {
     public class Class
     {

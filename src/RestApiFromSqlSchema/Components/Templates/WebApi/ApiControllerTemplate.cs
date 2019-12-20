@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Templates.WebApi
+namespace RestApiFromSqlSchema.Components.Templates.WebApi
 {
     public class ApiControllerTemplate
     {

@@ -1,4 +1,4 @@
-﻿namespace Armsoft.RestApiFromSqlSchema.Extensions
+﻿namespace RestApiFromSqlSchema.Extensions
 {
     public static class StringExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace Armsoft.RestApiFromSqlSchema.CLI
+namespace RestApiFromSqlSchema.CLI
 {
     public class Options
     {

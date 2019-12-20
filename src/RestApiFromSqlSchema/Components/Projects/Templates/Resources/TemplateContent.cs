@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Pedantic.IO;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Projects.Templates.Resources
+namespace RestApiFromSqlSchema.Components.Projects.Templates.Resources
 {
     internal static class TemplateContent
     {

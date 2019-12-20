@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Armsoft.RestApiFromSqlSchema.Components.Schema;
+using RestApiFromSqlSchema.Components.Schema;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Templates.WebApi
+namespace RestApiFromSqlSchema.Components.Templates.WebApi
 {
     public class GetByIdApiActionTemplate
     {

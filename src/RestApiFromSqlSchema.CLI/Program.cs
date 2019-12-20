@@ -1,9 +1,9 @@
-﻿using System;
-using Armsoft.RestApiFromSqlSchema.Builders;
-using Armsoft.RestApiFromSqlSchema.SqlServer;
-using CommandLine;
+﻿using CommandLine;
+using RestApiFromSqlSchema.Builders;
+using RestApiFromSqlSchema.SqlServer;
+using System;
 
-namespace Armsoft.RestApiFromSqlSchema.CLI
+namespace RestApiFromSqlSchema.CLI
 {
     internal static class Program
     {

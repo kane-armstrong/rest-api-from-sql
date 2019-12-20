@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using Armsoft.RestApiFromSqlSchema.Components.Solution.Global.Sections;
+using RestApiFromSqlSchema.Components.Solution.Global.Sections;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Solution.Global
+namespace RestApiFromSqlSchema.Components.Solution.Global
 {
     public class GlobalSection
     {

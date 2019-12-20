@@ -1,6 +1,6 @@
-﻿using Armsoft.RestApiFromSqlSchema.Components.Schema;
+﻿using RestApiFromSqlSchema.Components.Schema;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Templates.Generators
+namespace RestApiFromSqlSchema.Components.Templates.Generators
 {
     public static class ClassTemplateGenerator
     {
