@@ -1,4 +1,4 @@
-﻿namespace Armsoft.RestApiFromSqlSchema.Components.Projects.Templates
+﻿namespace RestApiFromSqlSchema.Components.Projects.Templates
 {
     internal static class TemplateKeys
     {

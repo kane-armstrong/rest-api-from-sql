@@ -4,14 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Antlr4.StringTemplate;
-using Armsoft.RestApiFromSqlSchema.Components.Projects;
-using Armsoft.RestApiFromSqlSchema.Components.Projects.Templates;
-using Armsoft.RestApiFromSqlSchema.Components.Projects.Templates.Resources;
-using Armsoft.RestApiFromSqlSchema.Components.Solution.Global;
-using Armsoft.RestApiFromSqlSchema.Components.Solution.Global.Enumerations;
-using Armsoft.RestApiFromSqlSchema.Components.Solution.Global.Sections;
+using RestApiFromSqlSchema.Components.Projects;
+using RestApiFromSqlSchema.Components.Projects.Templates;
+using RestApiFromSqlSchema.Components.Projects.Templates.Resources;
+using RestApiFromSqlSchema.Components.Solution.Global;
+using RestApiFromSqlSchema.Components.Solution.Global.Enumerations;
+using RestApiFromSqlSchema.Components.Solution.Global.Sections;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Solution
+namespace RestApiFromSqlSchema.Components.Solution
 {
     public class SolutionFile
     {

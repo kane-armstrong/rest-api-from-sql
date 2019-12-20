@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Armsoft.RestApiFromSqlSchema.SqlServer.Internal
+namespace RestApiFromSqlSchema.SqlServer.Internal
 {
     internal static class StringExtensions
     {

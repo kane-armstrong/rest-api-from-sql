@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Armsoft.RestApiFromSqlSchema.Components.Schema;
+using RestApiFromSqlSchema.Components.Schema;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Templates.EntityFramework
+namespace RestApiFromSqlSchema.Components.Templates.EntityFramework
 {
     public class DbSetTemplate
     {

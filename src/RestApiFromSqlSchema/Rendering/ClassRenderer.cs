@@ -1,12 +1,12 @@
-﻿using Antlr4.StringTemplate;
-using Armsoft.RestApiFromSqlSchema.Components.Templates;
-using Armsoft.RestApiFromSqlSchema.Rendering.Templates;
-using Armsoft.RestApiFromSqlSchema.Rendering.Templates.Resources;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Antlr4.StringTemplate;
+using RestApiFromSqlSchema.Components.Templates;
+using RestApiFromSqlSchema.Rendering.Templates;
+using RestApiFromSqlSchema.Rendering.Templates.Resources;
 
-namespace Armsoft.RestApiFromSqlSchema.Rendering
+namespace RestApiFromSqlSchema.Rendering
 {
     public static class ClassRenderer
     {

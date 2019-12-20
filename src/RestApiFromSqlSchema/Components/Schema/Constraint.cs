@@ -1,4 +1,4 @@
-﻿namespace Armsoft.RestApiFromSqlSchema.Components.Schema
+﻿namespace RestApiFromSqlSchema.Components.Schema
 {
     public class Constraint
     {

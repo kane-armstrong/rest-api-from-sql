@@ -1,4 +1,4 @@
-﻿namespace Armsoft.RestApiFromSqlSchema.Components.Solution.Global.Enumerations
+﻿namespace RestApiFromSqlSchema.Components.Solution.Global.Enumerations
 {
     public enum CpuConfiguration
     {

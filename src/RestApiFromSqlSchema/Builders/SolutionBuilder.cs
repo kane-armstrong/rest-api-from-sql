@@ -1,17 +1,17 @@
-﻿using Armsoft.RestApiFromSqlSchema.Components.Classes;
-using Armsoft.RestApiFromSqlSchema.Components.Projects;
-using Armsoft.RestApiFromSqlSchema.Components.Projects.Templates.Resources;
-using Armsoft.RestApiFromSqlSchema.Components.Schema;
-using Armsoft.RestApiFromSqlSchema.Components.Solution;
-using Armsoft.RestApiFromSqlSchema.Components.Templates.Generators;
-using Armsoft.RestApiFromSqlSchema.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using RestApiFromSqlSchema.Components.Classes;
+using RestApiFromSqlSchema.Components.Projects;
+using RestApiFromSqlSchema.Components.Projects.Templates.Resources;
+using RestApiFromSqlSchema.Components.Schema;
+using RestApiFromSqlSchema.Components.Solution;
+using RestApiFromSqlSchema.Components.Templates.Generators;
+using RestApiFromSqlSchema.Rendering;
 
-namespace Armsoft.RestApiFromSqlSchema.Builders
+namespace RestApiFromSqlSchema.Builders
 {
     public class SolutionBuilder
     {

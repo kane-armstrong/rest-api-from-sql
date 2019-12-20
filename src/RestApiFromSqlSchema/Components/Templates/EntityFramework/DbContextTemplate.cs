@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Templates.EntityFramework
+namespace RestApiFromSqlSchema.Components.Templates.EntityFramework
 {
     public class DbContextTemplate
     {

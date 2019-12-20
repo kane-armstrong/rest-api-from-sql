@@ -1,4 +1,4 @@
-﻿namespace Armsoft.RestApiFromSqlSchema.Rendering
+﻿namespace RestApiFromSqlSchema.Rendering
 {
     internal class IdentifierConfiguration
     {

@@ -1,7 +1,7 @@
 ﻿using System;
-using Armsoft.RestApiFromSqlSchema.Components.Solution.Global.Enumerations;
+using RestApiFromSqlSchema.Components.Solution.Global.Enumerations;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Solution.Global
+namespace RestApiFromSqlSchema.Components.Solution.Global
 {
     public class PlatformConfiguration
     {

@@ -1,6 +1,6 @@
-﻿using Armsoft.RestApiFromSqlSchema.Components.Schema;
+﻿using RestApiFromSqlSchema.Components.Schema;
 
-namespace Armsoft.RestApiFromSqlSchema.SqlServer.Internal
+namespace RestApiFromSqlSchema.SqlServer.Internal
 {
     internal class TableConstraints
     {

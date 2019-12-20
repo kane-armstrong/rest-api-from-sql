@@ -1,4 +1,4 @@
-﻿namespace Armsoft.RestApiFromSqlSchema.SqlServer.Internal
+﻿namespace RestApiFromSqlSchema.SqlServer.Internal
 {
     internal class ColumnSchema
     {

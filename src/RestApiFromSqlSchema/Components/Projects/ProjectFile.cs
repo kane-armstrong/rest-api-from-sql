@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Armsoft.RestApiFromSqlSchema.Components.Classes;
+using RestApiFromSqlSchema.Components.Classes;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Projects
+namespace RestApiFromSqlSchema.Components.Projects
 {
     public class ProjectFile
     {

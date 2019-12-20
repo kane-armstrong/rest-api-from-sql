@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Solution
+namespace RestApiFromSqlSchema.Components.Solution
 {
     public class SolutionGenerationException : Exception
     {

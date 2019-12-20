@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Armsoft.RestApiFromSqlSchema.Components.Schema;
+using RestApiFromSqlSchema.Components.Schema;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Templates
+namespace RestApiFromSqlSchema.Components.Templates
 {
     public class ClassTemplate
     {

@@ -1,4 +1,4 @@
-﻿namespace Armsoft.RestApiFromSqlSchema.Components.Templates.WebApi
+﻿namespace RestApiFromSqlSchema.Components.Templates.WebApi
 {
     public class CreateApiActionTemplate
     {

@@ -1,6 +1,6 @@
-﻿using Armsoft.RestApiFromSqlSchema.Components.Solution.Global.Enumerations;
+﻿using RestApiFromSqlSchema.Components.Solution.Global.Enumerations;
 
-namespace Armsoft.RestApiFromSqlSchema.Components.Solution.Global.Sections
+namespace RestApiFromSqlSchema.Components.Solution.Global.Sections
 {
     public class SolutionConfigurationPlatform
     {

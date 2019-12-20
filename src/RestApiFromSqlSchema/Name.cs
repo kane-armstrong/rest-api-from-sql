@@ -1,4 +1,4 @@
-﻿namespace Armsoft.RestApiFromSqlSchema
+﻿namespace RestApiFromSqlSchema
 {
     public class Name
     {
