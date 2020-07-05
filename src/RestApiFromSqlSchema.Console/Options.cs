@@ -19,10 +19,10 @@ namespace RestApiFromSqlSchema.Console
         [Option('u', "Generate Unique Key Endpoints", Required = false, HelpText = "Sets whether or not to generate unique key endpoints", Default = true)]
         public bool GenerateUniqueKeyEndpoints { get; set; }
 
-        [Option('w', "Generate Swagger docs", Required = false, HelpText = "Sets whether or not to generate swagger docs (NYI)", Default = true)]
+        [Option('s', "Generate Swagger docs", Required = false, HelpText = "Sets whether or not to generate swagger docs (NYI)", Default = true)]
         public bool GenerateSwaggerDocs { get; set; }
 
-        [Option('w', "Generate FluentValidation validators", Required = false, HelpText = "Sets whether or not to generate FluentValidation validators (NYI)", Default = true)]
+        [Option('v', "Generate FluentValidation validators", Required = false, HelpText = "Sets whether or not to generate FluentValidation validators (NYI)", Default = true)]
         public bool GenerateFluentValidationValidators { get; set; }
     }
 }
