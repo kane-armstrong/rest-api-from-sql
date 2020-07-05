@@ -66,7 +66,7 @@ namespace RestApiFromSqlSchema.Builders
             };
             classes.AddRange(GenerateAspNetCoreWebApiProject(item.ConnectionString));
 
-            var tables = await item.SchemaExplorer.GetTablesAsync(CancellationToken.None);
+            var tables = await item.SchemaExplorer.GetTablesAsync(CancellationToken.None).ConfigureAwait(false);
             var tablesWithKeys = tables.Where(x => x.HasKeyColumn || x.HasCompositeKey).ToList();
             classes.AddRange(GenerateClasses(tablesWithKeys));
             classes.AddRange(GenerateApiControllers(tablesWithKeys));

@@ -64,8 +64,8 @@ namespace RestApiFromSqlSchema.SqlServer
             IEnumerable<TableConstraints> resultSet;
             using (var connection = new SqlConnection(_sqlServerConnectionString))
             {
-                await connection.OpenAsync(cancellationToken);
-                resultSet = await connection.QueryAsync<TableConstraints>(QueryContent.TableConstraintsQuery);
+                await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
+                resultSet = await connection.QueryAsync<TableConstraints>(QueryContent.TableConstraintsQuery).ConfigureAwait(false);
             }
 
             return resultSet
@@ -84,8 +84,8 @@ namespace RestApiFromSqlSchema.SqlServer
         {
             using (var connection = new SqlConnection(_sqlServerConnectionString))
             {
-                await connection.OpenAsync(cancellationToken);
-                return await connection.QueryAsync<ColumnSchema>(QueryContent.ColumnSchemaQuery);
+                await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
+                return await connection.QueryAsync<ColumnSchema>(QueryContent.ColumnSchemaQuery).ConfigureAwait(false);
             }
         }
 
