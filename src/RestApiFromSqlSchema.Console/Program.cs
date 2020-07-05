@@ -2,46 +2,50 @@
 using RestApiFromSqlSchema.Builders;
 using RestApiFromSqlSchema.SqlServer;
 using System;
+using System.Threading.Tasks;
 
 namespace RestApiFromSqlSchema.Console
 {
     internal static class Program
     {
-        private static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
-            using var parser = new Parser(options =>
+            using var parser = new Parser(parserOptions =>
             {
-                options.HelpWriter = System.Console.Error;
-                options.CaseSensitive = false;
-                options.IgnoreUnknownArguments = true;
-                options.EnableDashDash = true;
+                parserOptions.HelpWriter = System.Console.Error;
+                parserOptions.CaseSensitive = false;
+                parserOptions.IgnoreUnknownArguments = true;
+                parserOptions.EnableDashDash = true;
             });
 
+            Options options = null;
             parser.ParseArguments<Options>(args)
                 .WithParsed(parserOptions =>
                 {
-                    var solution = new SolutionBuilder(solutionOptions =>
-                        {
-                            solutionOptions.Name = parserOptions.SolutionName;
-                            solutionOptions.Directory = parserOptions.OutputDirectory;
-                        })
-                        .AddProject(projectOptions =>
-                        {
-                            projectOptions.Name = parserOptions.ProjectName;
-                            projectOptions.SchemaExplorer = new SqlServerSchemaExplorer(parserOptions.ConnectionString);
-                            projectOptions.GenerateUniqueKeyEndpoints = parserOptions.GenerateUniqueKeyEndpoints;
-                            projectOptions.IncludeSwaggerDocs = parserOptions.GenerateSwaggerDocs;
-                            projectOptions.GenerateFluentValidationValidators = parserOptions.GenerateFluentValidationValidators;
-                            projectOptions.ConnectionString = parserOptions.ConnectionString;
-                        })
-                        .BuildAsync().GetAwaiter().GetResult();
-
-                    solution.SaveChanges();
+                    options = parserOptions;
                 })
-                .WithNotParsed(options =>
+                .WithNotParsed(_ =>
                 {
                     Environment.Exit(1);
                 });
+
+            var solutionBuilder = new SolutionBuilder(solutionOptions =>
+                {
+                    solutionOptions.Name = options.SolutionName;
+                    solutionOptions.Directory = options.OutputDirectory;
+                })
+                .AddProject(projectOptions =>
+                {
+                    projectOptions.Name = options.ProjectName;
+                    projectOptions.SchemaExplorer = new SqlServerSchemaExplorer(options.ConnectionString);
+                    projectOptions.GenerateUniqueKeyEndpoints = options.GenerateUniqueKeyEndpoints;
+                    projectOptions.IncludeSwaggerDocs = options.GenerateSwaggerDocs;
+                    projectOptions.GenerateFluentValidationValidators = options.GenerateFluentValidationValidators;
+                    projectOptions.ConnectionString = options.ConnectionString;
+                });
+
+            var solution = await solutionBuilder.BuildAsync();
+            solution.SaveChanges();
         }
     }
 }
