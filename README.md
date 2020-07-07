@@ -10,20 +10,10 @@ primary key and (optionally) on unique key, as additional endpoints.
 
 See the samples folder for an example of how to call the executable and the output of a successful invocation.
 
-Example bash invocation:
-
-```
-Armsoft.RestApiFromSqlSchema.Console.exe \
--c "Server=localhost;Initial Catalog=Chinook;Persist Security Info=False;User ID=<user>;Password=<password>;" \
--s "ChinookApi" \
--d "c:\temp\generated code\ChinookApi" \
--p "ChinookApi"
-```
-
 Example PowerShell invocation:
 
 ```
-.\Armsoft.RestApiFromSqlSchema.Console.exe `
+.\apigen.exe `
 -c "Server=localhost;Initial Catalog=Chinook;Persist Security Info=False;Integrated Security=true;" `
 -s "ChinookApi" `
 -d "c:\temp\generated code\Chinook" `
@@ -32,7 +22,7 @@ Example PowerShell invocation:
 
 Quick summary of the generated API:
 
-  * ASP.NET Core 2.2
+  * ASP.NET Core 2.2 (C#)
   * Swagger support
   * Generates one class per table 
   * Generates an EntityFramework DbContext with support for both primary and composite keys
@@ -57,7 +47,8 @@ Planned:
 Maybes:
 
   * Support generating an alternative API - CQRS/Mediator/ProjectTo
-  * Implement support for other database engines (sort of already there as the schema exploration is behind an interface and 
-pluggable via builder - but makes liberal use of schema names, not all engines treat schema the same way MSSQL does)
+  * Implement support for other database engines
   * Desktop UI for flexibility in what to generate and configuration
-  * Use Roslyn instead of templates
+  * Use Roslyn instead of string templates
+  * Nicer looking generated code
+  * More than just REST (probably not graphql, but maybe grpc - code first? grpc first? both?)
