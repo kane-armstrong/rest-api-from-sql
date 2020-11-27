@@ -7,7 +7,7 @@ namespace RestApiFromSqlSchema.Console
         [Option('c', "Connection String", Required = true, HelpText = "The connection string to use to connect to the target database")]
         public string ConnectionString { get; set; }
 
-        [Option('d', "Output Directory", Required = true, HelpText = "The full path on disk where the generated code should be saved")]
+        [Option('o', "Output Directory", Required = true, HelpText = "The full path on disk where the generated code should be saved")]
         public string OutputDirectory { get; set; }
 
         [Option('s', "Solution Name", Required = true, HelpText = "The name of the solution (sln) file")]
@@ -19,7 +19,7 @@ namespace RestApiFromSqlSchema.Console
         [Option('u', "Generate Unique Key Endpoints", Required = false, HelpText = "Sets whether or not to generate unique key endpoints", Default = true)]
         public bool GenerateUniqueKeyEndpoints { get; set; }
 
-        [Option('s', "Generate Swagger docs", Required = false, HelpText = "Sets whether or not to generate swagger docs (NYI)", Default = true)]
+        [Option('d', "Generate Swagger docs", Required = false, HelpText = "Sets whether or not to generate swagger docs (NYI)", Default = true)]
         public bool GenerateSwaggerDocs { get; set; }
 
         [Option('v', "Generate FluentValidation validators", Required = false, HelpText = "Sets whether or not to generate FluentValidation validators (NYI)", Default = true)]
