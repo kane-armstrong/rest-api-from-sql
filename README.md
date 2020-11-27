@@ -20,7 +20,7 @@ Example PowerShell invocation:
 
 Quick summary of the generated API:
 
-  * ASP.NET Core 2.2 (C#)
+  * ASP.NET 5.0 (C#)
   * Swagger support
   * Generates one class per table 
   * Generates an EntityFramework DbContext with support for both primary and composite keys
@@ -40,7 +40,6 @@ Planned:
 
   * Generate FluentValidation validators and plug them into the MVC request pipeline with a filter to map ModelState validation errors to an error schema
   * Avoid IDENTITY_INSERT errors on write (e.g. separate object with the IDENTITY column removed on generated POST endpoints)
-  * Generate .NET Core 3.1 code (do we want to keep .NET Core 2.2?)
 
 Maybes:
 
