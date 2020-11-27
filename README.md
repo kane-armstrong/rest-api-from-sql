@@ -1,7 +1,5 @@
 # REST API Generator
 
-[![Build Status](https://dev.azure.com/kanearmstrong/RestApiFromSqlSchema/_apis/build/status/kane-armstrong.rest-api-from-sql?branchName=master)](https://dev.azure.com/kanearmstrong/RestApiFromSqlSchema/_build/latest?definitionId=5&branchName=master)
-
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=kane-armstrong/rest-api-from-sql)](https://dependabot.com)
 
 This is a simple, unamabitious code generation tool. It looks at the schema of a SQL database 

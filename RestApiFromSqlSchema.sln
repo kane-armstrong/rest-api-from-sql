@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{877005FF-A8A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57983A95-8BCD-420B-92DB-8AEE444C6854}"
 	ProjectSection(SolutionItems) = preProject
-		azure-pipelines.yml = azure-pipelines.yml
+		Jenkinsfile = Jenkinsfile
 		README.md = README.md
 	EndProjectSection
 EndProject
