@@ -1,6 +1,6 @@
 # REST API Generator
 
-This is a simple, unamabitious code generation tool. It looks at the schema of a SQL database 
+This is a simple, unambitious code generation tool. It looks at the schema of a SQL database 
 and generates a REST API for it, with typical CRUD endpoints that support both filtering on 
 primary key and (optionally) on unique key, as additional endpoints.
 
