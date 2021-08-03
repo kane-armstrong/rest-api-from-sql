@@ -18,6 +18,9 @@ Example PowerShell invocation:
 -p "ChinookApi" 
 ```
 
+The `apigen.exe` executable can be found in the releases page, or compiled using `dotnet build`. The executable will then be in the
+`rest-api-from-sql\src\RestApiFromSqlSchema.Console\bin\Debug\net5.0` folder.
+
 Quick summary of the generated API:
 
   * ASP.NET 5.0 (C#)
