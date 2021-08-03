@@ -10,10 +10,10 @@ Example PowerShell invocation:
 
 ```
 .\apigen.exe `
--c "Server=localhost;Initial Catalog=Chinook;Persist Security Info=False;Integrated Security=true;" `
--s "ChinookApi" `
--d "c:\temp\generated code\Chinook" `
--p "ChinookApi" 
+-c "Server=.,1401;Initial Catalog=AdventureWorks;Persist Security Info=False;User ID=username;Password=password;" `
+-s "AdventureWorksApi" `
+-o "c:\temp\generated code\AdventureWorks" `
+-p "AdventureWorksApi" 
 ```
 
 The `apigen.exe` executable can be found in the releases page, or compiled using `dotnet build`. The executable will then be in the
