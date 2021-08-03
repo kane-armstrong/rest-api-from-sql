@@ -1,7 +1,5 @@
 # REST API Generator
 
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=kane-armstrong/rest-api-from-sql)](https://dependabot.com)
-
 This is a simple, unamabitious code generation tool. It looks at the schema of a SQL database 
 and generates a REST API for it, with typical CRUD endpoints that support both filtering on 
 primary key and (optionally) on unique key, as additional endpoints.
