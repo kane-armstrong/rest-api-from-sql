@@ -30,9 +30,25 @@ namespace SchemaExplorer.SqlServer.Experimental
             var schemas = new List<Schema>();
             foreach (var schemaName in schemaNames)
             {
+                var tableNames = metadata
+                    .Where(x => x.TableSchema == schemaName)
+                    .Select(x => x.TableName)
+                    .Distinct()
+                    .ToList();
+
+                var tables = new List<SchemaExplorer.Experimental.Table>();
+                foreach (var tableName in tableNames)
+                {
+                    tables.Add(new SchemaExplorer.Experimental.Table
+                    {
+                        Name = tableName
+                    });
+                }
+
                 schemas.Add(new Schema
                 {
-                    Name = schemaName
+                    Name = schemaName,
+                    Tables = tables
                 });
             }
 
