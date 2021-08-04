@@ -39,9 +39,20 @@ namespace SchemaExplorer.SqlServer.Experimental
                 var tables = new List<SchemaExplorer.Experimental.Table>();
                 foreach (var tableName in tableNames)
                 {
+                    var columns = metadata
+                        .Where(x => x.TableSchema == schemaName && x.TableName == tableName)
+                        .Select(x => new SchemaExplorer.Experimental.Column
+                        {
+                            AllowsNulls = x.IsNullable,
+                            DataType = x.DataType,
+                            Name = x.ColumnName,
+                            Order = x.OrdinalPosition
+                        });
+
                     tables.Add(new SchemaExplorer.Experimental.Table
                     {
-                        Name = tableName
+                        Name = tableName,
+                        Columns = columns
                     });
                 }
 
