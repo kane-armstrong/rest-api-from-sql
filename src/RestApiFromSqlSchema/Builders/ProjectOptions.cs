@@ -1,4 +1,6 @@
-﻿namespace RestApiFromSqlSchema.Builders
+﻿using SchemaExplorer;
+
+namespace RestApiFromSqlSchema.Builders
 {
     public class ProjectOptions
     {

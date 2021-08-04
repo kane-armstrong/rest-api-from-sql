@@ -1,15 +1,14 @@
-﻿using System;
+﻿using Dapper;
+using SchemaExplorer.SqlServer.Internal;
+using SchemaExplorer.SqlServer.Internal.Resources;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Dapper;
-using RestApiFromSqlSchema.Components.Schema;
-using RestApiFromSqlSchema.SqlServer.Internal;
-using RestApiFromSqlSchema.SqlServer.Internal.Resources;
 
-namespace RestApiFromSqlSchema.SqlServer
+namespace SchemaExplorer.SqlServer
 {
     public class SqlServerSchemaExplorer : ISchemaExplorer
     {

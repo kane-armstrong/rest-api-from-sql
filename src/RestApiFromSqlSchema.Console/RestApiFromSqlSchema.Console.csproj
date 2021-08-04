@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RestApiFromSqlSchema.SqlServer\RestApiFromSqlSchema.SqlServer.csproj" />
     <ProjectReference Include="..\RestApiFromSqlSchema\RestApiFromSqlSchema.csproj" />
   </ItemGroup>
 

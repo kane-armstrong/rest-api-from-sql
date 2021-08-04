@@ -1,4 +1,4 @@
-﻿using RestApiFromSqlSchema.Components.Schema;
+﻿using SchemaExplorer;
 
 namespace RestApiFromSqlSchema.Components.Templates.Generators
 {

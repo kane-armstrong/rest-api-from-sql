@@ -1,15 +1,15 @@
-﻿using System;
+﻿using RestApiFromSqlSchema.Components.Classes;
+using RestApiFromSqlSchema.Components.Projects;
+using RestApiFromSqlSchema.Components.Projects.Templates.Resources;
+using RestApiFromSqlSchema.Components.Solution;
+using RestApiFromSqlSchema.Components.Templates.Generators;
+using RestApiFromSqlSchema.Rendering;
+using SchemaExplorer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using RestApiFromSqlSchema.Components.Classes;
-using RestApiFromSqlSchema.Components.Projects;
-using RestApiFromSqlSchema.Components.Projects.Templates.Resources;
-using RestApiFromSqlSchema.Components.Schema;
-using RestApiFromSqlSchema.Components.Solution;
-using RestApiFromSqlSchema.Components.Templates.Generators;
-using RestApiFromSqlSchema.Rendering;
 
 namespace RestApiFromSqlSchema.Builders
 {

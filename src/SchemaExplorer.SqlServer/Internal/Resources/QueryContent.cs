@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Pedantic.IO;
 
-namespace RestApiFromSqlSchema.SqlServer.Internal.Resources
+namespace SchemaExplorer.SqlServer.Internal.Resources
 {
     internal static class QueryContent
     {

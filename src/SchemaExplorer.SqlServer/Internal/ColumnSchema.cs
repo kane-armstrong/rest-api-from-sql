@@ -1,4 +1,4 @@
-﻿namespace RestApiFromSqlSchema.SqlServer.Internal
+﻿namespace SchemaExplorer.SqlServer.Internal
 {
     internal class ColumnSchema
     {

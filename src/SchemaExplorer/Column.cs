@@ -1,4 +1,4 @@
-﻿namespace RestApiFromSqlSchema.Components.Schema
+﻿namespace SchemaExplorer
 {
     public class Column
     {

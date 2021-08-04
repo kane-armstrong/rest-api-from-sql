@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 using RestApiFromSqlSchema.Builders;
-using RestApiFromSqlSchema.SqlServer;
+using SchemaExplorer.SqlServer;
 using System;
 using System.Threading.Tasks;
 

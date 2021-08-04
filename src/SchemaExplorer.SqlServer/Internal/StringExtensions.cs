@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace RestApiFromSqlSchema.SqlServer.Internal
+namespace SchemaExplorer.SqlServer.Internal
 {
     internal static class StringExtensions
     {
