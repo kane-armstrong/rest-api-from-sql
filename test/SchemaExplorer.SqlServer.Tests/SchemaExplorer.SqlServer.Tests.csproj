@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\SchemaExplorer.SqlServer\SchemaExplorer.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\SchemaExplorer\SchemaExplorer.csproj" />
   </ItemGroup>
 

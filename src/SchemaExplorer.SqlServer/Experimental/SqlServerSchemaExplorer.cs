@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.Options;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using SchemaExplorer.Experimental;
 
-namespace SchemaExplorer.Experimental
+namespace SchemaExplorer.SqlServer.Experimental
 {
-    public class SqlServerSchemaExplorer : ISchemaExplorer
+    public class SqlServerSchemaExplorer : SchemaExplorer.Experimental.ISchemaExplorer
     {
         private readonly SqlServerSchemaExplorerOptions _options;
 

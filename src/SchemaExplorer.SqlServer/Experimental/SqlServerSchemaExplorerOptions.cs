@@ -1,4 +1,4 @@
-﻿namespace SchemaExplorer.Experimental
+﻿namespace SchemaExplorer.SqlServer.Experimental
 {
     public class SqlServerSchemaExplorerOptions
     {

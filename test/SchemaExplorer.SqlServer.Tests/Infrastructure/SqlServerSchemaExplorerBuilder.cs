@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 using SchemaExplorer.Experimental;
+using SchemaExplorer.SqlServer.Experimental;
 
 namespace SchemaExplorer.SqlServer.Tests.Infrastructure
 {
     public class SqlServerSchemaExplorerBuilder
     {
-        public SqlServerSchemaExplorer Build()
+        public SqlServer.Experimental.SqlServerSchemaExplorer Build()
         {
             return new(Options.Create(new SqlServerSchemaExplorerOptions
             {
