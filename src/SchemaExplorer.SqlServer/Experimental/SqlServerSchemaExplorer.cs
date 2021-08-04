@@ -26,7 +26,9 @@ namespace SchemaExplorer.SqlServer.Experimental
             var metadata = await GetColumnSchemaOfAllTablesAsync(cancellationToken);
             var databaseName = metadata.First().TableCatalog;
             var schemaNames = metadata.Select(x => x.TableSchema).Distinct().ToList();
-            
+
+            var tableConstraints = await GetConstraintsOfAllTablesAsync(cancellationToken);
+
             var schemas = new List<Schema>();
             foreach (var schemaName in schemaNames)
             {
@@ -47,7 +49,20 @@ namespace SchemaExplorer.SqlServer.Experimental
                             DataType = x.DataType,
                             Name = x.ColumnName,
                             Order = x.OrdinalPosition
-                        });
+                        })
+                        .ToList();
+
+                    foreach (var column in columns)
+                    {
+                        column.Constraints = tableConstraints
+                            .Where(x => x.TableSchema == schemaName && x.TableName == tableName && x.ColumnName == column.Name)
+                            .Select(x => new SchemaExplorer.Experimental.Constraint
+                            {
+                                ConstraintType = x.ConstraintType,
+                                Name = x.ConstraintName,
+                                OrdinalPosition = x.OrdinalPosition
+                            });
+                    }
 
                     tables.Add(new SchemaExplorer.Experimental.Table
                     {
@@ -70,6 +85,7 @@ namespace SchemaExplorer.SqlServer.Experimental
             };
         }
 
+        // TODO Association of check and default constraints isn't working
         private async Task<List<TableConstraints>> GetConstraintsOfAllTablesAsync(CancellationToken cancellationToken)
         {
             await using var connection = new SqlConnection(_options.ConnectionString);
