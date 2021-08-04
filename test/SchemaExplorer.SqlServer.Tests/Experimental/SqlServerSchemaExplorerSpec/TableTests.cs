@@ -236,6 +236,34 @@ namespace SchemaExplorer.SqlServer.Tests.Experimental.SqlServerSchemaExplorerSpe
                         }
                     }
                 };
+
+                yield return new object[]
+                {
+                    "dbo",
+                    new SchemaExplorer.Experimental.Table
+                    {
+                        Name = "NameThatAppearsInMultipleSchema",
+                        Columns = new []
+                        {
+                            new SchemaExplorer.Experimental.Column { Name = "Id", AllowsNulls = false, DataType = "uniqueidentifier", Order = 1},
+                            new SchemaExplorer.Experimental.Column { Name = "ThisTableIsInDbo", AllowsNulls = true, DataType = "nvarchar", Order = 2},
+                        }
+                    }
+                };
+
+                yield return new object[]
+                {
+                    "Demo",
+                    new SchemaExplorer.Experimental.Table
+                    {
+                        Name = "NameThatAppearsInMultipleSchema",
+                        Columns = new []
+                        {
+                            new SchemaExplorer.Experimental.Column { Name = "Id", AllowsNulls = false, DataType = "uniqueidentifier", Order = 1},
+                            new SchemaExplorer.Experimental.Column { Name = "ThisTableNotInDbo", AllowsNulls = true, DataType = "nvarchar", Order = 2},
+                        }
+                    }
+                };
             }
         }
     }

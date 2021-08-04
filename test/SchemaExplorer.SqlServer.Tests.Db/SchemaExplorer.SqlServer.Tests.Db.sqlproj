@@ -79,5 +79,7 @@
     <Build Include="Security\TestRunnerLogin.sql" />
     <Build Include="Security\TestRunnerRole.sql" />
     <Build Include="Security\TestRunnerUser.sql" />
+    <Build Include="Schema\dbo\Tables\NameThatAppearsInMultipleSchema.sql" />
+    <Build Include="Schema\Demo\Tables\NameThatAppearsInMultipleSchema.sql" />
   </ItemGroup>
 </Project>
