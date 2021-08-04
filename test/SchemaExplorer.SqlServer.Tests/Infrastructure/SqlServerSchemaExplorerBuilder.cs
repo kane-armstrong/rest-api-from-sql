@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using SchemaExplorer.Experimental;
 using SchemaExplorer.SqlServer.Experimental;
 
 namespace SchemaExplorer.SqlServer.Tests.Infrastructure
@@ -10,7 +9,7 @@ namespace SchemaExplorer.SqlServer.Tests.Infrastructure
         {
             return new(Options.Create(new SqlServerSchemaExplorerOptions
             {
-                ConnectionString = "Server=.;Initial Catalog=SchemaExplorerTests;Persist Security Info=False;User Name=TestRunner;Password=TestRunner123;"
+                ConnectionString = "Server=.;Initial Catalog=SchemaExplorerTests;Persist Security Info=False;User Id=TestRunner;Password=TestRunner123;"
             }));
         }
     }
