@@ -31,6 +31,7 @@ namespace SchemaExplorer.SqlServer.Tests.Experimental.SqlServerSchemaExplorerSpe
         [InlineData("WithOnePrimaryKey")]
         [InlineData("WithTwoPrimaryKeys")]
         [InlineData("WithUniqueConstraint")]
+        [InlineData("NameThatAppearsInMultipleSchema")]
         public async Task Explorer_yields_the_expected_tables_for_dbo(string tableName)
         {
             var explorer = new SqlServerSchemaExplorerBuilder().Build();
@@ -52,6 +53,7 @@ namespace SchemaExplorer.SqlServer.Tests.Experimental.SqlServerSchemaExplorerSpe
         [Theory]
         [InlineData("WithAllNotNullDataTypes")]
         [InlineData("WithAllNullDataTypes")]
+        [InlineData("NameThatAppearsInMultipleSchema")]
         public async Task Explorer_yields_the_expected_tables_for_Demo(string tableName)
         {
             var explorer = new SqlServerSchemaExplorerBuilder().Build();
