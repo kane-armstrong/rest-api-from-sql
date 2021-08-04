@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [Demo].WithAllNullDataTypes
 (
-	Id uniqueidentifier PRIMARY KEY,
+	Id uniqueidentifier,
 	ThisIsBigInt bigint NULL,
 	ThisIsBinary binary NULL,
 	ThisIsBit bit NULL,
@@ -31,5 +31,6 @@
 	ThisIsVarchar varchar NULL,
 	ThisIsXml xml NULL,
 	ThisIsHierarchyId hierarchyid NULL,
-	ThisIsGeography geography NULL
+	ThisIsGeography geography NULL,
+	CONSTRAINT PK_WithAllNullDataTypes_Id PRIMARY KEY CLUSTERED(Id),
 )
