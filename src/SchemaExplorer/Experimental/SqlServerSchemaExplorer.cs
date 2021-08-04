@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using Microsoft.Extensions.Options;
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SchemaExplorer.Experimental
@@ -7,14 +9,14 @@ namespace SchemaExplorer.Experimental
     {
         private readonly SqlServerSchemaExplorerOptions _options;
 
-        public SqlServerSchemaExplorer(SqlServerSchemaExplorerOptions options)
+        public SqlServerSchemaExplorer(IOptions<SqlServerSchemaExplorerOptions> options)
         {
-            _options = options;
+            _options = options?.Value ?? throw new ArgumentException("Options are required", nameof(options));
         }
 
         public Task<Database> ExploreDatabase(CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }
