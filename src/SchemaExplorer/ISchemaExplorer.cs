@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using RestApiFromSqlSchema.Components.Schema;
 
-namespace RestApiFromSqlSchema
+namespace SchemaExplorer
 {
     public interface ISchemaExplorer
     {

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using RestApiFromSqlSchema.Components.Schema;
+﻿using SchemaExplorer;
+using System.Collections.Generic;
 
 namespace RestApiFromSqlSchema.Components.Templates
 {

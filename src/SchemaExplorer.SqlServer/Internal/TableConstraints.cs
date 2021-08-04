@@ -1,6 +1,4 @@
-﻿using RestApiFromSqlSchema.Components.Schema;
-
-namespace RestApiFromSqlSchema.SqlServer.Internal
+﻿namespace SchemaExplorer.SqlServer.Internal
 {
     internal class TableConstraints
     {

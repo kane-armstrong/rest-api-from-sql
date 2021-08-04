@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using RestApiFromSqlSchema.Components.Templates.EntityFramework;
+using SchemaExplorer;
+using System.Collections.Generic;
 using System.Linq;
-using RestApiFromSqlSchema.Components.Schema;
-using RestApiFromSqlSchema.Components.Templates.EntityFramework;
 
 namespace RestApiFromSqlSchema.Components.Templates.Generators
 {

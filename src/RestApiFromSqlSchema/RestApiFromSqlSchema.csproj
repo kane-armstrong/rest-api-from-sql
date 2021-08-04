@@ -57,6 +57,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SchemaExplorer.SqlServer\SchemaExplorer.SqlServer.csproj" />
+    <ProjectReference Include="..\SchemaExplorer\SchemaExplorer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="SharedResources.Designer.cs">
       <DependentUpon>SharedResources.resx</DependentUpon>
       <DesignTime>True</DesignTime>

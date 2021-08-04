@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Antlr4.StringTemplate;
-using RestApiFromSqlSchema.Components.Schema;
+﻿using Antlr4.StringTemplate;
 using RestApiFromSqlSchema.Components.Templates.WebApi;
 using RestApiFromSqlSchema.Extensions;
 using RestApiFromSqlSchema.Rendering.Templates;
 using RestApiFromSqlSchema.Rendering.Templates.Resources;
+using SchemaExplorer;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace RestApiFromSqlSchema.Rendering
 {

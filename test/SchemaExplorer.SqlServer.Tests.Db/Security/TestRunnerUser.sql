@@ -1,0 +1,1 @@
+﻿CREATE USER TestRunnerUser FOR LOGIN TestRunner
