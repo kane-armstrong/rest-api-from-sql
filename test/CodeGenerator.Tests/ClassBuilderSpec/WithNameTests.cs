@@ -33,6 +33,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData(".")]
         [InlineData(".abc")]
         [InlineData("1abc")]
+        [InlineData("A class name")]
         public void Builder_throws_invalid_operation_exception_when_name_could_never_compile(string value)
         {
             var sut = new ClassBuilder();

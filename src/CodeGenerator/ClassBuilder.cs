@@ -12,11 +12,12 @@ namespace CodeGenerator
         private const char StartDelimiter = '$';
         private const char EndDelimiter = '$';
 
-        private static readonly Regex LegalNamespaceCharacters = new("[a-zA-Z\\d_]");
-        private static readonly Regex LegalNamespaceLeadingCharacters = new("[a-zA-Z_]");
+        // TODO Tidy up regex - probably don't need two sets, try do whitespace check and first char check in one regex
+        private static readonly Regex LegalNamespaceCharacters = new("[a-zA-Z\\d_^\\s-]");
+        private static readonly Regex LegalNamespaceLeadingCharacters = new("^[a-zA-Z_]");
 
-        private static readonly Regex LegalClassCharacters = new("[a-zA-Z\\d_]");
-        private static readonly Regex LegalClassLeadingCharacters = new("[a-zA-Z_]");
+        private static readonly Regex LegalClassCharacters = new("^[a-zA-Z\\d_]");
+        private static readonly Regex LegalClassLeadingCharacters = new("^[a-zA-Z_]");
 
         private string _namespace;
         private string _className;
@@ -25,7 +26,8 @@ namespace CodeGenerator
         {
             if (string.IsNullOrEmpty(value) 
                 || !LegalNamespaceCharacters.IsMatch(value) 
-                || !LegalNamespaceLeadingCharacters.IsMatch(value[..1]))
+                || !LegalNamespaceLeadingCharacters.IsMatch(value[..1])
+                || value.Contains(" "))
             {
                 throw new InvalidOperationException("Invalid namespace");
             }
@@ -42,7 +44,8 @@ namespace CodeGenerator
         {
             if (string.IsNullOrEmpty(value)
                 || !LegalClassCharacters.IsMatch(value)
-                || !LegalClassLeadingCharacters.IsMatch(value[..1]))
+                || !LegalClassLeadingCharacters.IsMatch(value[..1])
+                || value.Contains(" "))
             {
                 throw new InvalidOperationException("Invalid class name");
             }
