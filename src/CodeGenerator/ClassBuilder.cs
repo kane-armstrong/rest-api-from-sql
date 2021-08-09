@@ -15,13 +15,17 @@ namespace CodeGenerator
         private static readonly Regex LegalNamespaceCharacters = new("[a-zA-Z\\d_]");
         private static readonly Regex LegalNamespaceLeadingCharacters = new("[a-zA-Z_]");
 
+        private static readonly Regex LegalClassCharacters = new("[a-zA-Z\\d_]");
+        private static readonly Regex LegalClassLeadingCharacters = new("[a-zA-Z_]");
+
         private string _namespace;
+        private string _className;
 
         public ClassBuilder WithNamespace(string value)
         {
             if (string.IsNullOrEmpty(value) 
                 || !LegalNamespaceCharacters.IsMatch(value) 
-                || !LegalNamespaceLeadingCharacters.IsMatch(value.Substring(0, 1)))
+                || !LegalNamespaceLeadingCharacters.IsMatch(value[..1]))
             {
                 throw new InvalidOperationException("Invalid namespace");
             }
@@ -36,6 +40,13 @@ namespace CodeGenerator
 
         public ClassBuilder WithName(string value)
         {
+            if (string.IsNullOrEmpty(value)
+                || !LegalClassCharacters.IsMatch(value)
+                || !LegalClassLeadingCharacters.IsMatch(value[..1]))
+            {
+                throw new InvalidOperationException("Invalid class name");
+            }
+            _className = value;
             return this;
         }
 
@@ -49,14 +60,24 @@ namespace CodeGenerator
             return this;
         }
 
+        public ClassBuilder WithClassAnnotation(string definition)
+        {
+            return this;
+        }
+
         public string Build()
         {
             if (_namespace == null)
             {
                 throw new InvalidOperationException("A namespace is required");
             }
+            if (_className == null)
+            {
+                throw new InvalidOperationException("A class name is required");
+            }
             var template = new Template(TemplateContent.Class, StartDelimiter, EndDelimiter);
             template.Add(SharedTemplateKeys.ClassNamespace, _namespace);
+            template.Add(SharedTemplateKeys.ClassName, _className);
             return template.Render();
         }
     }

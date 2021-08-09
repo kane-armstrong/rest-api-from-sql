@@ -3,5 +3,6 @@
     internal static class SharedTemplateKeys
     {
         internal const string ClassNamespace = "classNamespace";
+        internal const string ClassName = "className";
     }
 }
