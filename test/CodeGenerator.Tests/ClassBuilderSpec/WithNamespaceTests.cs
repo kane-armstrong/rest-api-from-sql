@@ -6,17 +6,12 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
 {
     public class WithNamespaceTests
     {
-        // Sets namespace correctly
-        // Uses the latest specified namespace
-        // Throws appropriate exception for invalid namespaces
-        // Throws appropriate exception when building without a namespace
-
         [Fact]
         public void Builder_sets_namespace_correctly()
         {
             var sut = new ClassBuilder();
             const string ns = "MyTestNamespace";
-            var result = sut.WithNamespace(ns).Build();
+            var result = sut.WithNamespace(ns).WithName("MyClass").Build();
             result.Should().Contain($"namespace {ns}");
         }
 
@@ -26,7 +21,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
             var sut = new ClassBuilder();
             const string ns1 = "MyTestNamespace";
             const string ns2 = "MyTestNamespace2";
-            var result = sut.WithNamespace(ns1).WithNamespace(ns2).Build();
+            var result = sut.WithName("MyClass").WithNamespace(ns1).WithNamespace(ns2).Build();
             result.Should().Contain($"namespace {ns2}");
         }
 
@@ -41,14 +36,14 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         public void Builder_throws_invalid_operation_exception_when_namespace_could_never_compile(string value)
         {
             var sut = new ClassBuilder();
-            Assert.Throws<InvalidOperationException>(() => sut.WithNamespace(value));
+            Assert.Throws<InvalidOperationException>(() => sut.WithName("MyClass").WithNamespace(value));
         }
 
         [Fact]
         public void Builder_throws_invalid_operation_exception_when_namespace_is_not_provided()
         {
             var sut = new ClassBuilder();
-            Assert.Throws<InvalidOperationException>(() => sut.Build());
+            Assert.Throws<InvalidOperationException>(() => sut.WithName("MyClass").Build());
         }
     }
 }
