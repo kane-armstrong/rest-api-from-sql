@@ -1,8 +1,10 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using Antlr4.StringTemplate;
+﻿using Antlr4.StringTemplate;
 using CodeGenerator.Templates;
 using CodeGenerator.Templates.Resources;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace CodeGenerator
 {
@@ -22,10 +24,12 @@ namespace CodeGenerator
         private string _namespace;
         private string _className;
 
+        private readonly List<string> _usingDirectives = new();
+
         public ClassBuilder WithNamespace(string value)
         {
-            if (string.IsNullOrEmpty(value) 
-                || !LegalNamespaceCharacters.IsMatch(value) 
+            if (string.IsNullOrEmpty(value)
+                || !LegalNamespaceCharacters.IsMatch(value)
                 || !LegalNamespaceLeadingCharacters.IsMatch(value[..1])
                 || value.Contains(" "))
             {
@@ -35,8 +39,21 @@ namespace CodeGenerator
             return this;
         }
 
-        public ClassBuilder WithUsingDirective(string namespaceValue)
+        public ClassBuilder UsingNamespace(string value)
         {
+            if (string.IsNullOrEmpty(value)
+                || !LegalNamespaceCharacters.IsMatch(value)
+                || !LegalNamespaceLeadingCharacters.IsMatch(value[..1])
+                || value.Contains(" "))
+            {
+                throw new InvalidOperationException("Invalid namespace");
+            }
+
+            if (_usingDirectives.Contains(value))
+            {
+                throw new InvalidOperationException("Namespace has already been added");
+            }
+            _usingDirectives.Add(value);
             return this;
         }
 
@@ -55,6 +72,7 @@ namespace CodeGenerator
 
         public ClassBuilder WithMethod(string definition)
         {
+
             return this;
         }
 
@@ -78,9 +96,19 @@ namespace CodeGenerator
             {
                 throw new InvalidOperationException("A class name is required");
             }
+            
             var template = new Template(TemplateContent.Class, StartDelimiter, EndDelimiter);
+            
             template.Add(SharedTemplateKeys.ClassNamespace, _namespace);
             template.Add(SharedTemplateKeys.ClassName, _className);
+
+            var sb = new StringBuilder();
+            foreach (var usingDirective in _usingDirectives)
+            {
+                sb.AppendLine($"using {usingDirective};");
+            }
+            template.Add(SharedTemplateKeys.UsingDirectives, sb.ToString());
+
             return template.Render();
         }
     }
