@@ -6,13 +6,18 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
 {
     public class WithNameTests
     {
-        [Fact]
-        public void Builder_sets_name_correctly()
+        [Theory]
+        [InlineData("MyTestClass")]
+        [InlineData("_MyTestClass")]
+        [InlineData("MyTestClass1")]
+        [InlineData("_")]
+        [InlineData("My_test_namespace")]
+        [InlineData("MyTestNamespace.TheThing")]
+        public void Builder_sets_name_correctly(string value)
         {
             var sut = new ClassBuilder();
-            const string className = "MyTestClassName";
-            var result = sut.WithNamespace("MyNamespace").WithName(className).Build();
-            result.Should().Contain($"class {className}");
+            var result = sut.WithNamespace("MyNamespace").WithName(value).Build();
+            result.Should().Contain($"class {value}");
         }
 
         [Fact]

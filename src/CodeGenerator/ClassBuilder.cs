@@ -13,7 +13,7 @@ namespace CodeGenerator
         private const char EndDelimiter = '$';
 
         // TODO Tidy up regex - probably don't need two sets, try do whitespace check and first char check in one regex
-        private static readonly Regex LegalNamespaceCharacters = new("[a-zA-Z\\d_^\\s-]");
+        private static readonly Regex LegalNamespaceCharacters = new("[a-zA-Z\\d_]");
         private static readonly Regex LegalNamespaceLeadingCharacters = new("^[a-zA-Z_]");
 
         private static readonly Regex LegalClassCharacters = new("^[a-zA-Z\\d_]");
