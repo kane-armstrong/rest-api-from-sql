@@ -1,0 +1,4 @@
+﻿        $methodVisibility$ $returnType$ $name$($arguments$)
+        {
+            $body$
+        }

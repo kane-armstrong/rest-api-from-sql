@@ -9,5 +9,6 @@ namespace CodeGenerator.Templates.Resources
         private static string Namespace => typeof(TemplateContent).Namespace;
 
         internal static string Class => EmbeddedResource.ReadAllText(Assembly, $"{Namespace}.Class.txt");
+        internal static string Method => EmbeddedResource.ReadAllText(Assembly, $"{Namespace}.Method.txt");
     }
 }

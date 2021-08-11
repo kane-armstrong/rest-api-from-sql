@@ -6,9 +6,11 @@
 
   <ItemGroup>
     <None Remove="Templates\Resources\Class.txt" />
+    <None Remove="Templates\Resources\Method.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Templates\Resources\Method.txt" />
     <EmbeddedResource Include="Templates\Resources\Class.txt" />
   </ItemGroup>
 
