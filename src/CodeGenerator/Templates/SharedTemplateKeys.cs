@@ -4,6 +4,7 @@
     {
         internal const string ClassNamespace = "classNamespace";
         internal const string ClassName = "className";
+        internal const string ClassAccessibilityLevel = "accessibilityLevel";
         internal const string UsingDirectives = "usingDirectives";
         internal const string MethodDefinitions = "methods";
 

@@ -1,4 +1,4 @@
-﻿        $methodVisibility$ $returnType$ $name$($arguments$)
+﻿        $accessibilityLevel$ $returnType$ $name$($arguments$)
         {
             $body$
         }

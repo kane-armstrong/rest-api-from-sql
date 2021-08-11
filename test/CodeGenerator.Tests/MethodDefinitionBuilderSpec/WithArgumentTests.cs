@@ -14,7 +14,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
                 .WithReturnType("void")
                 .WithName("MyMethod")
                 .WithArgument(arg)
-                .WithVisibility(MethodVisibility.Private)
+                .WithAccessibilityLevel(MethodAccessibilityLevel.Private)
                 .Build();
             result.Should().Contain($"{arg.Type} {arg.Name}");
         }
@@ -30,7 +30,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
                 .WithName("MyMethod")
                 .WithArgument(arg1)
                 .WithArgument(arg2)
-                .WithVisibility(MethodVisibility.Private)
+                .WithAccessibilityLevel(MethodAccessibilityLevel.Private)
                 .Build();
             result.Should().Contain($"{arg1.Type} {arg1.Name}");
             result.Should().Contain($"{arg2.Type} {arg2.Name}");
@@ -47,7 +47,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
                 .WithName("MyMethod")
                 .WithArgument(arg1)
                 .WithArgument(arg2)
-                .WithVisibility(MethodVisibility.Private)
+                .WithAccessibilityLevel(MethodAccessibilityLevel.Private)
                 .Build();
             result.Should().Contain($"{arg1.Type} {arg1.Name}, {arg2.Type} {arg2.Name}");
         }
@@ -61,7 +61,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
             var result = sut
                 .WithReturnType(returnType)
                 .WithName(name)
-                .WithVisibility(MethodVisibility.Private)
+                .WithAccessibilityLevel(MethodAccessibilityLevel.Private)
                 .Build();
             result.Should().Contain($"{returnType} {name}()");
         }

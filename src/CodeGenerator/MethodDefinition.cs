@@ -4,7 +4,7 @@ namespace CodeGenerator
 {
     public class MethodDefinition
     {
-        public MethodVisibility Visibility { get; internal set; }
+        public MethodAccessibilityLevel AccessibilityLevel { get; internal set; }
         public string ReturnType { get; internal set; }
         public string Name { get; internal set; }
         public IReadOnlyList<MethodArgument> Arguments => _arguments.AsReadOnly();

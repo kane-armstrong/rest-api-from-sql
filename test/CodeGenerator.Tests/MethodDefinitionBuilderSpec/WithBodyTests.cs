@@ -16,7 +16,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
                 .WithReturnType(returnType)
                 .WithName(name)
                 .WithBody(body)
-                .WithVisibility(MethodVisibility.Private)
+                .WithAccessibilityLevel(MethodAccessibilityLevel.Private)
                 .Build();
             result.Should().Contain(body);
         }
@@ -29,7 +29,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
             var result = sut
                 .WithName("MyMethod")
                 .WithReturnType("void")
-                .WithVisibility(MethodVisibility.Private)
+                .WithAccessibilityLevel(MethodAccessibilityLevel.Private)
                 .Build();
             result.Should().NotContain(body);
         }

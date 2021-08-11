@@ -12,15 +12,15 @@ namespace CodeGenerator
         private const char StartDelimiter = '$';
         private const char EndDelimiter = '$';
 
-        private MethodVisibility? _visibility;
+        private MethodAccessibilityLevel? _accessibilityLevel;
         private string _returnType;
         private string _name;
         private string _body;
         private readonly List<MethodArgument> _arguments = new();
 
-        public MethodDefinitionBuilder WithVisibility(MethodVisibility visibility)
+        public MethodDefinitionBuilder WithAccessibilityLevel(MethodAccessibilityLevel accessibilityLevel)
         {
-            _visibility = visibility;
+            _accessibilityLevel = accessibilityLevel;
             return this;
         }
 
@@ -50,9 +50,9 @@ namespace CodeGenerator
 
         public string Build()
         {
-            if (_visibility == null)
+            if (_accessibilityLevel == null)
             {
-                throw new InvalidOperationException("Method visibility is required");
+                throw new InvalidOperationException("An access modifier is required");
             }
             if (_returnType == null)
             {
@@ -65,7 +65,7 @@ namespace CodeGenerator
 
             var template = new Template(TemplateContent.Method, StartDelimiter, EndDelimiter);
 
-            template.Add(SharedTemplateKeys.MethodVisibility, _visibility.ToString().ToLowerInvariant());
+            template.Add(SharedTemplateKeys.MethodAccessibilityLevel, _accessibilityLevel.ToString().ToLowerInvariant());
             template.Add(SharedTemplateKeys.MethodReturnType, _returnType);
             template.Add(SharedTemplateKeys.MethodName, _name);
             template.Add(SharedTemplateKeys.MethodBody, _body);

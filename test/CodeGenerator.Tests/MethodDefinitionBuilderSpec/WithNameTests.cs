@@ -15,7 +15,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
             var result = sut
                 .WithReturnType(returnType)
                 .WithName(name)
-                .WithVisibility(MethodVisibility.Private)
+                .WithAccessibilityLevel(MethodAccessibilityLevel.Private)
                 .Build();
             result.Should().Contain($"{returnType} {name}");
         }
@@ -26,7 +26,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
             var sut = new MethodDefinitionBuilder();
             Assert.Throws<InvalidOperationException>(() => sut
                 .WithReturnType("void")
-                .WithVisibility(MethodVisibility.Private)
+                .WithAccessibilityLevel(MethodAccessibilityLevel.Private)
                 .Build());
         }
     }

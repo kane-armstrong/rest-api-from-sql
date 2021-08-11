@@ -1,6 +1,6 @@
 ﻿namespace CodeGenerator
 {
-    public enum MethodVisibility
+    public enum MethodAccessibilityLevel
     {
         Public,
         Protected,
