@@ -16,7 +16,11 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         public void Builder_sets_name_correctly(string value)
         {
             var sut = new ClassBuilder();
-            var result = sut.WithNamespace("MyNamespace").WithName(value).Build();
+            var result = sut
+                .WithNamespace("MyNamespace")
+                .WithName(value)
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
+                .Build();
             result.Should().Contain($"class {value}");
         }
 
@@ -26,7 +30,12 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
             var sut = new ClassBuilder();
             const string name1 = "MyTestClassName";
             const string name2 = "MyTestClassName2";
-            var result = sut.WithNamespace("MyNamespace").WithName(name1).WithName(name2).Build();
+            var result = sut
+                .WithNamespace("MyNamespace")
+                .WithName(name1)
+                .WithName(name2)
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
+                .Build();
             result.Should().Contain($"class {name2}");
         }
 
@@ -42,14 +51,20 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         public void Builder_throws_invalid_operation_exception_when_name_could_never_compile(string value)
         {
             var sut = new ClassBuilder();
-            Assert.Throws<InvalidOperationException>(() => sut.WithNamespace("MyNamespace").WithName(value));
+            Assert.Throws<InvalidOperationException>(() => sut
+                .WithNamespace("MyNamespace")
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
+                .WithName(value));
         }
 
         [Fact]
         public void Builder_throws_invalid_operation_exception_when_namespace_is_not_provided()
         {
             var sut = new ClassBuilder();
-            Assert.Throws<InvalidOperationException>(() => sut.WithNamespace("MyNamespace").Build());
+            Assert.Throws<InvalidOperationException>(() => sut
+                .WithName("MyNamespace")
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
+                .Build());
         }
     }
 }

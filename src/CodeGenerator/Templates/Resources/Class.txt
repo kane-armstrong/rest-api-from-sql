@@ -2,7 +2,7 @@
 
 namespace $classNamespace$
 {
-    public class $className$
+    $accessibilityLevel$ class $className$
     {
         $methods$
 	}

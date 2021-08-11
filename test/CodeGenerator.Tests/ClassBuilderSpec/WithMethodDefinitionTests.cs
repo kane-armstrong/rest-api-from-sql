@@ -15,6 +15,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
                 .WithMethod(methodBody)
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .Build();
             result.Should().Contain(methodBody);
         }
@@ -30,6 +31,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithName("MyClass")
                 .WithMethod(methodBody1)
                 .WithMethod(methodBody2)
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .Build();
             result.Should().Contain(methodBody1);
             result.Should().Contain(methodBody2);
@@ -43,7 +45,8 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
             Assert.Throws<InvalidOperationException>(() => sut
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
-                .WithMethod(value));
+                .WithMethod(value)
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public));
         }
     }
 }

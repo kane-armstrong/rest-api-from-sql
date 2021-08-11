@@ -19,6 +19,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
             var result = sut
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .UsingNamespace(value)
                 .Build();
             result.Should().Contain($"using {value};");
@@ -33,6 +34,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
             var result = sut
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .UsingNamespace(ns1)
                 .UsingNamespace(ns2)
                 .Build();
@@ -54,6 +56,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
             var sut = new ClassBuilder();
             Assert.Throws<InvalidOperationException>(() => sut
                 .WithNamespace("MyNamespace")
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithName("MyClass")
                 .UsingNamespace(value));
         }
@@ -66,6 +69,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
             const string ns2 = "MyTestNamespace.Test";
             Assert.Throws<InvalidOperationException>(() => sut
                 .WithNamespace("MyNamespace")
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithName("MyClass")
                 .UsingNamespace(ns1)
                 .UsingNamespace(ns2));

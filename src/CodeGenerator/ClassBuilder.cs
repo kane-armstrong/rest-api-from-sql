@@ -23,6 +23,7 @@ namespace CodeGenerator
 
         private string _namespace;
         private string _className;
+        private ClassAccessibilityLevel? _accessibilityLevel;
 
         private readonly List<string> _usingDirectives = new();
         
@@ -59,6 +60,12 @@ namespace CodeGenerator
             return this;
         }
 
+        public ClassBuilder WithAccessibilityLevel(ClassAccessibilityLevel expected)
+        {
+            _accessibilityLevel = expected;
+            return this;
+        }
+
         public ClassBuilder WithName(string value)
         {
             if (string.IsNullOrEmpty(value)
@@ -84,6 +91,7 @@ namespace CodeGenerator
 
         public ClassBuilder WithProperty(string definition)
         {
+            // TODO PropertyDefinition
             return this;
         }
 
@@ -102,11 +110,16 @@ namespace CodeGenerator
             {
                 throw new InvalidOperationException("A class name is required");
             }
-            
+            if (_accessibilityLevel == null)
+            {
+                throw new InvalidOperationException("An access modifier is required");
+            }
+
             var template = new Template(TemplateContent.Class, StartDelimiter, EndDelimiter);
             
             template.Add(SharedTemplateKeys.ClassNamespace, _namespace);
             template.Add(SharedTemplateKeys.ClassName, _className);
+            template.Add(SharedTemplateKeys.ClassAccessibilityLevel, _accessibilityLevel.ToString().ToLowerInvariant());
 
             var sb = new StringBuilder();
             foreach (var usingDirective in _usingDirectives)
