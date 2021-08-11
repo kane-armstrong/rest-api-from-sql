@@ -4,5 +4,6 @@ namespace $classNamespace$
 {
     public class $className$
     {
+        $methods$
 	}
 }

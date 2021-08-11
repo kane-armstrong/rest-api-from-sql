@@ -25,6 +25,8 @@ namespace CodeGenerator
         private string _className;
 
         private readonly List<string> _usingDirectives = new();
+        
+        private readonly List<string> _methods = new();
 
         public ClassBuilder WithNamespace(string value)
         {
@@ -72,7 +74,11 @@ namespace CodeGenerator
 
         public ClassBuilder WithMethod(string definition)
         {
-
+            if (definition == null)
+            {
+                throw new InvalidOperationException("Method definition is required");
+            }
+            _methods.Add(definition);
             return this;
         }
 
@@ -108,6 +114,15 @@ namespace CodeGenerator
                 sb.AppendLine($"using {usingDirective};");
             }
             template.Add(SharedTemplateKeys.UsingDirectives, sb.ToString());
+
+            sb.Clear();
+
+            foreach (var method in _methods)
+            {
+                sb.AppendLine();
+                sb.AppendLine(method);
+            }
+            template.Add(SharedTemplateKeys.MethodDefinitions, sb.ToString());
 
             return template.Render();
         }
