@@ -11,8 +11,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("_MyTestClass")]
         [InlineData("MyTestClass1")]
         [InlineData("_")]
-        [InlineData("My_test_namespace")]
-        [InlineData("MyTestNamespace.TheThing")]
+        [InlineData("My_test_class")]
         public void Builder_sets_name_correctly(string value)
         {
             var sut = new ClassBuilder();
@@ -48,6 +47,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData(".abc")]
         [InlineData("1abc")]
         [InlineData("A class name")]
+        [InlineData("MyTestNamespace.TheThing")]
         public void Builder_throws_invalid_operation_exception_when_name_could_never_compile(string value)
         {
             var sut = new ClassBuilder();
