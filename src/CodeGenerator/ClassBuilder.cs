@@ -14,6 +14,16 @@ namespace CodeGenerator
         private const char StartDelimiter = '$';
         private const char EndDelimiter = '$';
 
+        private static readonly Dictionary<ClassAccessibilityLevel, string> ClassAccessibilityLevelMap = new()
+        {
+            { ClassAccessibilityLevel.Internal, "internal" },
+            { ClassAccessibilityLevel.Public, "public" },
+            { ClassAccessibilityLevel.Private, "private" },
+            { ClassAccessibilityLevel.PrivateProtected, "private protected" },
+            { ClassAccessibilityLevel.Protected, "protected" },
+            { ClassAccessibilityLevel.ProtectedInternal, "protected internal" }
+        };
+
         // TODO Tidy up regex - probably don't need two sets, try do whitespace check and first char check in one regex
         private static readonly Regex LegalNamespaceCharacters = new("[a-zA-Z\\d_]");
         private static readonly Regex LegalNamespaceLeadingCharacters = new("^[a-zA-Z_]");
@@ -26,7 +36,7 @@ namespace CodeGenerator
         private ClassAccessibilityLevel? _accessibilityLevel;
 
         private readonly List<string> _usingDirectives = new();
-        
+
         private readonly List<string> _methods = new();
 
         public ClassBuilder WithNamespace(string value)
@@ -116,10 +126,10 @@ namespace CodeGenerator
             }
 
             var template = new Template(TemplateContent.Class, StartDelimiter, EndDelimiter);
-            
+
             template.Add(SharedTemplateKeys.ClassNamespace, _namespace);
             template.Add(SharedTemplateKeys.ClassName, _className);
-            template.Add(SharedTemplateKeys.ClassAccessibilityLevel, _accessibilityLevel.ToString().ToLowerInvariant());
+            template.Add(SharedTemplateKeys.ClassAccessibilityLevel, ClassAccessibilityLevelMap[_accessibilityLevel.Value]);
 
             var sb = new StringBuilder();
             foreach (var usingDirective in _usingDirectives)

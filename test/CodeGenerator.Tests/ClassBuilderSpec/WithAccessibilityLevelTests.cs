@@ -6,18 +6,23 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
 {
     public class WithAccessibilityLevelTests
     {
-        [Fact]
-        public void Builder_sets_accessibility_level_correctly()
+        [Theory]
+        [InlineData(ClassAccessibilityLevel.Internal, "internal")]
+        [InlineData(ClassAccessibilityLevel.Private, "private")]
+        [InlineData(ClassAccessibilityLevel.PrivateProtected, "private protected")]
+        [InlineData(ClassAccessibilityLevel.Protected, "protected")]
+        [InlineData(ClassAccessibilityLevel.ProtectedInternal, "protected internal")]
+        [InlineData(ClassAccessibilityLevel.Public, "public")]
+        public void Builder_sets_accessibility_level_correctly(ClassAccessibilityLevel level, string expected)
         {
-            const ClassAccessibilityLevel expected = ClassAccessibilityLevel.Private;
             const string name = "TestClass";
             var sut = new ClassBuilder();
             var result = sut
                 .WithName(name)
                 .WithNamespace("MyTestNamespace")
-                .WithAccessibilityLevel(expected)
+                .WithAccessibilityLevel(level)
                 .Build();
-            result.Should().Contain($"{expected.ToString().ToLowerInvariant()} class {name}");
+            result.Should().Contain($"{expected} class {name}");
         }
 
         [Fact]

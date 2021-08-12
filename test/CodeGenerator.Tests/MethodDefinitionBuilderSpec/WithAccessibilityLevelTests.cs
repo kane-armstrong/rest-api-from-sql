@@ -6,17 +6,22 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
 {
     public class WithAccessibilityLevelTests
     {
-        [Fact]
-        public void Builder_sets_accessibility_level_correctly()
+        [Theory]
+        [InlineData(MethodAccessibilityLevel.Internal, "internal")]
+        [InlineData(MethodAccessibilityLevel.Private, "private")]
+        [InlineData(MethodAccessibilityLevel.PrivateProtected, "private protected")]
+        [InlineData(MethodAccessibilityLevel.Protected, "protected")]
+        [InlineData(MethodAccessibilityLevel.ProtectedInternal, "protected internal")]
+        [InlineData(MethodAccessibilityLevel.Public, "public")]
+        public void Builder_sets_accessibility_level_correctly(MethodAccessibilityLevel level, string expected)
         {
-            const MethodAccessibilityLevel expected = MethodAccessibilityLevel.Private;
             var sut = new MethodDefinitionBuilder();
             var result = sut
                 .WithReturnType("void")
                 .WithName("TestMethod")
-                .WithAccessibilityLevel(expected)
+                .WithAccessibilityLevel(level)
                 .Build();
-            result.Should().Contain($"{expected.ToString().ToLowerInvariant()} ");
+            result.Should().Contain($"{expected} ");
         }
 
         [Fact]
@@ -31,7 +36,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
                 .WithAccessibilityLevel(original)
                 .WithAccessibilityLevel(expected)
                 .Build();
-            result.Should().Contain($"{expected.ToString().ToLowerInvariant()} ");
+            result.Should().Contain("public void TestMethod");
         }
 
         [Fact]

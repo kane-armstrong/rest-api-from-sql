@@ -4,6 +4,7 @@ using CodeGenerator.Templates.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace CodeGenerator
 {
@@ -11,6 +12,16 @@ namespace CodeGenerator
     {
         private const char StartDelimiter = '$';
         private const char EndDelimiter = '$';
+
+        private static readonly Dictionary<MethodAccessibilityLevel, string> MethodAccessibilityLevelMap = new()
+        {
+            {MethodAccessibilityLevel.Internal, "internal"},
+            {MethodAccessibilityLevel.Public, "public"},
+            {MethodAccessibilityLevel.Private, "private"},
+            {MethodAccessibilityLevel.PrivateProtected, "private protected"},
+            {MethodAccessibilityLevel.Protected, "protected"},
+            {MethodAccessibilityLevel.ProtectedInternal, "protected internal"}
+        };
 
         private MethodAccessibilityLevel? _accessibilityLevel;
         private string _returnType;
@@ -65,7 +76,7 @@ namespace CodeGenerator
 
             var template = new Template(TemplateContent.Method, StartDelimiter, EndDelimiter);
 
-            template.Add(SharedTemplateKeys.MethodAccessibilityLevel, _accessibilityLevel.ToString().ToLowerInvariant());
+            template.Add(SharedTemplateKeys.MethodAccessibilityLevel, MethodAccessibilityLevelMap[_accessibilityLevel.Value]);
             template.Add(SharedTemplateKeys.MethodReturnType, _returnType);
             template.Add(SharedTemplateKeys.MethodName, _name);
             template.Add(SharedTemplateKeys.MethodBody, _body);
