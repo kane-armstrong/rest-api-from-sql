@@ -13,5 +13,6 @@
         internal const string MethodName = "name";
         internal const string MethodArguments = "arguments";
         internal const string MethodBody = "body";
+        internal const string Properties = "properties";
     }
 }

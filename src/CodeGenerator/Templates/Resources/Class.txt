@@ -4,6 +4,8 @@ namespace $classNamespace$
 {
     $accessibilityLevel$ class $className$
     {
+        $properties$
+
         $methods$
-	}
+    }
 }

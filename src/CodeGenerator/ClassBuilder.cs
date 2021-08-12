@@ -3,6 +3,7 @@ using CodeGenerator.Templates;
 using CodeGenerator.Templates.Resources;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -31,13 +32,16 @@ namespace CodeGenerator
         private static readonly Regex LegalClassNameCharacters = new("^[a-zA-Z\\d_]");
         private static readonly Regex LegalClassNameLeadingCharacters = new("^[a-zA-Z_]");
 
+        private static readonly Regex LegalPropertyCharacters = new("^[a-zA-Z0-9_]+$");
+        private static readonly Regex LegalPropertyLeadingCharacters = new("^[a-zA-Z_]");
+
         private string _namespace;
         private string _className;
         private ClassAccessibilityLevel? _accessibilityLevel;
 
         private readonly List<string> _usingDirectives = new();
-
         private readonly List<string> _methods = new();
+        private readonly List<PropertyDefinition> _properties = new();
 
         public ClassBuilder WithNamespace(string value)
         {
@@ -99,9 +103,28 @@ namespace CodeGenerator
             return this;
         }
 
-        public ClassBuilder WithProperty(string definition)
+        public ClassBuilder WithProperty(PropertyDefinition definition)
         {
-            // TODO PropertyDefinition
+            if (string.IsNullOrEmpty(definition.Name)
+                || !LegalPropertyCharacters.IsMatch(definition.Name)
+                || !LegalPropertyLeadingCharacters.IsMatch(definition.Name[..1])
+                || definition.Name.Contains(" "))
+            {
+                throw new InvalidOperationException("Invalid property name");
+            }
+
+            if (_properties.Any(x => x.Name == definition.Name))
+            {
+                throw new InvalidOperationException("Property has already been added");
+            }
+
+            if (definition.Name == _className)
+            {
+                throw new InvalidOperationException("Property name cannot be the same as the enclosing type");
+            }
+
+            _properties.Add(definition);
+            
             return this;
         }
 
@@ -137,6 +160,14 @@ namespace CodeGenerator
                 sb.AppendLine($"using {usingDirective};");
             }
             template.Add(SharedTemplateKeys.UsingDirectives, sb.ToString());
+
+            sb.Clear();
+
+            foreach (var property in _properties)
+            {
+                sb.AppendLine($"public {property.Type} {property.Name}" + " { get; set; } ");
+            }
+            template.Add(SharedTemplateKeys.Properties, sb.ToString());
 
             sb.Clear();
 
