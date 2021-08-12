@@ -26,14 +26,14 @@ namespace CodeGenerator
         };
 
         // TODO Tidy up regex - probably don't need two sets, try do whitespace check and first char check in one regex
-        private static readonly Regex LegalNamespaceCharacters = new("[a-zA-Z\\d_]");
-        private static readonly Regex LegalNamespaceLeadingCharacters = new("^[a-zA-Z_]");
+        private static readonly Regex LegalNamespaceCharacters = new("^[a-zA-Z0-9_.]+$");
+        private static readonly Regex LegalNamespaceLeadingCharacters = new("^[a-zA-Z_]+$");
 
-        private static readonly Regex LegalClassNameCharacters = new("^[a-zA-Z\\d_]");
-        private static readonly Regex LegalClassNameLeadingCharacters = new("^[a-zA-Z_]");
+        private static readonly Regex LegalClassNameCharacters = new("^[a-zA-Z0-9_]+$");
+        private static readonly Regex LegalClassNameLeadingCharacters = new("^[a-zA-Z_]+$");
 
         private static readonly Regex LegalPropertyCharacters = new("^[a-zA-Z0-9_]+$");
-        private static readonly Regex LegalPropertyLeadingCharacters = new("^[a-zA-Z_]");
+        private static readonly Regex LegalPropertyLeadingCharacters = new("^[a-zA-Z_]+$");
 
         private string _namespace;
         private string _className;
@@ -47,8 +47,7 @@ namespace CodeGenerator
         {
             if (string.IsNullOrEmpty(value)
                 || !LegalNamespaceCharacters.IsMatch(value)
-                || !LegalNamespaceLeadingCharacters.IsMatch(value[..1])
-                || value.Contains(" "))
+                || !LegalNamespaceLeadingCharacters.IsMatch(value[..1]))
             {
                 throw new InvalidOperationException("Invalid namespace");
             }
@@ -60,8 +59,7 @@ namespace CodeGenerator
         {
             if (string.IsNullOrEmpty(value)
                 || !LegalNamespaceCharacters.IsMatch(value)
-                || !LegalNamespaceLeadingCharacters.IsMatch(value[..1])
-                || value.Contains(" "))
+                || !LegalNamespaceLeadingCharacters.IsMatch(value[..1]))
             {
                 throw new InvalidOperationException("Invalid namespace");
             }
@@ -84,8 +82,7 @@ namespace CodeGenerator
         {
             if (string.IsNullOrEmpty(value)
                 || !LegalClassNameCharacters.IsMatch(value)
-                || !LegalClassNameLeadingCharacters.IsMatch(value[..1])
-                || value.Contains(" "))
+                || !LegalClassNameLeadingCharacters.IsMatch(value[..1]))
             {
                 throw new InvalidOperationException("Invalid class name");
             }
@@ -107,8 +104,7 @@ namespace CodeGenerator
         {
             if (string.IsNullOrEmpty(definition.Name)
                 || !LegalPropertyCharacters.IsMatch(definition.Name)
-                || !LegalPropertyLeadingCharacters.IsMatch(definition.Name[..1])
-                || definition.Name.Contains(" "))
+                || !LegalPropertyLeadingCharacters.IsMatch(definition.Name[..1]))
             {
                 throw new InvalidOperationException("Invalid property name");
             }
@@ -182,3 +178,5 @@ namespace CodeGenerator
         }
     }
 }
+
+// TODO with ctor dependency (bool createCorrespondingField)
