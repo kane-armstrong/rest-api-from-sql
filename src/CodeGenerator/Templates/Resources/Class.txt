@@ -3,7 +3,7 @@
 namespace $classNamespace$
 {
     $attributes$
-    $accessibilityLevel$ class $className$$baseClass$
+    $accessibilityLevel$ class $className$$baseClass$$implementedInterfaces$
     {
         $fields$
 

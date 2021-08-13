@@ -37,6 +37,9 @@ namespace CodeGenerator
         private static readonly Regex LegalFieldCharacters = new("^[a-zA-Z0-9_]+$");
         private static readonly Regex LegalFieldLeadingCharacters = new("^[a-zA-Z_]+$");
 
+        private static readonly Regex LegalInterfaceCharacters = new("^[a-zA-Z0-9_]+$");
+        private static readonly Regex LegalInterfaceLeadingCharacters = new("^[a-zA-Z_]+$");
+
         private string _namespace;
         private string _className;
         private ClassAccessibilityLevel? _accessibilityLevel;
@@ -49,6 +52,7 @@ namespace CodeGenerator
         private readonly List<string> _attributes = new();
         private readonly List<string> _constructors = new();
         private readonly List<FieldDefinition> _fields = new();
+        private readonly List<string> _implementedInterfaces = new();
 
         public ClassBuilder WithNamespace(string value)
         {
@@ -204,6 +208,20 @@ namespace CodeGenerator
             return this;
         }
 
+        public ClassBuilder ImplementingInterface(string value)
+        {
+            if (string.IsNullOrEmpty(value)
+                || !LegalInterfaceCharacters.IsMatch(value)
+                || !LegalNamespaceLeadingCharacters.IsMatch(value[..1]))
+            {
+                throw new InvalidOperationException("Invalid interface name");
+            }
+
+            _implementedInterfaces.Add(value);
+
+            return this;
+        }
+
         public string Build()
         {
             if (_namespace == null)
@@ -277,6 +295,13 @@ namespace CodeGenerator
             if (_baseClass != null)
             {
                 template.Add(SharedTemplateKeys.BaseClass, $" : {_baseClass}");
+            }
+
+            if (_implementedInterfaces.Any())
+            {
+                var prefix = _baseClass != null ? ", " : " : ";
+                var text = $"{prefix}{string.Join(", ", _implementedInterfaces)}";
+                template.Add(SharedTemplateKeys.ImplementedInterfaces, text);
             }
 
             return template.Render();
