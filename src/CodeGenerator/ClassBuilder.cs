@@ -222,6 +222,80 @@ namespace CodeGenerator
             return this;
         }
 
+        private string EnsureCorrectIndentation(string input)
+        {
+            const string padding = "    ";
+
+            var sb = new StringBuilder();
+
+            var openingBracketCount = 0;
+
+            var lines = input.Split(Environment.NewLine);
+
+            foreach (var line in lines)
+            {
+                var text = line.TrimStart().TrimStart('\t').TrimEnd();
+
+                if (text.Contains("}") && !text.Contains("{"))
+                {
+                    openingBracketCount--;
+                }
+
+                for (var i = 0; i < openingBracketCount; i++)
+                {
+                    text = padding + text;
+                }
+
+                if (text.Contains("{") && !text.Contains("}"))
+                {
+                    openingBracketCount++;
+                }
+
+                sb.AppendLine(text);
+            }
+
+            return sb.ToString();
+        }
+
+        private string RemoveExcessWhiteSpace(string input)
+        {
+            var sb = new StringBuilder();
+
+            var lines = input.Split(Environment.NewLine).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+
+            for (var i = 0; i < lines.Length; i++)
+            {
+                var currentLine = lines[i];
+
+                sb.AppendLine(currentLine);
+
+                if (i == lines.Length - 1 || i == 0)
+                {
+                    continue;
+                }
+
+                var previousLine = lines[i - 1];
+                var nextLine = lines[i + 1];
+
+                var lastIndexOfCurrentLine = currentLine.Length - 1;
+                var lastCharacterOfCurrentLine = currentLine[lastIndexOfCurrentLine..];
+
+                var lastIndexOfNextLine = nextLine.Length - 1;
+                var lastCharacterOfNextLine = nextLine[lastIndexOfNextLine..];
+
+                if (lastCharacterOfCurrentLine == "}" && lastCharacterOfNextLine != "}" && !string.IsNullOrWhiteSpace(previousLine))
+                {
+                    sb.Append(Environment.NewLine);
+                }
+                else if (nextLine.Contains("namespace "))
+                {
+                    sb.Append(Environment.NewLine);
+                }
+            }
+            
+            return sb.ToString();
+        }
+
         public string Build()
         {
             if (_namespace == null)
@@ -304,7 +378,7 @@ namespace CodeGenerator
                 template.Add(SharedTemplateKeys.ImplementedInterfaces, text);
             }
 
-            return template.Render();
+            return RemoveExcessWhiteSpace(EnsureCorrectIndentation(template.Render()));
         }
     }
 }
