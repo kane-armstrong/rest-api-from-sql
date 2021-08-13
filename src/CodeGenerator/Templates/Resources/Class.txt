@@ -2,9 +2,14 @@
 
 namespace $classNamespace$
 {
+    $attributes$
     $accessibilityLevel$ class $className$
     {
+        $fields$
+
         $properties$
+
+        $constructors$
 
         $methods$
     }

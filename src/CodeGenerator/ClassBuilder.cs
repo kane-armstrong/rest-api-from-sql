@@ -9,7 +9,6 @@ using System.Text.RegularExpressions;
 
 namespace CodeGenerator
 {
-    // TODO use source generators instead
     public class ClassBuilder
     {
         private const char StartDelimiter = '$';
@@ -35,6 +34,9 @@ namespace CodeGenerator
         private static readonly Regex LegalPropertyCharacters = new("^[a-zA-Z0-9_]+$");
         private static readonly Regex LegalPropertyLeadingCharacters = new("^[a-zA-Z_]+$");
 
+        private static readonly Regex LegalFieldCharacters = new("^[a-zA-Z0-9_]+$");
+        private static readonly Regex LegalFieldLeadingCharacters = new("^[a-zA-Z_]+$");
+
         private string _namespace;
         private string _className;
         private ClassAccessibilityLevel? _accessibilityLevel;
@@ -42,6 +44,9 @@ namespace CodeGenerator
         private readonly List<string> _usingDirectives = new();
         private readonly List<string> _methods = new();
         private readonly List<PropertyDefinition> _properties = new();
+        private readonly List<string> _attributes = new();
+        private readonly List<string> _constructors = new();
+        private readonly List<FieldDefinition> _fields = new();
 
         public ClassBuilder WithNamespace(string value)
         {
@@ -120,12 +125,67 @@ namespace CodeGenerator
             }
 
             _properties.Add(definition);
-            
+
             return this;
         }
 
-        public ClassBuilder WithClassAnnotation(string definition)
+        public ClassBuilder WithAttribute(string definition)
         {
+            if (string.IsNullOrEmpty(definition))
+            {
+                throw new InvalidOperationException("Attribute must have a value");
+            }
+
+            if (_attributes.Contains(definition))
+            {
+                throw new InvalidOperationException("Attribute has already been added");
+
+            }
+
+            _attributes.Add(definition);
+
+            return this;
+        }
+
+        public ClassBuilder WithConstructor(string definition)
+        {
+            if (string.IsNullOrEmpty(definition))
+            {
+                throw new InvalidOperationException("Constructor must have a value");
+            }
+
+            if (_constructors.Contains(definition))
+            {
+                throw new InvalidOperationException("Constructor has already been added");
+
+            }
+
+            _constructors.Add(definition);
+
+            return this;
+        }
+
+        public ClassBuilder WithField(FieldDefinition definition)
+        {
+            if (string.IsNullOrEmpty(definition.Name)
+                || !LegalFieldCharacters.IsMatch(definition.Name)
+                || !LegalFieldLeadingCharacters.IsMatch(definition.Name[..1]))
+            {
+                throw new InvalidOperationException("Invalid field name");
+            }
+
+            if (_fields.Any(x => x.Name == definition.Name))
+            {
+                throw new InvalidOperationException("Field has already been added");
+            }
+
+            if (definition.Name == _className)
+            {
+                throw new InvalidOperationException("Field name cannot be the same as the enclosing type");
+            }
+
+            _fields.Add(definition);
+
             return this;
         }
 
@@ -151,6 +211,15 @@ namespace CodeGenerator
             template.Add(SharedTemplateKeys.ClassAccessibilityLevel, ClassAccessibilityLevelMap[_accessibilityLevel.Value]);
 
             var sb = new StringBuilder();
+
+            foreach (var attribute in _attributes)
+            {
+                sb.AppendLine(attribute);
+            }
+            template.Add(SharedTemplateKeys.Attributes, sb.ToString());
+
+            sb.Clear();
+
             foreach (var usingDirective in _usingDirectives)
             {
                 sb.AppendLine($"using {usingDirective};");
@@ -159,11 +228,27 @@ namespace CodeGenerator
 
             sb.Clear();
 
+            foreach (var field in _fields)
+            {
+                sb.AppendLine($"private {field.Type} {field.Name};");
+            }
+            template.Add(SharedTemplateKeys.Fields, sb.ToString());
+
+            sb.Clear();
+
             foreach (var property in _properties)
             {
                 sb.AppendLine($"public {property.Type} {property.Name}" + " { get; set; } ");
             }
             template.Add(SharedTemplateKeys.Properties, sb.ToString());
+
+            sb.Clear();
+
+            foreach (var ctor in _constructors)
+            {
+                sb.AppendLine(ctor);
+            }
+            template.Add(SharedTemplateKeys.Constructors, sb.ToString());
 
             sb.Clear();
 
@@ -178,5 +263,3 @@ namespace CodeGenerator
         }
     }
 }
-
-// TODO with ctor dependency (bool createCorrespondingField)

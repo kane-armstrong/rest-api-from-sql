@@ -4,42 +4,42 @@ using Xunit;
 
 namespace CodeGenerator.Tests.ClassBuilderSpec
 {
-    public class WithPropertyTests
+    public class WithFieldTests
     {
         [Theory]
-        [InlineData("MyTestProperty")]
-        [InlineData("_MyTestProperty")]
-        [InlineData("MyTestProperty1")]
+        [InlineData("MyTestField")]
+        [InlineData("_MyTestField")]
+        [InlineData("MyTestField1")]
         [InlineData("_")]
-        [InlineData("My_test_property")]
-        public void Builder_adds_single_property_correctly(string value)
+        [InlineData("My_test_field")]
+        public void Builder_adds_single_field_correctly(string value)
         {
-            var prop = new PropertyDefinition("string", value);
+            var field = new FieldDefinition("string", value);
             var sut = new ClassBuilder();
             var result = sut
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithProperty(prop)
+                .WithField(field)
                 .Build();
-            result.Should().Contain($"{prop.Type} {prop.Name} ");
+            result.Should().Contain($"private {field.Type} {field.Name};");
         }
 
         [Fact]
-        public void Builder_adds_multiple_properties_correctly()
+        public void Builder_adds_multiple_fields_correctly()
         {
             var sut = new ClassBuilder();
-            var prop1 = new PropertyDefinition("string", "MyProperty1");
-            var prop2 = new PropertyDefinition("string", "MyProperty2");
+            var field1 = new FieldDefinition("string", "MyField1");
+            var field2 = new FieldDefinition("string", "MyField2");
             var result = sut
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithProperty(prop1)
-                .WithProperty(prop2)
+                .WithField(field1)
+                .WithField(field2)
                 .Build();
-            result.Should().Contain($"{prop1.Type} {prop1.Name} ");
-            result.Should().Contain($"{prop2.Type} {prop2.Name} ");
+            result.Should().Contain($"private {field1.Type} {field1.Name};");
+            result.Should().Contain($"private {field2.Type} {field2.Name};");
         }
 
         [Theory]
@@ -50,8 +50,8 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData(".")]
         [InlineData(".abc")]
         [InlineData("1abc")]
-        [InlineData("A property")]
-        [InlineData("MyTestProperty.TheThing")]
+        [InlineData("A field")]
+        [InlineData("MyTestField.TheThing")]
         public void Builder_throws_invalid_operation_exception_when_name_is_invalid(string value)
         {
             var sut = new ClassBuilder();
@@ -59,20 +59,20 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithName("MyClass")
-                .WithProperty(new PropertyDefinition("void", value)));
+                .WithField(new FieldDefinition("void", value)));
         }
 
         [Fact]
-        public void Builder_throws_invalid_operation_exception_when_property_already_added()
+        public void Builder_throws_invalid_operation_exception_when_field_already_added()
         {
             var sut = new ClassBuilder();
-            var prop = new PropertyDefinition("string", "MyProperty");
+            var field = new FieldDefinition("string", "MyField");
             Assert.Throws<InvalidOperationException>(() => sut
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithName("MyClass")
-                .WithProperty(prop)
-                .WithProperty(prop));
+                .WithField(field)
+                .WithField(field));
         }
 
         [Fact]
@@ -83,7 +83,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithName("MyClass")
-                .WithProperty(new PropertyDefinition("string", "MyClass")));
+                .WithField(new FieldDefinition("string", "MyClass")));
         }
     }
 }
