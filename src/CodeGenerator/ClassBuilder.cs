@@ -41,6 +41,8 @@ namespace CodeGenerator
         private string _className;
         private ClassAccessibilityLevel? _accessibilityLevel;
 
+        private string _baseClass;
+
         private readonly List<string> _usingDirectives = new();
         private readonly List<string> _methods = new();
         private readonly List<PropertyDefinition> _properties = new();
@@ -189,6 +191,19 @@ namespace CodeGenerator
             return this;
         }
 
+        public ClassBuilder WithBaseClass(string value)
+        {
+            if (string.IsNullOrEmpty(value)
+                || !LegalClassNameCharacters.IsMatch(value)
+                || !LegalClassNameLeadingCharacters.IsMatch(value[..1]))
+            {
+                throw new InvalidOperationException("Invalid base class name");
+            }
+
+            _baseClass = value;
+            return this;
+        }
+
         public string Build()
         {
             if (_namespace == null)
@@ -258,6 +273,11 @@ namespace CodeGenerator
                 sb.AppendLine(method);
             }
             template.Add(SharedTemplateKeys.MethodDefinitions, sb.ToString());
+
+            if (_baseClass != null)
+            {
+                template.Add(SharedTemplateKeys.BaseClass, $" : {_baseClass}");
+            }
 
             return template.Render();
         }

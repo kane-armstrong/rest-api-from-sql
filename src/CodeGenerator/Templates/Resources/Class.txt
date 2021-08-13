@@ -3,7 +3,7 @@
 namespace $classNamespace$
 {
     $attributes$
-    $accessibilityLevel$ class $className$
+    $accessibilityLevel$ class $className$$baseClass$
     {
         $fields$
 

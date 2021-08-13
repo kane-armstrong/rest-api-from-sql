@@ -11,6 +11,7 @@
         internal const string Properties = "properties";
         internal const string Constructors = "constructors";
         internal const string MethodDefinitions = "methods";
+        internal const string BaseClass = "baseClass";
 
         internal const string MethodAccessibilityLevel = "accessibilityLevel";
         internal const string MethodReturnType = "returnType";
