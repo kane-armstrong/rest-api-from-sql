@@ -24,21 +24,8 @@ namespace CodeGenerator
             { ClassAccessibilityLevel.ProtectedInternal, "protected internal" }
         };
 
-        // TODO Tidy up regex - probably don't need two sets, try do whitespace check and first char check in one regex
-        private static readonly Regex LegalNamespaceCharacters = new("^[a-zA-Z0-9_.]+$");
-        private static readonly Regex LegalNamespaceLeadingCharacters = new("^[a-zA-Z_]+$");
-
-        private static readonly Regex LegalClassNameCharacters = new("^[a-zA-Z0-9_]+$");
-        private static readonly Regex LegalClassNameLeadingCharacters = new("^[a-zA-Z_]+$");
-
-        private static readonly Regex LegalPropertyCharacters = new("^[a-zA-Z0-9_]+$");
-        private static readonly Regex LegalPropertyLeadingCharacters = new("^[a-zA-Z_]+$");
-
-        private static readonly Regex LegalFieldCharacters = new("^[a-zA-Z0-9_]+$");
-        private static readonly Regex LegalFieldLeadingCharacters = new("^[a-zA-Z_]+$");
-
-        private static readonly Regex LegalInterfaceCharacters = new("^[a-zA-Z0-9_]+$");
-        private static readonly Regex LegalInterfaceLeadingCharacters = new("^[a-zA-Z_]+$");
+        private static readonly Regex LegalTypeNameCharacters = new("^[a-zA-Z0-9_]+$");
+        private static readonly Regex LegalTypeNameLeadingCharacters = new("^[a-zA-Z_]+$");
 
         private string _namespace;
         private string _className;
@@ -56,31 +43,38 @@ namespace CodeGenerator
 
         public ClassBuilder WithNamespace(string value)
         {
-            if (string.IsNullOrEmpty(value)
-                || !LegalNamespaceCharacters.IsMatch(value)
-                || !LegalNamespaceLeadingCharacters.IsMatch(value[..1]))
-            {
-                throw new InvalidOperationException("Invalid namespace");
-            }
+            EnsureValidNamespace(value);
             _namespace = value;
             return this;
         }
 
         public ClassBuilder UsingNamespace(string value)
         {
-            if (string.IsNullOrEmpty(value)
-                || !LegalNamespaceCharacters.IsMatch(value)
-                || !LegalNamespaceLeadingCharacters.IsMatch(value[..1]))
-            {
-                throw new InvalidOperationException("Invalid namespace");
-            }
-
+            EnsureValidNamespace(value);
             if (_usingDirectives.Contains(value))
             {
                 throw new InvalidOperationException("Namespace has already been added");
             }
             _usingDirectives.Add(value);
             return this;
+        }
+
+        private void EnsureValidNamespace(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new InvalidOperationException("Invalid namespace");
+            }
+
+            var parts = value.Split(".");
+            foreach (var part in parts)
+            {
+                if (!LegalTypeNameCharacters.IsMatch(part)
+                    || !LegalTypeNameLeadingCharacters.IsMatch(part[..1]))
+                {
+                    throw new InvalidOperationException("Invalid namespace");
+                }
+            }
         }
 
         public ClassBuilder WithAccessibilityLevel(ClassAccessibilityLevel expected)
@@ -92,8 +86,8 @@ namespace CodeGenerator
         public ClassBuilder WithName(string value)
         {
             if (string.IsNullOrEmpty(value)
-                || !LegalClassNameCharacters.IsMatch(value)
-                || !LegalClassNameLeadingCharacters.IsMatch(value[..1]))
+                || !LegalTypeNameCharacters.IsMatch(value)
+                || !LegalTypeNameLeadingCharacters.IsMatch(value[..1]))
             {
                 throw new InvalidOperationException("Invalid class name");
             }
@@ -114,8 +108,8 @@ namespace CodeGenerator
         public ClassBuilder WithProperty(PropertyDefinition definition)
         {
             if (string.IsNullOrEmpty(definition.Name)
-                || !LegalPropertyCharacters.IsMatch(definition.Name)
-                || !LegalPropertyLeadingCharacters.IsMatch(definition.Name[..1]))
+                || !LegalTypeNameCharacters.IsMatch(definition.Name)
+                || !LegalTypeNameLeadingCharacters.IsMatch(definition.Name[..1]))
             {
                 throw new InvalidOperationException("Invalid property name");
             }
@@ -174,8 +168,8 @@ namespace CodeGenerator
         public ClassBuilder WithField(FieldDefinition definition)
         {
             if (string.IsNullOrEmpty(definition.Name)
-                || !LegalFieldCharacters.IsMatch(definition.Name)
-                || !LegalFieldLeadingCharacters.IsMatch(definition.Name[..1]))
+                || !LegalTypeNameCharacters.IsMatch(definition.Name)
+                || !LegalTypeNameLeadingCharacters.IsMatch(definition.Name[..1]))
             {
                 throw new InvalidOperationException("Invalid field name");
             }
@@ -198,8 +192,8 @@ namespace CodeGenerator
         public ClassBuilder WithBaseClass(string value)
         {
             if (string.IsNullOrEmpty(value)
-                || !LegalClassNameCharacters.IsMatch(value)
-                || !LegalClassNameLeadingCharacters.IsMatch(value[..1]))
+                || !LegalTypeNameCharacters.IsMatch(value)
+                || !LegalTypeNameLeadingCharacters.IsMatch(value[..1]))
             {
                 throw new InvalidOperationException("Invalid base class name");
             }
@@ -211,8 +205,8 @@ namespace CodeGenerator
         public ClassBuilder ImplementingInterface(string value)
         {
             if (string.IsNullOrEmpty(value)
-                || !LegalInterfaceCharacters.IsMatch(value)
-                || !LegalNamespaceLeadingCharacters.IsMatch(value[..1]))
+                || !LegalTypeNameCharacters.IsMatch(value)
+                || !LegalTypeNameLeadingCharacters.IsMatch(value[..1]))
             {
                 throw new InvalidOperationException("Invalid interface name");
             }
