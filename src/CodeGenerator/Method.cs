@@ -33,6 +33,7 @@ namespace CodeGenerator
             "virtual"
         };
 
+        private readonly List<string> _attributes = new();
         private readonly MethodAccessibilityLevel _accessibilityLevel;
         private readonly string _returnType;
         private readonly string _name;
@@ -54,6 +55,12 @@ namespace CodeGenerator
             {
                 throw new ArgumentNullException(nameof(argument));
             }
+
+            if (_arguments.Any(x => x.Name == argument.Name))
+            {
+                throw new InvalidOperationException("Argument with the same name already been added.");
+            }
+
             _arguments.Add(argument);
         }
 

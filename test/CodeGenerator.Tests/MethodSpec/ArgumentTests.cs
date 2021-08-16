@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System;
 using Xunit;
 
 namespace CodeGenerator.Tests.MethodSpec
@@ -42,6 +43,15 @@ namespace CodeGenerator.Tests.MethodSpec
         {
             var sut = new Method(MethodAccessibilityLevel.Public, "void", "TestMethod");
             sut.Render().Should().Contain("TestMethod()");
+        }
+
+        [Fact]
+        public void Adding_an_argument_throws_when_argument_is_already_added()
+        {
+            var sut = new Method(MethodAccessibilityLevel.Public, "void", "TestMethod");
+            var arg = new MethodArgument("int", "number");
+            sut.AddArgument(arg);
+            Assert.Throws<InvalidOperationException>(() => sut.AddArgument(arg));
         }
     }
 }
