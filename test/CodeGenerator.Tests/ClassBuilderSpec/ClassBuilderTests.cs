@@ -9,6 +9,26 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         public void Formatting_and_content_are_correct_when_the_builder_is_fully_configured()
         {
             var sut = new ClassBuilder();
+
+            var method1 = new Method(MethodAccessibilityLevel.Public, "Task<IActionResult>", "Create",
+                    @"await _context.Pets.AddAsync(pet);
+await _context.SaveChangesAsync();
+return Ok();");
+            method1.AddArgument(new MethodArgument("Pet", "pet"));
+            method1.AddModifier("async");
+
+            var method2 = new Method(MethodAccessibilityLevel.Public, "Task<IActionResult>", "Get",
+                @"var pet = await _context.Pets.FindAsync(id);
+if (pet == null)
+{
+    return NotFound();
+}
+return Ok(pet);");
+            method2.AddArgument(new MethodArgument("int", "id"));
+            method2.AddModifier("async");
+
+            var method3 = new Method(MethodAccessibilityLevel.Private, "void", "Nothing");
+
             var result = sut
                 .WithName("PetsController")
                 .WithBaseClass("MyBaseController")
@@ -24,7 +44,6 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
 {
 }")
                 .WithNamespace("MyApplication.Controllers")
-                // TODO Fix: no control over value e.g. public string SomeProperty => _someProperty;. Maybe just dumb it down - caller builds code
                 .WithProperty(new PropertyDefinition("string", "SomeProperty"))
                 .WithProperty(new PropertyDefinition("PetsDbContext", "Context", " => _context;"))
                 .UsingNamespace("MyApplication.Infrastructure.Database")
@@ -33,36 +52,9 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithField(new FieldDefinition("PetsDbContext", "_context"))
                 .WithField(new FieldDefinition("int", "_whatever", " = 42;"))
-                .WithMethod(new MethodBuilder()
-                    .WithName("Create")
-                    .WithAccessibilityLevel(MethodAccessibilityLevel.Public)
-                    // TODO Fix: can't annotate with attribute (e.g. [FromBody]). Maybe just dumb it down - caller builds code
-                    .WithArgument(new MethodArgument("Pet", "pet"))
-                    // TODO Fix: can't add "virtual", "override", "async"...
-                    .WithReturnType("IActionResult")
-                    .WithBody(@"await _context.Pets.AddAsync(pet);
-await _context.SaveChangesAsync();
-return Ok();")
-                    .Build())
-                .WithMethod(new MethodBuilder()
-                    .WithName("Get")
-                    .WithAccessibilityLevel(MethodAccessibilityLevel.Public)
-                    // TODO Fix: can't annotate with attribute (e.g. [FromBody]). Maybe just dumb it down - caller builds code
-                    .WithArgument(new MethodArgument("int", "id"))
-                    // TODO Fix: can't add "virtual", "override", "async"...
-                    .WithReturnType("IActionResult")
-                    .WithBody(@"var pet = await _context.Pets.FindAsync(id);
-if (pet == null)
-{
-    return NotFound();
-}
-return Ok(pet);")
-                    .Build())
-                .WithMethod(new MethodBuilder()
-                    .WithName("Nothing")
-                    .WithAccessibilityLevel(MethodAccessibilityLevel.Public)
-                    .WithReturnType("void")
-                    .Build())
+                .WithMethod(method1.Render())
+                .WithMethod(method2.Render())
+                .WithMethod(method3.Render())
                 .Build();
 
             result.Should().Be(@"using MyApplication.Infrastructure.Database;
@@ -90,14 +82,14 @@ namespace MyApplication.Controllers
         {
         }
 
-        public IActionResult Create(Pet pet)
+        public async Task<IActionResult> Create(Pet pet)
         {
             await _context.Pets.AddAsync(pet);
             await _context.SaveChangesAsync();
             return Ok();
         }
 
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var pet = await _context.Pets.FindAsync(id);
             if (pet == null)
@@ -107,7 +99,7 @@ namespace MyApplication.Controllers
             return Ok(pet);
         }
 
-        public void Nothing()
+        private void Nothing()
         {
         }
     }

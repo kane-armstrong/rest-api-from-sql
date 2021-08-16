@@ -1,4 +1,4 @@
-﻿$accessibilityLevel$ $returnType$ $name$($if(arguments)$$trunc(arguments):{x |$x.Type$ $x.Name$$x.Value$, }$$last(arguments):{x |$x.Type$ $x.Name$$x.Value$}$$endif$)
+﻿$accessibilityLevel$ $if(modifiers)$$modifiers:{x |$x$ }$$endif$$returnType$ $name$($if(arguments)$$trunc(arguments):{x |$x.Type$ $x.Name$$x.Value$, }$$last(arguments):{x |$x.Type$ $x.Name$$x.Value$}$$endif$)$if(isAbstract)$;$else$
 {
     $if(body)$$body$$endif$
-}
+}$endif$
