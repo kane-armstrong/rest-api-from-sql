@@ -13,7 +13,7 @@
             Type = type;
         }
 
-        public PropertyDefinition(string name, string type, string value)
+        public PropertyDefinition(string type, string name, string value)
         {
             Name = name;
             Type = type;

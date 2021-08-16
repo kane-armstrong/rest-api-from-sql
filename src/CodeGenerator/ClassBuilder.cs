@@ -237,6 +237,7 @@ namespace CodeGenerator
             template.Add(SharedTemplateKeys.ClassName, _className);
             template.Add(SharedTemplateKeys.ClassAccessibilityLevel, ClassAccessibilityLevelMap[_accessibilityLevel.Value]);
 
+            // TODO this belongs in the template
             if (_baseClass != null)
             {
                 template.Add(SharedTemplateKeys.BaseClass, $" : {_baseClass}");
