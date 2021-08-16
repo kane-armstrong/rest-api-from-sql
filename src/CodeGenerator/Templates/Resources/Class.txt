@@ -5,7 +5,7 @@ namespace $classNamespace$
     $if(attributes)$$trunc(attributes):{x |$x$$\n$}$$last(attributes):{x |$x$}$$endif$
     $accessibilityLevel$ class $className$$baseClass$$implementedInterfaces$
     {
-        $if(fields)$$trunc(fields):{x |public $x.Type$ $x.Name$$x.Value$$\n$}$$last(fields):{x |public $x.Type$ $x.Name$$x.Value$}$$endif$
+        $if(fields)$$trunc(fields):{x |private $x.Type$ $x.Name$$x.Value$$\n$}$$last(fields):{x |private $x.Type$ $x.Name$$x.Value$}$$endif$
         $if(properties)$$\n$$trunc(properties):{x |public $x.Type$ $x.Name$ $x.Value$$\n$}$$last(properties):{x |public $x.Type$ $x.Name$ $x.Value$}$$endif$
         $if(constructors)$$\n$$trunc(constructors):{x |$x$$\n$$\n$}$$last(constructors):{x |$x$}$$endif$
         $if(methods)$$\n$$trunc(methods):{x |$x$$\n$$\n$}$$last(methods):{x |$x$}$$endif$

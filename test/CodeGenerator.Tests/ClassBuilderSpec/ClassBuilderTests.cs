@@ -74,8 +74,8 @@ namespace MyApplication.Controllers
     [SomeExceptionFilter]
     public class PetsController : MyBaseController, IEmptyInterface
     {
-        public PetsDbContext _context;
-        public int _whatever = 42;
+        private PetsDbContext _context;
+        private int _whatever = 42;
 
         public string SomeProperty { get; set; }
         public PetsDbContext Context  => _context;

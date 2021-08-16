@@ -46,7 +46,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         public void Builder_adds_property_with_value_correctly()
         {
             var sut = new ClassBuilder();
-            var prop = new PropertyDefinition("string", "MyProperty1", " => \"things\";");
+            var prop = new PropertyDefinition("string", "MyProperty1", "=> \"things\";");
             var result = sut
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
