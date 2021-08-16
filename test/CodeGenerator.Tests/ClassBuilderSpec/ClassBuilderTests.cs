@@ -27,7 +27,10 @@ return Ok(pet);");
             method2.AddArgument(new MethodArgument("int", "id"));
             method2.AddModifier("async");
 
-            var method3 = new Method(MethodAccessibilityLevel.Private, "void", "Nothing");
+            var method3 = new Method(MethodAccessibilityLevel.Private, "Task<IActionResult>", "Feed");
+            method3.AddModifier("async");
+            method3.AddArgument(new MethodArgument("int", "id"));
+            method3.AddArgument(new MethodArgument("FeedCommand", "command"));
 
             var result = sut
                 .WithName("PetsController")
@@ -65,7 +68,7 @@ namespace MyApplication.Controllers
 {
     [Authorize]
     [SomeExceptionFilter]
-    public class PetsController : MyBaseController, IEmptyInterface, IAnotherEmptyInterface
+    public sealed class PetsController : MyBaseController, IEmptyInterface, IAnotherEmptyInterface
     {
         private PetsDbContext _context;
         private int _whatever = 42;
@@ -82,14 +85,16 @@ namespace MyApplication.Controllers
         {
         }
 
-        public async Task<IActionResult> Create(Pet pet)
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody]Pet pet)
         {
             await _context.Pets.AddAsync(pet);
             await _context.SaveChangesAsync();
             return Ok();
         }
 
-        public async Task<IActionResult> Get(int id)
+        [HttpGet(""{id}"")]
+        public async Task<IActionResult> Get([FromRoute]int id)
         {
             var pet = await _context.Pets.FindAsync(id);
             if (pet == null)
@@ -99,7 +104,9 @@ namespace MyApplication.Controllers
             return Ok(pet);
         }
 
-        private void Nothing()
+        [HttpGet(""{id}/feed"")]
+        [HttpGet(""feed/{id})]
+        public async Task<IActionResult> Feed([FromRoute]int id, [FromBody]FeedCommand command)
         {
         }
     }
