@@ -233,29 +233,29 @@ namespace CodeGenerator
 
             var template = new Template(TemplateContent.Class, StartDelimiter, EndDelimiter);
 
-            template.Add(SharedTemplateKeys.ClassNamespace, _namespace);
-            template.Add(SharedTemplateKeys.ClassName, _className);
-            template.Add(SharedTemplateKeys.ClassAccessibilityLevel, ClassAccessibilityLevelMap[_accessibilityLevel.Value]);
+            template.Add(ClassTemplateAttributes.Namespace, _namespace);
+            template.Add(ClassTemplateAttributes.Name, _className);
+            template.Add(ClassTemplateAttributes.AccessibilityLevel, ClassAccessibilityLevelMap[_accessibilityLevel.Value]);
 
             // TODO this belongs in the template
             if (_baseClass != null)
             {
-                template.Add(SharedTemplateKeys.BaseClass, $" : {_baseClass}");
+                template.Add(ClassTemplateAttributes.BaseClass, $" : {_baseClass}");
             }
 
             if (_implementedInterfaces.Any())
             {
                 var prefix = _baseClass != null ? ", " : " : ";
                 var text = $"{prefix}{string.Join(", ", _implementedInterfaces)}";
-                template.Add(SharedTemplateKeys.ImplementedInterfaces, text);
+                template.Add(ClassTemplateAttributes.ImplementedInterfaces, text);
             }
 
-            template.Add(SharedTemplateKeys.UsingDirectives, _usingDirectives);
-            template.Add(SharedTemplateKeys.Attributes, _attributes);
-            template.Add(SharedTemplateKeys.Fields, _fields);
-            template.Add(SharedTemplateKeys.Properties, _properties);
-            template.Add(SharedTemplateKeys.Constructors, _constructors);
-            template.Add(SharedTemplateKeys.MethodDefinitions, _methods);
+            template.Add(ClassTemplateAttributes.UsingDirectives, _usingDirectives);
+            template.Add(ClassTemplateAttributes.Attributes, _attributes);
+            template.Add(ClassTemplateAttributes.Fields, _fields);
+            template.Add(ClassTemplateAttributes.Properties, _properties);
+            template.Add(ClassTemplateAttributes.Constructors, _constructors);
+            template.Add(ClassTemplateAttributes.MethodDefinitions, _methods);
 
             return template.Render();
         }

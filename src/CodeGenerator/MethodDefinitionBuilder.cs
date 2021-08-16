@@ -76,13 +76,14 @@ namespace CodeGenerator
 
             var template = new Template(TemplateContent.Method, StartDelimiter, EndDelimiter);
 
-            template.Add(SharedTemplateKeys.MethodAccessibilityLevel, MethodAccessibilityLevelMap[_accessibilityLevel.Value]);
-            template.Add(SharedTemplateKeys.MethodReturnType, _returnType);
-            template.Add(SharedTemplateKeys.MethodName, _name);
-            template.Add(SharedTemplateKeys.MethodBody, _body);
+            template.Add(MethodTemplateAttributes.AccessibilityLevel, MethodAccessibilityLevelMap[_accessibilityLevel.Value]);
+            template.Add(MethodTemplateAttributes.ReturnType, _returnType);
+            template.Add(MethodTemplateAttributes.Name, _name);
+            template.Add(MethodTemplateAttributes.Body, _body);
 
+            // TODO this belongs in the template
             var args = string.Join(", ", _arguments.Select(x => $"{x.Type} {x.Name}"));
-            template.Add(SharedTemplateKeys.MethodArguments, args);
+            template.Add(MethodTemplateAttributes.Arguments, args);
 
             return template.Render();
         }

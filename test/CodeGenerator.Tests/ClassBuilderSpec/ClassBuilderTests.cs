@@ -6,7 +6,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
     public class ClassBuilderTests
     {
         [Fact]
-        public void Formatting_and_content_are_correct_when_fully_configured()
+        public void Formatting_and_content_are_correct_when_the_builder_is_fully_configured()
         {
             var sut = new ClassBuilder();
             var result = sut
@@ -114,31 +114,19 @@ namespace MyApplication.Controllers
         }
 
         [Fact]
-        public void Formatting_and_content_are_correct_when_configured_without_attributes()
+        public void There_is_no_excess_whitespace_when_configured_without_the_optional_parts()
         {
             var sut = new ClassBuilder();
             var result = sut
                 .WithName("PetsController")
                 .WithNamespace("MyApplication.Controllers")
-                .UsingNamespace("MyApplication.Infrastructure.Database")
-                .UsingNamespace("Microsoft.EntityFrameworkCore")
-                .UsingNamespace("Microsoft.AspNetCore.Mvc")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithField(new FieldDefinition("int", "_whatever", " = 42;"))
-                .WithProperty(new PropertyDefinition("int", "Whatever", "=> _whatever;"))
                 .Build();
 
-            result.Should().Be(@"using MyApplication.Infrastructure.Database;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-
-namespace MyApplication.Controllers
+            result.Should().Be(@"namespace MyApplication.Controllers
 {
     public class PetsController
     {
-        public int _whatever = 42;
-
-        public int Whatever => _whatever;
     }
 }");
         }
