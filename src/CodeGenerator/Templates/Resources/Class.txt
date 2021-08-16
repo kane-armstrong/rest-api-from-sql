@@ -5,8 +5,8 @@ namespace $classNamespace$
     $if(attributes)$$trunc(attributes):{x |$x$$\n$}$$last(attributes):{x |$x$}$$endif$
     $accessibilityLevel$ class $className$$if(baseClass||implementedInterfaces)$ : $endif$$if(baseClass)$$baseClass$$endif$$if(implementedInterfaces)$$if(baseClass)$, $endif$$trunc(implementedInterfaces):{x|$x$, }$$last(implementedInterfaces):{x|$x$}$$endif$
     {
-        $if(fields)$$trunc(fields):{x |private $x.Type$ $x.Name$$x.Value$$\n$}$$last(fields):{x |private $x.Type$ $x.Name$$x.Value$}$$endif$
-        $if(properties)$$\n$$trunc(properties):{x |public $x.Type$ $x.Name$ $x.Value$$\n$}$$last(properties):{x |public $x.Type$ $x.Name$ $x.Value$}$$endif$
+        $if(fields)$$trunc(fields):{x |private $x.Type$ $x.Name$$if(x.Value)$$x.Value$$else$;$endif$$\n$}$$last(fields):{x |private $x.Type$ $x.Name$$if(x.Value)$$x.Value$$else$;$endif$}$$endif$
+        $if(properties)$$\n$$trunc(properties):{x |public $x.Type$ $x.Name$ $if(x.Value)$$x.Value$$else${ get; set; \}$endif$$\n$}$$last(properties):{x |public $x.Type$ $x.Name$ $if(x.Value)$$x.Value$$else${ get; set; \}$endif$}$$endif$
         $if(constructors)$$\n$$trunc(constructors):{x |$x$$\n$$\n$}$$last(constructors):{x |$x$}$$endif$
         $if(methods)$$\n$$trunc(methods):{x |$x$$\n$$\n$}$$last(methods):{x |$x$}$$endif$
     }

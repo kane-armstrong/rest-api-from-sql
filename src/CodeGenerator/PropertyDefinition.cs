@@ -5,7 +5,7 @@
     {
         public string Name { get; }
         public string Type { get; }
-        public string Value { get; } = "{ get; set; }";
+        public string Value { get; }
 
         public PropertyDefinition(string type, string name)
         {

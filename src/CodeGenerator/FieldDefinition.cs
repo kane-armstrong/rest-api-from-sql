@@ -4,8 +4,7 @@
     {
         public string Name { get; }
         public string Type { get; }
-        // TODO c'mon
-        public string Value { get; } = ";";
+        public string Value { get; }
 
         public FieldDefinition(string type, string name)
         {
