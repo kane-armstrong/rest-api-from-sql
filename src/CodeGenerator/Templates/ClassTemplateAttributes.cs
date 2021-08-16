@@ -3,8 +3,9 @@
     internal static class ClassTemplateAttributes
     {
         internal const string Namespace = "classNamespace";
-        internal const string Name = "className";
         internal const string AccessibilityLevel = "accessibilityLevel";
+        internal const string Modifiers = "modifiers";
+        internal const string Name = "className";
         internal const string UsingDirectives = "usingDirectives";
         internal const string Attributes = "attributes";
         internal const string Fields = "fields";

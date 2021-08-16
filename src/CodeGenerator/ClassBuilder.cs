@@ -23,6 +23,13 @@ namespace CodeGenerator
             { ClassAccessibilityLevel.ProtectedInternal, "protected internal" }
         };
 
+        private static readonly string[] Modifiers =
+        {
+            "abstract",
+            "sealed",
+            "static"
+        };
+
         private static readonly Regex LegalTypeNameCharacters = new("^[a-zA-Z0-9_]+$");
         private static readonly Regex LegalTypeNameLeadingCharacters = new("^[a-zA-Z_]+$");
 
@@ -32,6 +39,7 @@ namespace CodeGenerator
 
         private string _baseClass;
 
+        private readonly List<string> _modifiers = new();
         private readonly List<string> _usingDirectives = new();
         private readonly List<string> _methods = new();
         private readonly List<PropertyDefinition> _properties = new();
@@ -215,6 +223,43 @@ namespace CodeGenerator
             return this;
         }
 
+        public ClassBuilder WithModifier(string value)
+        {
+            if (!Modifiers.Contains(value))
+            {
+                throw new ArgumentException($"Modifier '{value}' is not a valid class modifier.");
+            }
+
+            if (_modifiers.Contains(value))
+            {
+                throw new InvalidOperationException("Modifier has already been added.");
+            }
+
+            if (_modifiers.Contains("abstract") && value == "static")
+            {
+                throw new InvalidOperationException("An abstract class cannot be static.");
+            }
+
+            if (_modifiers.Contains("static") && value == "abstract")
+            {
+                throw new InvalidOperationException("An static class cannot be abstract.");
+            }
+
+            if (_modifiers.Contains("sealed") && value == "static")
+            {
+                throw new InvalidOperationException("A sealed class cannot be static.");
+            }
+
+            if (_modifiers.Contains("static") && value == "sealed")
+            {
+                throw new InvalidOperationException("An static class cannot be sealed.");
+            }
+
+            _modifiers.Add(value);
+
+            return this;
+        }
+
         public string Build()
         {
             if (_namespace == null)
@@ -234,6 +279,7 @@ namespace CodeGenerator
 
             template.Add(ClassTemplateAttributes.Namespace, _namespace);
             template.Add(ClassTemplateAttributes.AccessibilityLevel, ClassAccessibilityLevelMap[_accessibilityLevel.Value]);
+            template.Add(ClassTemplateAttributes.Modifiers, _modifiers);
             template.Add(ClassTemplateAttributes.Name, _className);
             template.Add(ClassTemplateAttributes.UsingDirectives, _usingDirectives);
             template.Add(ClassTemplateAttributes.Attributes, _attributes);
