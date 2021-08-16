@@ -1,4 +1,4 @@
-﻿        $accessibilityLevel$ $returnType$ $name$($arguments$)
-        {
-            $body$
-        }
+﻿$accessibilityLevel$ $returnType$ $name$($arguments$)
+{
+    $if(body)$$body$$endif$
+}
