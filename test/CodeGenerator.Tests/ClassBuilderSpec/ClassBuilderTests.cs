@@ -13,6 +13,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithName("PetsController")
                 .WithBaseClass("MyBaseController")
                 .ImplementingInterface("IEmptyInterface")
+                .ImplementingInterface("IAnotherEmptyInterface")
                 .WithAttribute("[Authorize]")
                 .WithAttribute("[SomeExceptionFilter]")
                 .WithConstructor(@"public PetsController(PetsDbContext context, ILogger<PetsController> logger) : base(logger) 
@@ -72,7 +73,7 @@ namespace MyApplication.Controllers
 {
     [Authorize]
     [SomeExceptionFilter]
-    public class PetsController : MyBaseController, IEmptyInterface
+    public class PetsController : MyBaseController, IEmptyInterface, IAnotherEmptyInterface
     {
         private PetsDbContext _context;
         private int _whatever = 42;

@@ -3,7 +3,7 @@ namespace $classNamespace$
 {
     $!This truc(...)last(...) stuff is done to ensure spacing between elements but not before the first or after the last!$
     $if(attributes)$$trunc(attributes):{x |$x$$\n$}$$last(attributes):{x |$x$}$$endif$
-    $accessibilityLevel$ class $className$$baseClass$$implementedInterfaces$
+    $accessibilityLevel$ class $className$$if(baseClass||implementedInterfaces)$ : $endif$$if(baseClass)$$baseClass$$endif$$if(implementedInterfaces)$$if(baseClass)$, $endif$$trunc(implementedInterfaces):{x|$x$, }$$last(implementedInterfaces):{x|$x$}$$endif$
     {
         $if(fields)$$trunc(fields):{x |private $x.Type$ $x.Name$$x.Value$$\n$}$$last(fields):{x |private $x.Type$ $x.Name$$x.Value$}$$endif$
         $if(properties)$$\n$$trunc(properties):{x |public $x.Type$ $x.Name$ $x.Value$$\n$}$$last(properties):{x |public $x.Type$ $x.Name$ $x.Value$}$$endif$

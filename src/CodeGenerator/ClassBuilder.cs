@@ -4,7 +4,6 @@ using CodeGenerator.Templates.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace CodeGenerator
@@ -234,24 +233,12 @@ namespace CodeGenerator
             var template = new Template(TemplateContent.Class, StartDelimiter, EndDelimiter);
 
             template.Add(ClassTemplateAttributes.Namespace, _namespace);
-            template.Add(ClassTemplateAttributes.Name, _className);
             template.Add(ClassTemplateAttributes.AccessibilityLevel, ClassAccessibilityLevelMap[_accessibilityLevel.Value]);
-
-            // TODO this belongs in the template
-            if (_baseClass != null)
-            {
-                template.Add(ClassTemplateAttributes.BaseClass, $" : {_baseClass}");
-            }
-
-            if (_implementedInterfaces.Any())
-            {
-                var prefix = _baseClass != null ? ", " : " : ";
-                var text = $"{prefix}{string.Join(", ", _implementedInterfaces)}";
-                template.Add(ClassTemplateAttributes.ImplementedInterfaces, text);
-            }
-
+            template.Add(ClassTemplateAttributes.Name, _className);
             template.Add(ClassTemplateAttributes.UsingDirectives, _usingDirectives);
             template.Add(ClassTemplateAttributes.Attributes, _attributes);
+            template.Add(ClassTemplateAttributes.BaseClass, _baseClass);
+            template.Add(ClassTemplateAttributes.ImplementedInterfaces, _implementedInterfaces);
             template.Add(ClassTemplateAttributes.Fields, _fields);
             template.Add(ClassTemplateAttributes.Properties, _properties);
             template.Add(ClassTemplateAttributes.Constructors, _constructors);
