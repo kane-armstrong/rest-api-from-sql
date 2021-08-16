@@ -42,6 +42,20 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
             result.Should().Contain($"{prop2.Type} {prop2.Name} ");
         }
 
+        [Fact]
+        public void Builder_adds_property_with_value_correctly()
+        {
+            var sut = new ClassBuilder();
+            var prop = new PropertyDefinition("string", "MyProperty1", " => \"things\";");
+            var result = sut
+                .WithNamespace("MyNamespace")
+                .WithName("MyClass")
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
+                .WithProperty(prop)
+                .Build();
+            result.Should().Contain($"{prop.Type} {prop.Name} => \"things\";");
+        }
+
         [Theory]
         [InlineData("")]
         [InlineData(" ")]

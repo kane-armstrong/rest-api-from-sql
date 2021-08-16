@@ -42,6 +42,20 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
             result.Should().Contain($"private {field2.Type} {field2.Name};");
         }
 
+        [Fact]
+        public void Builder_adds_field_with_value_correctly()
+        {
+            var sut = new ClassBuilder();
+            var field = new FieldDefinition("string", "TheMeaning", " = 42;");
+            var result = sut
+                .WithNamespace("MyNamespace")
+                .WithName("MyClass")
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
+                .WithField(field)
+                .Build();
+            result.Should().Contain($"private {field.Type} {field.Name} = 42;");
+        }
+
         [Theory]
         [InlineData("")]
         [InlineData(" ")]
