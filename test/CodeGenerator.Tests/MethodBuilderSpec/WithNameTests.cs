@@ -1,8 +1,8 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
+using FluentAssertions;
 using Xunit;
 
-namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
+namespace CodeGenerator.Tests.MethodBuilderSpec
 {
     public class WithNameTests
     {
@@ -11,7 +11,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
         {
             const string returnType = "void";
             const string name = "MyMethod";
-            var sut = new MethodDefinitionBuilder();
+            var sut = new MethodBuilder();
             var result = sut
                 .WithReturnType(returnType)
                 .WithName(name)
@@ -23,7 +23,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
         [Fact]
         public void Builder_throws_invalid_operation_exception_when_name_is_not_provided()
         {
-            var sut = new MethodDefinitionBuilder();
+            var sut = new MethodBuilder();
             Assert.Throws<InvalidOperationException>(() => sut
                 .WithReturnType("void")
                 .WithAccessibilityLevel(MethodAccessibilityLevel.Private)

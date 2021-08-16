@@ -3,24 +3,22 @@ using CodeGenerator.Templates;
 using CodeGenerator.Templates.Resources;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace CodeGenerator
 {
-    public class MethodDefinitionBuilder
+    public class MethodBuilder
     {
         private const char StartDelimiter = '$';
         private const char EndDelimiter = '$';
 
         private static readonly Dictionary<MethodAccessibilityLevel, string> MethodAccessibilityLevelMap = new()
         {
-            {MethodAccessibilityLevel.Internal, "internal"},
-            {MethodAccessibilityLevel.Public, "public"},
-            {MethodAccessibilityLevel.Private, "private"},
-            {MethodAccessibilityLevel.PrivateProtected, "private protected"},
-            {MethodAccessibilityLevel.Protected, "protected"},
-            {MethodAccessibilityLevel.ProtectedInternal, "protected internal"}
+            { MethodAccessibilityLevel.Internal, "internal" },
+            { MethodAccessibilityLevel.Public, "public" },
+            { MethodAccessibilityLevel.Private, "private" },
+            { MethodAccessibilityLevel.PrivateProtected, "private protected" },
+            { MethodAccessibilityLevel.Protected, "protected" },
+            { MethodAccessibilityLevel.ProtectedInternal, "protected internal" }
         };
 
         private MethodAccessibilityLevel? _accessibilityLevel;
@@ -29,31 +27,31 @@ namespace CodeGenerator
         private string _body;
         private readonly List<MethodArgument> _arguments = new();
 
-        public MethodDefinitionBuilder WithAccessibilityLevel(MethodAccessibilityLevel accessibilityLevel)
+        public MethodBuilder WithAccessibilityLevel(MethodAccessibilityLevel accessibilityLevel)
         {
             _accessibilityLevel = accessibilityLevel;
             return this;
         }
 
-        public MethodDefinitionBuilder WithReturnType(string value)
+        public MethodBuilder WithReturnType(string value)
         {
             _returnType = value;
             return this;
         }
 
-        public MethodDefinitionBuilder WithName(string name)
+        public MethodBuilder WithName(string name)
         {
             _name = name;
             return this;
         }
 
-        public MethodDefinitionBuilder WithArgument(MethodArgument argument)
+        public MethodBuilder WithArgument(MethodArgument argument)
         {
             _arguments.Add(argument);
             return this;
         }
 
-        public MethodDefinitionBuilder WithBody(string body)
+        public MethodBuilder WithBody(string body)
         {
             _body = body;
             return this;

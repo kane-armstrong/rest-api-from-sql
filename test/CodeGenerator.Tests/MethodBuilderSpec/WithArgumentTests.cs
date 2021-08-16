@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Xunit;
 
-namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
+namespace CodeGenerator.Tests.MethodBuilderSpec
 {
     public class WithArgumentTests
     {
@@ -9,7 +9,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
         public void Builder_sets_one_argument_correctly()
         {
             var arg = new MethodArgument("int", "amount");
-            var sut = new MethodDefinitionBuilder();
+            var sut = new MethodBuilder();
             var result = sut
                 .WithReturnType("void")
                 .WithName("MyMethod")
@@ -24,7 +24,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
         {
             var arg1 = new MethodArgument("int", "amount");
             var arg2 = new MethodArgument("string", "currency");
-            var sut = new MethodDefinitionBuilder();
+            var sut = new MethodBuilder();
             var result = sut
                 .WithReturnType("void")
                 .WithName("MyMethod")
@@ -41,7 +41,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
         {
             var arg1 = new MethodArgument("int", "amount");
             var arg2 = new MethodArgument("string", "currency");
-            var sut = new MethodDefinitionBuilder();
+            var sut = new MethodBuilder();
             var result = sut
                 .WithReturnType("void")
                 .WithName("MyMethod")
@@ -57,7 +57,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
         {
             const string name = "MyMethod";
             const string returnType = "void";
-            var sut = new MethodDefinitionBuilder();
+            var sut = new MethodBuilder();
             var result = sut
                 .WithReturnType(returnType)
                 .WithName(name)

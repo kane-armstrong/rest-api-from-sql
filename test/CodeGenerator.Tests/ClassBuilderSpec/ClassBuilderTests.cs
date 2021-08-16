@@ -33,7 +33,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithField(new FieldDefinition("PetsDbContext", "_context"))
                 .WithField(new FieldDefinition("int", "_whatever", " = 42;"))
-                .WithMethod(new MethodDefinitionBuilder()
+                .WithMethod(new MethodBuilder()
                     .WithName("Create")
                     .WithAccessibilityLevel(MethodAccessibilityLevel.Public)
                     // TODO Fix: can't annotate with attribute (e.g. [FromBody]). Maybe just dumb it down - caller builds code
@@ -44,7 +44,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
 await _context.SaveChangesAsync();
 return Ok();")
                     .Build())
-                .WithMethod(new MethodDefinitionBuilder()
+                .WithMethod(new MethodBuilder()
                     .WithName("Get")
                     .WithAccessibilityLevel(MethodAccessibilityLevel.Public)
                     // TODO Fix: can't annotate with attribute (e.g. [FromBody]). Maybe just dumb it down - caller builds code
@@ -58,7 +58,7 @@ if (pet == null)
 }
 return Ok(pet);")
                     .Build())
-                .WithMethod(new MethodDefinitionBuilder()
+                .WithMethod(new MethodBuilder()
                     .WithName("Nothing")
                     .WithAccessibilityLevel(MethodAccessibilityLevel.Public)
                     .WithReturnType("void")

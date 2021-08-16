@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Xunit;
 
-namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
+namespace CodeGenerator.Tests.MethodBuilderSpec
 {
     public class WithBodyTests
     {
@@ -11,7 +11,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
             const string returnType = "void";
             const string name = "MyMethod";
             const string body = "Console.WriteLine(\"comedy\")";
-            var sut = new MethodDefinitionBuilder();
+            var sut = new MethodBuilder();
             var result = sut
                 .WithReturnType(returnType)
                 .WithName(name)
@@ -25,7 +25,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
         public void Builder_works_when_body_is_not_provided()
         {
             const string body = "Console.WriteLine(\"comedy\")";
-            var sut = new MethodDefinitionBuilder();
+            var sut = new MethodBuilder();
             var result = sut
                 .WithName("MyMethod")
                 .WithReturnType("void")

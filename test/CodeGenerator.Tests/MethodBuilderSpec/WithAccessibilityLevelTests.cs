@@ -1,8 +1,8 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
+using FluentAssertions;
 using Xunit;
 
-namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
+namespace CodeGenerator.Tests.MethodBuilderSpec
 {
     public class WithAccessibilityLevelTests
     {
@@ -15,7 +15,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
         [InlineData(MethodAccessibilityLevel.Public, "public")]
         public void Builder_sets_accessibility_level_correctly(MethodAccessibilityLevel level, string expected)
         {
-            var sut = new MethodDefinitionBuilder();
+            var sut = new MethodBuilder();
             var result = sut
                 .WithReturnType("void")
                 .WithName("TestMethod")
@@ -29,7 +29,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
         {
             const MethodAccessibilityLevel original = MethodAccessibilityLevel.Private;
             const MethodAccessibilityLevel expected = MethodAccessibilityLevel.Public;
-            var sut = new MethodDefinitionBuilder();
+            var sut = new MethodBuilder();
             var result = sut
                 .WithReturnType("void")
                 .WithName("TestMethod")
@@ -42,7 +42,7 @@ namespace CodeGenerator.Tests.MethodDefinitionBuilderSpec
         [Fact]
         public void Builder_throws_invalid_operation_exception_when_accessibility_level_is_not_provided()
         {
-            var sut = new MethodDefinitionBuilder();
+            var sut = new MethodBuilder();
             Assert.Throws<InvalidOperationException>(() => sut
                 .WithReturnType("void")
                 .WithName("TestMethod")
