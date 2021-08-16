@@ -14,20 +14,24 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithBaseClass("MyBaseController")
                 .ImplementingInterface("IEmptyInterface")
                 .WithAttribute("[Authorize]")
-                .WithConstructor(@"
-public PetsController(PetsDbContext context, ILogger<PetsController> logger) : base(logger) 
+                .WithAttribute("[SomeExceptionFilter]")
+                .WithConstructor(@"public PetsController(PetsDbContext context, ILogger<PetsController> logger) : base(logger) 
 {
     _context = context;
-}
-")
+}")
+                .WithConstructor(@"public PetsController(ILogger<PetsController> logger) : base(logger) 
+{
+}")
                 .WithNamespace("MyApplication.Controllers")
                 // TODO Fix: no control over value e.g. public string SomeProperty => _someProperty;. Maybe just dumb it down - caller builds code
                 .WithProperty(new PropertyDefinition("string", "SomeProperty"))
+                .WithProperty(new PropertyDefinition("PetsDbContext", "Context", " => _context;"))
                 .UsingNamespace("MyApplication.Infrastructure.Database")
                 .UsingNamespace("Microsoft.EntityFrameworkCore")
                 .UsingNamespace("Microsoft.AspNetCore.Mvc")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithField(new FieldDefinition("PetsDbContext", "_context"))
+                .WithField(new FieldDefinition("int", "_whatever", " = 42;"))
                 .WithMethod(new MethodDefinitionBuilder()
                     .WithName("Create")
                     .WithAccessibilityLevel(MethodAccessibilityLevel.Public)
@@ -35,11 +39,28 @@ public PetsController(PetsDbContext context, ILogger<PetsController> logger) : b
                     .WithArgument(new MethodArgument("Pet", "pet"))
                     // TODO Fix: can't add "virtual", "override", "async"...
                     .WithReturnType("IActionResult")
-                    .WithBody(@"
-await _context.Pets.AddAsync(pet);
+                    .WithBody(@"await _context.Pets.AddAsync(pet);
 await _context.SaveChangesAsync();
-return Ok();
-")
+return Ok();")
+                    .Build())
+                .WithMethod(new MethodDefinitionBuilder()
+                    .WithName("Get")
+                    .WithAccessibilityLevel(MethodAccessibilityLevel.Public)
+                    // TODO Fix: can't annotate with attribute (e.g. [FromBody]). Maybe just dumb it down - caller builds code
+                    .WithArgument(new MethodArgument("int", "id"))
+                    // TODO Fix: can't add "virtual", "override", "async"...
+                    .WithReturnType("IActionResult")
+                    .WithBody(@"var pet = await _context.Pets.FindAsync(id);
+if (pet == null)
+{
+    return NotFound();
+}
+return Ok(pet);")
+                    .Build())
+                .WithMethod(new MethodDefinitionBuilder()
+                    .WithName("Nothing")
+                    .WithAccessibilityLevel(MethodAccessibilityLevel.Public)
+                    .WithReturnType("void")
                     .Build())
                 .Build();
 
@@ -50,14 +71,22 @@ using Microsoft.AspNetCore.Mvc;
 namespace MyApplication.Controllers
 {
     [Authorize]
+    [SomeExceptionFilter]
     public class PetsController : MyBaseController, IEmptyInterface
     {
-        private PetsDbContext _context;
-        public string SomeProperty { get; set; }
+        public PetsDbContext _context 
+        public int _whatever  = 42;
 
-        public PetsController(PetsDbContext context, ILogger<PetsController> logger) : base(logger)
+        public string SomeProperty { get; set; }
+        public Context PetsDbContext  => _context;
+
+        public PetsController(PetsDbContext context, ILogger<PetsController> logger) : base(logger) 
         {
             _context = context;
+        }
+
+        public PetsController(ILogger<PetsController> logger) : base(logger) 
+        {
         }
 
         public IActionResult Create(Pet pet)
@@ -66,9 +95,22 @@ namespace MyApplication.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
+
+        public IActionResult Get(int id)
+        {
+            var pet = await _context.Pets.FindAsync(id);
+            if (pet == null)
+            {
+                return NotFound();
+            }
+            return Ok(pet);
+        }
+
+        public void Nothing()
+        {
+        }
     }
-}
-");
+}");
         }
 
         [Fact]

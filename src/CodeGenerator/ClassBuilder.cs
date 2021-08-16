@@ -216,80 +216,6 @@ namespace CodeGenerator
             return this;
         }
 
-        private string EnsureCorrectIndentation(string input)
-        {
-            const string padding = "    ";
-
-            var sb = new StringBuilder();
-
-            var openingBracketCount = 0;
-
-            var lines = input.Split(Environment.NewLine);
-
-            foreach (var line in lines)
-            {
-                var text = line.TrimStart().TrimStart('\t').TrimEnd();
-
-                if (text.Contains("}") && !text.Contains("{"))
-                {
-                    openingBracketCount--;
-                }
-
-                for (var i = 0; i < openingBracketCount; i++)
-                {
-                    text = padding + text;
-                }
-
-                if (text.Contains("{") && !text.Contains("}"))
-                {
-                    openingBracketCount++;
-                }
-
-                sb.AppendLine(text);
-            }
-
-            return sb.ToString();
-        }
-
-        private string RemoveExcessWhiteSpace(string input)
-        {
-            var sb = new StringBuilder();
-
-            var lines = input.Split(Environment.NewLine).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
-
-            for (var i = 0; i < lines.Length; i++)
-            {
-                var currentLine = lines[i];
-
-                sb.AppendLine(currentLine);
-
-                if (i == lines.Length - 1 || i == 0)
-                {
-                    continue;
-                }
-
-                var previousLine = lines[i - 1];
-                var nextLine = lines[i + 1];
-
-                var lastIndexOfCurrentLine = currentLine.Length - 1;
-                var lastCharacterOfCurrentLine = currentLine[lastIndexOfCurrentLine..];
-
-                var lastIndexOfNextLine = nextLine.Length - 1;
-                var lastCharacterOfNextLine = nextLine[lastIndexOfNextLine..];
-
-                if (lastCharacterOfCurrentLine == "}" && lastCharacterOfNextLine != "}" && !string.IsNullOrWhiteSpace(previousLine))
-                {
-                    sb.Append(Environment.NewLine);
-                }
-                else if (nextLine.Contains("namespace "))
-                {
-                    sb.Append(Environment.NewLine);
-                }
-            }
-            
-            return sb.ToString();
-        }
-
         public string Build()
         {
             if (_namespace == null)
@@ -311,55 +237,6 @@ namespace CodeGenerator
             template.Add(SharedTemplateKeys.ClassName, _className);
             template.Add(SharedTemplateKeys.ClassAccessibilityLevel, ClassAccessibilityLevelMap[_accessibilityLevel.Value]);
 
-            var sb = new StringBuilder();
-
-            foreach (var attribute in _attributes)
-            {
-                sb.AppendLine(attribute);
-            }
-            template.Add(SharedTemplateKeys.Attributes, sb.ToString());
-
-            sb.Clear();
-
-            foreach (var usingDirective in _usingDirectives)
-            {
-                sb.AppendLine($"using {usingDirective};");
-            }
-            template.Add(SharedTemplateKeys.UsingDirectives, sb.ToString());
-
-            sb.Clear();
-
-            foreach (var field in _fields)
-            {
-                sb.AppendLine($"private {field.Type} {field.Name};");
-            }
-            template.Add(SharedTemplateKeys.Fields, sb.ToString());
-
-            sb.Clear();
-
-            foreach (var property in _properties)
-            {
-                sb.AppendLine($"public {property.Type} {property.Name}" + " { get; set; } ");
-            }
-            template.Add(SharedTemplateKeys.Properties, sb.ToString());
-
-            sb.Clear();
-
-            foreach (var ctor in _constructors)
-            {
-                sb.AppendLine(ctor);
-            }
-            template.Add(SharedTemplateKeys.Constructors, sb.ToString());
-
-            sb.Clear();
-
-            foreach (var method in _methods)
-            {
-                sb.AppendLine();
-                sb.AppendLine(method);
-            }
-            template.Add(SharedTemplateKeys.MethodDefinitions, sb.ToString());
-
             if (_baseClass != null)
             {
                 template.Add(SharedTemplateKeys.BaseClass, $" : {_baseClass}");
@@ -372,7 +249,14 @@ namespace CodeGenerator
                 template.Add(SharedTemplateKeys.ImplementedInterfaces, text);
             }
 
-            return RemoveExcessWhiteSpace(EnsureCorrectIndentation(template.Render()));
+            template.Add(SharedTemplateKeys.UsingDirectives, _usingDirectives);
+            template.Add(SharedTemplateKeys.Attributes, _attributes);
+            template.Add(SharedTemplateKeys.Fields, _fields);
+            template.Add(SharedTemplateKeys.Properties, _properties);
+            template.Add(SharedTemplateKeys.Constructors, _constructors);
+            template.Add(SharedTemplateKeys.MethodDefinitions, _methods);
+
+            return template.Render();
         }
     }
 }

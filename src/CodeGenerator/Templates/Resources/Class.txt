@@ -1,16 +1,13 @@
-﻿$usingDirectives$
-
+﻿$if(usingDirectives)$$usingDirectives:{x |using $x$;$\n$}$$endif$
 namespace $classNamespace$
 {
-    $attributes$
+    $!This truc(...)last(...) stuff is done to ensure spacing between elements but not before the first or after the last!$
+    $if(attributes)$$trunc(attributes):{x |$x$$\n$}$$last(attributes):{x |$x$}$$endif$
     $accessibilityLevel$ class $className$$baseClass$$implementedInterfaces$
     {
-        $fields$
-
-        $properties$
-
-        $constructors$
-
-        $methods$
+        $if(fields)$$trunc(fields):{x |public $x.Type$ $x.Name$ $x.Value$$\n$}$$last(fields):{x |public $x.Type$ $x.Name$ $x.Value$}$$endif$
+        $if(properties)$$\n$$trunc(properties):{x |public $x.Type$ $x.Name$ $x.Value$$\n$}$$last(properties):{x |public $x.Type$ $x.Name$ $x.Value$}$$endif$
+        $if(constructors)$$\n$$trunc(constructors):{x |$x$$\n$$\n$}$$last(constructors):{x |$x$}$$endif$
+        $if(methods)$$\n$$trunc(methods):{x |$x$$\n$$\n$}$$last(methods):{x |$x$}$$endif$
     }
 }
