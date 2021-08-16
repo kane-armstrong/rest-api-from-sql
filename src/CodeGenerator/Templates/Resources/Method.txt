@@ -1,4 +1,4 @@
-﻿$accessibilityLevel$ $returnType$ $name$($arguments$)
+﻿$accessibilityLevel$ $returnType$ $name$($if(arguments)$$trunc(arguments):{x |$x.Type$ $x.Name$$x.Value$, }$$last(arguments):{x |$x.Type$ $x.Name$$x.Value$}$$endif$)
 {
     $if(body)$$body$$endif$
 }

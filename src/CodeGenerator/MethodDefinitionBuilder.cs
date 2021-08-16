@@ -80,10 +80,7 @@ namespace CodeGenerator
             template.Add(MethodTemplateAttributes.ReturnType, _returnType);
             template.Add(MethodTemplateAttributes.Name, _name);
             template.Add(MethodTemplateAttributes.Body, _body);
-
-            // TODO this belongs in the template
-            var args = string.Join(", ", _arguments.Select(x => $"{x.Type} {x.Name}"));
-            template.Add(MethodTemplateAttributes.Arguments, args);
+            template.Add(MethodTemplateAttributes.Arguments, _arguments);
 
             return template.Render();
         }
