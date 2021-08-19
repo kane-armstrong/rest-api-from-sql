@@ -3,6 +3,7 @@
     internal static class MethodTemplateAttributes
     {
         internal const string AccessibilityLevel = "accessibilityLevel";
+        internal const string Attributes = "attributes";
         internal const string Modifiers = "modifiers";
         internal const string ReturnType = "returnType";
         internal const string Name = "name";

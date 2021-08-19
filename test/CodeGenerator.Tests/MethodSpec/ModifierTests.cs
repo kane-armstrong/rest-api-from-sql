@@ -43,6 +43,7 @@ namespace CodeGenerator.Tests.MethodSpec
             var method = new Method(MethodAccessibilityLevel.Public, "void", "MyMethod");
             method.AddModifier("override");
             method.AddModifier("sealed");
+            method.Modifiers.Count.Should().Be(2);
             method.Render().Should().Contain("override sealed");
         }
 

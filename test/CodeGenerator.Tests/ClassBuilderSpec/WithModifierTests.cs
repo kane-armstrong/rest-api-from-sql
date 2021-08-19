@@ -71,5 +71,30 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
             Assert.Throws<InvalidOperationException>(() => sut
                 .WithModifier(toAdd));
         }
+
+        [Fact]
+        public void Builder_throws_invalid_operation_exception_when_modifier_already_added()
+        {
+            Assert.Throws<InvalidOperationException>(() => new ClassBuilder()
+                .WithName("MyClass")
+                .WithNamespace("MyNamespace")
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
+                .WithModifier("static")
+                .WithModifier("static"));
+        }
+
+        // TODO change all of these instances to argument exceptions
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public void Builder_throws_argument_exception_when_modifier_is_invalid(string value)
+        {
+            Assert.Throws<ArgumentException>(() => new ClassBuilder()
+                .WithName("MyClass")
+                .WithNamespace("MyNamespace")
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
+                .WithModifier(value));
+        }
     }
 }

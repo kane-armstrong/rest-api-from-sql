@@ -23,6 +23,7 @@ namespace CodeGenerator.Tests.MethodSpec
             var sut = new Method(MethodAccessibilityLevel.Public, "void", "TestMethod");
             sut.AddArgument(arg1);
             sut.AddArgument(arg2);
+            sut.Arguments.Count.Should().Be(2);
             sut.Render().Should().Contain($"{arg1.Type} {arg1.Name}");
             sut.Render().Should().Contain($"{arg2.Type} {arg2.Name}");
         }
@@ -43,6 +44,13 @@ namespace CodeGenerator.Tests.MethodSpec
         {
             var sut = new Method(MethodAccessibilityLevel.Public, "void", "TestMethod");
             sut.Render().Should().Contain("TestMethod()");
+        }
+
+        [Fact]
+        public void Adding_an_argument_throws_an_argument_null_exception_when_argument_is_null()
+        {
+            var sut = new Method(MethodAccessibilityLevel.Public, "void", "TestMethod");
+            Assert.Throws<ArgumentNullException>(() => sut.AddArgument(null));
         }
 
         [Fact]

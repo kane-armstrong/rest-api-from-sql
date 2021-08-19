@@ -22,7 +22,7 @@ namespace CodeGenerator
             { MethodAccessibilityLevel.ProtectedInternal, "protected internal" }
         };
 
-        private static readonly string[] Modifiers =
+        private static readonly string[] AllowedModifiers =
         {
             "abstract",
             "async",
@@ -33,20 +33,24 @@ namespace CodeGenerator
             "virtual"
         };
 
-        private readonly List<string> _attributes = new();
-        private readonly MethodAccessibilityLevel _accessibilityLevel;
-        private readonly string _returnType;
-        private readonly string _name;
-        private readonly string _body;
         private readonly List<MethodArgument> _arguments = new();
         private readonly List<string> _modifiers = new();
+        private readonly List<string> _attributes = new();
+
+        public IReadOnlyList<string> Attributes => _attributes.AsReadOnly();
+        public MethodAccessibilityLevel AccessibilityLevel { get; }
+        public string ReturnType { get; }
+        public string Name { get; }
+        public string Body { get; }
+        public IReadOnlyList<MethodArgument> Arguments => _arguments.AsReadOnly();
+        public IReadOnlyList<string> Modifiers => _modifiers.AsReadOnly();
 
         public Method(MethodAccessibilityLevel? accessibilityLevel, string returnType, string name, string body = null)
         {
-            _accessibilityLevel = accessibilityLevel ?? throw new ArgumentNullException(nameof(accessibilityLevel));
-            _returnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
-            _name = name ?? throw new ArgumentNullException(nameof(name));
-            _body = body;
+            AccessibilityLevel = accessibilityLevel ?? throw new ArgumentNullException(nameof(accessibilityLevel));
+            ReturnType = returnType ?? throw new ArgumentNullException(nameof(returnType));
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Body = body;
         }
 
         public void AddArgument(MethodArgument argument)
@@ -66,12 +70,12 @@ namespace CodeGenerator
 
         public void AddModifier(string value)
         {
-            if (!Modifiers.Contains(value))
+            if (!AllowedModifiers.Contains(value))
             {
                 throw new ArgumentException($"The modifier '{value}' cannot be applied to methods.");
             }
 
-            if (_body != null && value == "abstract")
+            if (Body != null && value == "abstract")
             {
                 throw new InvalidOperationException("Method can't be marked abstract as it has a body.");
             }
@@ -84,16 +88,33 @@ namespace CodeGenerator
             _modifiers.Add(value);
         }
 
+        public void AddAttribute(string definition)
+        {
+            if (string.IsNullOrEmpty(definition))
+            {
+                throw new ArgumentException("Attribute must have a value");
+            }
+
+            if (_attributes.Contains(definition))
+            {
+                throw new InvalidOperationException("Attribute has already been added");
+
+            }
+
+            _attributes.Add(definition);
+        }
+
         public string Render()
         {
             var template = new Template(TemplateContent.Method, StartDelimiter, EndDelimiter);
 
-            template.Add(MethodTemplateAttributes.AccessibilityLevel, MethodAccessibilityLevelMap[_accessibilityLevel]);
+            template.Add(MethodTemplateAttributes.AccessibilityLevel, MethodAccessibilityLevelMap[AccessibilityLevel]);
             template.Add(MethodTemplateAttributes.Modifiers, _modifiers);
-            template.Add(MethodTemplateAttributes.ReturnType, _returnType);
-            template.Add(MethodTemplateAttributes.Name, _name);
-            template.Add(MethodTemplateAttributes.Body, _body);
+            template.Add(MethodTemplateAttributes.ReturnType, ReturnType);
+            template.Add(MethodTemplateAttributes.Name, Name);
+            template.Add(MethodTemplateAttributes.Body, Body);
             template.Add(MethodTemplateAttributes.Arguments, _arguments);
+            template.Add(MethodTemplateAttributes.Attributes, _attributes);
             template.Add(MethodTemplateAttributes.IsAbstract, _modifiers.FirstOrDefault(x => x == "abstract"));
 
             return template.Render();

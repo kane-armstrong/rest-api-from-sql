@@ -14,8 +14,11 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                     @"await _context.Pets.AddAsync(pet);
 await _context.SaveChangesAsync();
 return Ok();");
-            method1.AddArgument(new MethodArgument("Pet", "pet"));
             method1.AddModifier("async");
+            method1.AddAttribute("[HttpPost]");
+            var method1Arg1 = new MethodArgument("Pet", "pet");
+            method1Arg1.AddAttribute("[FromBody]");
+            method1.AddArgument(method1Arg1);
 
             var method2 = new Method(MethodAccessibilityLevel.Public, "Task<IActionResult>", "Get",
                 @"var pet = await _context.Pets.FindAsync(id);
@@ -24,21 +27,44 @@ if (pet == null)
     return NotFound();
 }
 return Ok(pet);");
-            method2.AddArgument(new MethodArgument("int", "id"));
             method2.AddModifier("async");
+            method2.AddAttribute("[HttpGet(\"{id}\")]");
+            var method2Arg1 = new MethodArgument("int", "id");
+            method2Arg1.AddAttribute("[FromRoute]");
+            method2.AddArgument(method2Arg1);
 
-            var method3 = new Method(MethodAccessibilityLevel.Private, "Task<IActionResult>", "Feed");
+            var method3 = new Method(MethodAccessibilityLevel.Public, "Task<IActionResult>", "Feed");
             method3.AddModifier("async");
-            method3.AddArgument(new MethodArgument("int", "id"));
-            method3.AddArgument(new MethodArgument("FeedCommand", "command"));
+            method3.AddAttribute("[HttpPut(\"{id}/feed\")]");
+            method3.AddAttribute("[HttpPut(\"feed/{id}\")]");
+            var method3Arg1 = new MethodArgument("int", "id");
+            method3Arg1.AddAttribute("[FromRoute]");
+            method3.AddArgument(method3Arg1);
+            var method3Arg2 = new MethodArgument("FeedCommand", "command");
+            method3Arg2.AddAttribute("[FromBody]");
+            method3.AddArgument(method3Arg2);
+
+            var method4 = new Method(MethodAccessibilityLevel.Private, "void", "MyMethod");
+            var method4Arg = new MethodArgument("string", "text", "in");
+            method4.AddArgument(method4Arg);
 
             var result = sut
+                .UsingNamespace("MyApplication.Infrastructure.Database")
+                .UsingNamespace("Microsoft.EntityFrameworkCore")
+                .UsingNamespace("Microsoft.AspNetCore.Mvc")
+                .WithNamespace("MyApplication.Controllers")
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
+                .WithModifier("sealed")
                 .WithName("PetsController")
                 .WithBaseClass("MyBaseController")
                 .ImplementingInterface("IEmptyInterface")
                 .ImplementingInterface("IAnotherEmptyInterface")
                 .WithAttribute("[Authorize]")
                 .WithAttribute("[SomeExceptionFilter]")
+                .WithField(new FieldDefinition("PetsDbContext", "_context"))
+                .WithField(new FieldDefinition("int", "_whatever", " = 42;"))
+                .WithProperty(new PropertyDefinition("string", "SomeProperty"))
+                .WithProperty(new PropertyDefinition("PetsDbContext", "Context", " => _context;"))
                 .WithConstructor(@"public PetsController(PetsDbContext context, ILogger<PetsController> logger) : base(logger) 
 {
     _context = context;
@@ -46,18 +72,10 @@ return Ok(pet);");
                 .WithConstructor(@"public PetsController(ILogger<PetsController> logger) : base(logger) 
 {
 }")
-                .WithNamespace("MyApplication.Controllers")
-                .WithProperty(new PropertyDefinition("string", "SomeProperty"))
-                .WithProperty(new PropertyDefinition("PetsDbContext", "Context", " => _context;"))
-                .UsingNamespace("MyApplication.Infrastructure.Database")
-                .UsingNamespace("Microsoft.EntityFrameworkCore")
-                .UsingNamespace("Microsoft.AspNetCore.Mvc")
-                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithField(new FieldDefinition("PetsDbContext", "_context"))
-                .WithField(new FieldDefinition("int", "_whatever", " = 42;"))
                 .WithMethod(method1.Render())
                 .WithMethod(method2.Render())
                 .WithMethod(method3.Render())
+                .WithMethod(method4.Render())
                 .Build();
 
             result.Should().Be(@"using MyApplication.Infrastructure.Database;
@@ -104,9 +122,13 @@ namespace MyApplication.Controllers
             return Ok(pet);
         }
 
-        [HttpGet(""{id}/feed"")]
-        [HttpGet(""feed/{id})]
+        [HttpPut(""{id}/feed"")]
+        [HttpPut(""feed/{id}"")]
         public async Task<IActionResult> Feed([FromRoute]int id, [FromBody]FeedCommand command)
+        {
+        }
+
+        private void MyMethod(in string text)
         {
         }
     }
