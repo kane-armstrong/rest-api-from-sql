@@ -23,7 +23,7 @@ namespace CodeGenerator
             { ClassAccessibilityLevel.ProtectedInternal, "protected internal" }
         };
 
-        private static readonly string[] Modifiers =
+        private static readonly string[] AllowedModifiers =
         {
             "abstract",
             "sealed",
