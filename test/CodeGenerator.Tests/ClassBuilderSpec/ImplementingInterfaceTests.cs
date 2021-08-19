@@ -52,10 +52,10 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("1abc")]
         [InlineData("An interface name")]
         [InlineData("MyTestInterface.TheThing")]
-        public void Builder_throws_invalid_operation_exception_when_interface_name_could_never_compile(string value)
+        public void Builder_throws_argument_exception_when_interface_name_could_never_compile(string value)
         {
             var sut = new ClassBuilder();
-            Assert.Throws<InvalidOperationException>(() => sut
+            Assert.Throws<ArgumentException>(() => sut
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithName("MyClass")

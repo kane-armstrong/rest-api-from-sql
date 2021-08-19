@@ -39,10 +39,10 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
 
         [Theory]
         [InlineData(null)]
-        public void Builder_throws_invalid_operation_exception_when_method_body_is_invalid(string value)
+        public void Builder_throws_argument_exception_when_method_body_is_invalid(string value)
         {
             var sut = new ClassBuilder();
-            Assert.Throws<InvalidOperationException>(() => sut
+            Assert.Throws<ArgumentException>(() => sut
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
                 .WithMethod(value)

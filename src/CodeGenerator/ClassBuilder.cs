@@ -36,7 +36,6 @@ namespace CodeGenerator
         private string _namespace;
         private string _className;
         private ClassAccessibilityLevel? _accessibilityLevel;
-
         private string _baseClass;
 
         private readonly List<string> _modifiers = new();
@@ -66,11 +65,11 @@ namespace CodeGenerator
             return this;
         }
 
-        private void EnsureValidNamespace(string value)
+        private static void EnsureValidNamespace(string value)
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new InvalidOperationException("Invalid namespace");
+                throw new ArgumentException("Invalid namespace");
             }
 
             var parts = value.Split(".");
@@ -79,7 +78,7 @@ namespace CodeGenerator
                 if (!LegalTypeNameCharacters.IsMatch(part)
                     || !LegalTypeNameLeadingCharacters.IsMatch(part[..1]))
                 {
-                    throw new InvalidOperationException("Invalid namespace");
+                    throw new ArgumentException("Invalid namespace");
                 }
             }
         }
@@ -96,7 +95,7 @@ namespace CodeGenerator
                 || !LegalTypeNameCharacters.IsMatch(value)
                 || !LegalTypeNameLeadingCharacters.IsMatch(value[..1]))
             {
-                throw new InvalidOperationException("Invalid class name");
+                throw new ArgumentException("Invalid class name");
             }
             _className = value;
             return this;
@@ -106,8 +105,9 @@ namespace CodeGenerator
         {
             if (definition == null)
             {
-                throw new InvalidOperationException("Method definition is required");
+                throw new ArgumentException("Method definition is required");
             }
+
             _methods.Add(definition);
             return this;
         }
@@ -118,7 +118,7 @@ namespace CodeGenerator
                 || !LegalTypeNameCharacters.IsMatch(definition.Name)
                 || !LegalTypeNameLeadingCharacters.IsMatch(definition.Name[..1]))
             {
-                throw new InvalidOperationException("Invalid property name");
+                throw new ArgumentException("Invalid property name");
             }
 
             if (_properties.Any(x => x.Name == definition.Name))
@@ -140,7 +140,7 @@ namespace CodeGenerator
         {
             if (string.IsNullOrEmpty(definition))
             {
-                throw new InvalidOperationException("Attribute must have a value");
+                throw new ArgumentException("Attribute must have a value");
             }
 
             if (_attributes.Contains(definition))
@@ -158,13 +158,12 @@ namespace CodeGenerator
         {
             if (string.IsNullOrEmpty(definition))
             {
-                throw new InvalidOperationException("Constructor must have a value");
+                throw new ArgumentException("Constructor must have a value");
             }
 
             if (_constructors.Contains(definition))
             {
                 throw new InvalidOperationException("Constructor has already been added");
-
             }
 
             _constructors.Add(definition);
@@ -178,7 +177,7 @@ namespace CodeGenerator
                 || !LegalTypeNameCharacters.IsMatch(definition.Name)
                 || !LegalTypeNameLeadingCharacters.IsMatch(definition.Name[..1]))
             {
-                throw new InvalidOperationException("Invalid field name");
+                throw new ArgumentException("Invalid field name");
             }
 
             if (_fields.Any(x => x.Name == definition.Name))
@@ -202,7 +201,7 @@ namespace CodeGenerator
                 || !LegalTypeNameCharacters.IsMatch(value)
                 || !LegalTypeNameLeadingCharacters.IsMatch(value[..1]))
             {
-                throw new InvalidOperationException("Invalid base class name");
+                throw new ArgumentException("Invalid base class name");
             }
 
             _baseClass = value;
@@ -215,7 +214,7 @@ namespace CodeGenerator
                 || !LegalTypeNameCharacters.IsMatch(value)
                 || !LegalTypeNameLeadingCharacters.IsMatch(value[..1]))
             {
-                throw new InvalidOperationException("Invalid interface name");
+                throw new ArgumentException("Invalid interface name");
             }
 
             _implementedInterfaces.Add(value);
@@ -225,7 +224,7 @@ namespace CodeGenerator
 
         public ClassBuilder WithModifier(string value)
         {
-            if (!Modifiers.Contains(value))
+            if (!AllowedModifiers.Contains(value))
             {
                 throw new ArgumentException($"Modifier '{value}' is not a valid class modifier.");
             }

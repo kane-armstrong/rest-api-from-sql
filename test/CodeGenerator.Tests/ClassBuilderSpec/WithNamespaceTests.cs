@@ -49,10 +49,10 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("1abc")]
         [InlineData("A namespace")]
         [InlineData("MyTestNamespace.The Thing")]
-        public void Builder_throws_invalid_operation_exception_when_namespace_could_never_compile(string value)
+        public void Builder_throws_argument_exception_when_namespace_could_never_compile(string value)
         {
             var sut = new ClassBuilder();
-            Assert.Throws<InvalidOperationException>(() => sut
+            Assert.Throws<ArgumentException>(() => sut
                 .WithName("MyClass")
                 .WithNamespace(value)
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public));

@@ -50,10 +50,10 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("1abc")]
         [InlineData("A base class")]
         [InlineData("MyTestBaseClass.TheThing")]
-        public void Builder_throws_invalid_operation_exception_when_base_class_name_is_invalid(string value)
+        public void Builder_throws_argument_exception_when_base_class_name_is_invalid(string value)
         {
             var sut = new ClassBuilder();
-            Assert.Throws<InvalidOperationException>(() => sut
+            Assert.Throws<ArgumentException>(() => sut
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
                 .WithBaseClass(value)
