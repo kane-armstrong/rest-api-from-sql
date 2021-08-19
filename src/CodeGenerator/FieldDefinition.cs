@@ -20,6 +20,19 @@ namespace CodeGenerator
         public string Value { get; }
         public List<string> Modifiers { get; } = new();
 
+        public FieldDefinition(string type, string name)
+        {
+            Name = name;
+            Type = type;
+        }
+
+        public FieldDefinition(string type, string name, string value)
+        {
+            Name = name;
+            Type = type;
+            Value = value;
+        }
+
         public void AddModifier(string value)
         {
             if (!AllowedModifiers.Contains(value))
@@ -38,18 +51,6 @@ namespace CodeGenerator
             }
 
             Modifiers.Add(value);
-        }
-        public FieldDefinition(string type, string name)
-        {
-            Name = name;
-            Type = type;
-        }
-
-        public FieldDefinition(string type, string name, string value)
-        {
-            Name = name;
-            Type = type;
-            Value = value;
         }
     }
 }
