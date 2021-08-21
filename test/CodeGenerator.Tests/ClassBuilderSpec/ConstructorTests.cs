@@ -4,10 +4,10 @@ using Xunit;
 
 namespace CodeGenerator.Tests.ClassBuilderSpec
 {
-    public class WithConstructorTests
+    public class ConstructorTests
     {
         [Fact]
-        public void Builder_adds_constructor_correctly()
+        public void A_single_constructor_is_added_correctly()
         {
             const string ctor = "public MyClass(string arg, int opt) : base(opt) { _arg = arg; }";
             var sut = new ClassBuilder();
@@ -21,7 +21,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_adds_multiple_constructors_correctly()
+        public void Multiple_constructors_are_added_correctly()
         {
             const string ctor1 = "public MyClass(string arg, int opt) : base(opt) { _arg = arg; }";
             const string ctor2 = "public MyClass(string arg) { _arg = arg; }";
@@ -38,7 +38,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_throws_invalid_operation_exception_when_constructor_already_added()
+        public void An_invalid_operation_exception_is_thrown_when_constructor_already_added()
         {
             const string ctor = "public MyClass(string arg) { _arg = arg; }";
             var sut = new ClassBuilder();
@@ -52,7 +52,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
 
         [Theory]
         [InlineData(null)]
-        public void Builder_throws_argument_exception_when_constructor_is_invalid(string value)
+        public void An_argument_exception_is_thrown_when_constructor_is_invalid(string value)
         {
             var sut = new ClassBuilder();
             Assert.Throws<ArgumentException>(() => sut

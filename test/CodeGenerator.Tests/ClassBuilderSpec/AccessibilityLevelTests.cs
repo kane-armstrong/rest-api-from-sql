@@ -4,7 +4,7 @@ using Xunit;
 
 namespace CodeGenerator.Tests.ClassBuilderSpec
 {
-    public class WithAccessibilityLevelTests
+    public class AccessibilityLevelTests
     {
         [Theory]
         [InlineData(ClassAccessibilityLevel.Internal, "internal")]
@@ -13,7 +13,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData(ClassAccessibilityLevel.Protected, "protected")]
         [InlineData(ClassAccessibilityLevel.ProtectedInternal, "protected internal")]
         [InlineData(ClassAccessibilityLevel.Public, "public")]
-        public void Builder_sets_accessibility_level_correctly(ClassAccessibilityLevel level, string expected)
+        public void Accessibility_level_is_set_correctly(ClassAccessibilityLevel level, string expected)
         {
             const string name = "TestClass";
             var sut = new ClassBuilder();
@@ -26,7 +26,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_uses_most_recently_configured_accessibility_level()
+        public void The_most_recently_configured_accessibility_level_is_used()
         {
             const ClassAccessibilityLevel original = ClassAccessibilityLevel.Private;
             const ClassAccessibilityLevel expected = ClassAccessibilityLevel.Public;
@@ -42,7 +42,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_throws_invalid_operation_exception_when_accessibility_level_is_not_provided()
+        public void An_invalid_operation_exception_is_thrown_when_accessibility_level_is_not_provided()
         {
             var sut = new ClassBuilder();
             Assert.Throws<InvalidOperationException>(() => sut

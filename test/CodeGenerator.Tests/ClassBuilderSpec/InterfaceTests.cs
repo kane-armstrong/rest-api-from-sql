@@ -4,7 +4,7 @@ using Xunit;
 
 namespace CodeGenerator.Tests.ClassBuilderSpec
 {
-    public class ImplementingInterfaceTests
+    public class InterfaceTests
     {
         [Theory]
         [InlineData("IMyTestInterface")]
@@ -12,7 +12,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("MyTestInterface1")]
         [InlineData("_")]
         [InlineData("IMy_test_interface")]
-        public void Builder_adds_a_single_implemented_interface_correctly(string value)
+        public void A_single_interface_is_added_correctly(string value)
         {
             const string className = "MyClass";
             var sut = new ClassBuilder();
@@ -26,7 +26,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_adds_multiple_implemented_interface_correctly()
+        public void Multiple_interfaces_are_added_correctly()
         {
             var sut = new ClassBuilder();
             const string className = "MyClass";
@@ -52,7 +52,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("1abc")]
         [InlineData("An interface name")]
         [InlineData("MyTestInterface.TheThing")]
-        public void Builder_throws_argument_exception_when_interface_name_could_never_compile(string value)
+        public void An_argument_exception_is_thrown_when_interface_is_invalid(string value)
         {
             var sut = new ClassBuilder();
             Assert.Throws<ArgumentException>(() => sut

@@ -4,42 +4,38 @@ using Xunit;
 
 namespace CodeGenerator.Tests.ClassBuilderSpec
 {
-    public class WithUsingDirectiveTests
+    public class NameTests
     {
         [Theory]
         [InlineData("MyTestClass")]
         [InlineData("_MyTestClass")]
         [InlineData("MyTestClass1")]
         [InlineData("_")]
-        [InlineData("My_test_namespace")]
-        [InlineData("MyTestNamespace.TheThing")]
-        public void Builder_adds_single_using_directive_correctly(string value)
+        [InlineData("My_test_class")]
+        public void Class_name_is_set_correctly(string value)
         {
             var sut = new ClassBuilder();
             var result = sut
                 .WithNamespace("MyNamespace")
-                .WithName("MyClass")
+                .WithName(value)
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .UsingNamespace(value)
                 .Build();
-            result.Should().Contain($"using {value};");
+            result.Should().Contain($"class {value}");
         }
 
         [Fact]
-        public void Builder_adds_multiple_using_directives_correctly()
+        public void The_most_recently_configured_class_name_is_used()
         {
             var sut = new ClassBuilder();
-            const string ns1 = "MyTestNamespace.Test";
-            const string ns2 = "MyTestNamespace.Test2";
+            const string name1 = "MyTestClassName";
+            const string name2 = "MyTestClassName2";
             var result = sut
                 .WithNamespace("MyNamespace")
-                .WithName("MyClass")
+                .WithName(name1)
+                .WithName(name2)
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .UsingNamespace(ns1)
-                .UsingNamespace(ns2)
                 .Build();
-            result.Should().Contain($"using {ns1};");
-            result.Should().Contain($"using {ns2};");
+            result.Should().Contain($"class {name2}");
         }
 
         [Theory]
@@ -50,29 +46,25 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData(".")]
         [InlineData(".abc")]
         [InlineData("1abc")]
-        [InlineData("A namespace")]
-        public void Builder_throws_argument_exception_when_namespace_is_invalid(string value)
+        [InlineData("A class name")]
+        [InlineData("MyTestNamespace.TheThing")]
+        public void An_argument_exception_is_thrown_when_the_class_name_is_invalid(string value)
         {
             var sut = new ClassBuilder();
             Assert.Throws<ArgumentException>(() => sut
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithName("MyClass")
-                .UsingNamespace(value));
+                .WithName(value));
         }
 
         [Fact]
-        public void Builder_throws_invalid_operation_exception_when_namespace_already_added()
+        public void An_invalid_operation_exception_is_thrown_when_a_class_name_is_not_provided()
         {
             var sut = new ClassBuilder();
-            const string ns1 = "MyTestNamespace.Test";
-            const string ns2 = "MyTestNamespace.Test";
             Assert.Throws<InvalidOperationException>(() => sut
-                .WithNamespace("MyNamespace")
+                .WithName("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithName("MyClass")
-                .UsingNamespace(ns1)
-                .UsingNamespace(ns2));
+                .Build());
         }
     }
 }

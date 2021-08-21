@@ -4,10 +4,10 @@ using Xunit;
 
 namespace CodeGenerator.Tests.ClassBuilderSpec
 {
-    public class WithAttributeTests
+    public class AttributeTests
     {
         [Fact]
-        public void Builder_adds_single_attribute_correctly()
+        public void A_single_attribute_is_added_correctly()
         {
             const string attribute = "[Table(\"SomeTableName\")]";
             var sut = new ClassBuilder();
@@ -21,7 +21,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_adds_multiple_attributes_correctly()
+        public void Multiple_attributes_are_added_correctly()
         {
             var sut = new ClassBuilder();
             const string attribute1 = "[Table(\"SomeTableName\")]";
@@ -39,7 +39,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
 
         [Theory]
         [InlineData(null)]
-        public void Builder_throws_argument_exception_when_attribute_is_invalid(string value)
+        public void An_argument_exception_is_thrown_when_the_attribute_is_invalid(string value)
         {
             var sut = new ClassBuilder();
             Assert.Throws<ArgumentException>(() => sut
@@ -50,7 +50,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_throws_invalid_operation_exception_when_attribute_already_added()
+        public void An_invalid_operation_exception_is_thrown_when_the_attribute_has_already_been_added()
         {
             var sut = new ClassBuilder();
             const string attribute = "[Table(\"SomeTableName\")]";

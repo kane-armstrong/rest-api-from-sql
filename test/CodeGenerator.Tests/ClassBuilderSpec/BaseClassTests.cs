@@ -4,7 +4,7 @@ using Xunit;
 
 namespace CodeGenerator.Tests.ClassBuilderSpec
 {
-    public class WithBaseClassTests
+    public class BaseClassTests
     {
         [Theory]
         [InlineData("MyTestClass")]
@@ -12,7 +12,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("MyTestClass1")]
         [InlineData("_")]
         [InlineData("My_test_class")]
-        public void Builder_adds_base_class_correctly(string value)
+        public void Base_class_is_added_correctly(string value)
         {
             var sut = new ClassBuilder();
             var result = sut
@@ -25,7 +25,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_uses_most_recently_configured_base_class()
+        public void The_most_recently_configured_base_class_is_used()
         {
             const string baseClassName = "MyBaseClass";
             const string newBaseClassName = "MyBaseClass2";
@@ -50,7 +50,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("1abc")]
         [InlineData("A base class")]
         [InlineData("MyTestBaseClass.TheThing")]
-        public void Builder_throws_argument_exception_when_base_class_name_is_invalid(string value)
+        public void An_argument_exception_is_thrown_when_base_class_name_is_invalid(string value)
         {
             var sut = new ClassBuilder();
             Assert.Throws<ArgumentException>(() => sut

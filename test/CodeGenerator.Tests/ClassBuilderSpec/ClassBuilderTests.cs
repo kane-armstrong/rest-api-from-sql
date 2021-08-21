@@ -6,7 +6,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
     public class ClassBuilderTests
     {
         [Fact]
-        public void Formatting_and_content_are_correct_when_the_builder_is_fully_configured()
+        public void Fully_configured_classes_are_rendered_in_the_correct_format()
         {
             var sut = new ClassBuilder();
 
@@ -72,10 +72,10 @@ return Ok(pet);");
                 .WithConstructor(@"public PetsController(ILogger<PetsController> logger) : base(logger) 
 {
 }")
-                .WithMethod(method1.Render())
-                .WithMethod(method2.Render())
-                .WithMethod(method3.Render())
-                .WithMethod(method4.Render())
+                .WithMethod(method1)
+                .WithMethod(method2)
+                .WithMethod(method3)
+                .WithMethod(method4)
                 .Build();
 
             result.Should().Be(@"using MyApplication.Infrastructure.Database;
@@ -136,7 +136,7 @@ namespace MyApplication.Controllers
         }
 
         [Fact]
-        public void There_is_no_excess_whitespace_when_configured_without_the_optional_parts()
+        public void Minimally_configured_classes_are_rendered_correctly_without_any_excess_whitespace()
         {
             var sut = new ClassBuilder();
             var result = sut
@@ -151,18 +151,6 @@ namespace MyApplication.Controllers
     {
     }
 }");
-        }
-
-        [Fact]
-        public void No_error_occurs_on_build_when_only_accessibility_namespace_and_class_name_are_provided()
-        {
-            var sut = new ClassBuilder();
-            var result = sut
-                .WithName("MyClass")
-                .WithNamespace("MyNamespace")
-                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .Build();
-            result.Should().NotBeNullOrEmpty();
         }
     }
 }

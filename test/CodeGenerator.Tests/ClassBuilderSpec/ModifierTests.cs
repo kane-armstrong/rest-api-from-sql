@@ -4,13 +4,13 @@ using Xunit;
 
 namespace CodeGenerator.Tests.ClassBuilderSpec
 {
-    public class WithModifierTests
+    public class ModifierTests
     {
         [Theory]
         [InlineData("abstract")]
         [InlineData("sealed")]
         [InlineData("static")]
-        public void Builder_adds_a_single_modifier_correctly(string value)
+        public void A_single_modifier_is_added_correctly(string value)
         {
             var sut = new ClassBuilder();
             var result = sut
@@ -23,7 +23,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_adds_multiple_modifiers_in_order()
+        public void Multiple_modifiers_are_added_in_the_correct_order()
         {
             var sut = new ClassBuilder();
             const string mod1 = "abstract";
@@ -47,7 +47,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("override")]
         [InlineData("readonly")]
         [InlineData("unsafe")]
-        public void Builder_throws_argument_exception_for_invalid_modifiers(string value)
+        public void An_argument_exception_is_thrown_when_the_modifier_is_invalid(string value)
         {
             Assert.Throws<ArgumentException>(() => new ClassBuilder()
                 .WithNamespace("MyNamespace")
@@ -61,7 +61,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("sealed", "static")]
         [InlineData("static", "abstract")]
         [InlineData("abstract", "static")]
-        public void Builder_throws_invalid_operation_exception_for_invalid_modifier_combinations(string existing, string toAdd)
+        public void An_invalid_operation_exception_is_thrown_for_invalid_modifier_combinations(string existing, string toAdd)
         {
             var sut = new ClassBuilder()
                 .WithName("MyClass")
@@ -73,7 +73,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_throws_invalid_operation_exception_when_modifier_already_added()
+        public void An_invalid_operation_exception_is_thrown_when_the_modifier_has_already_been_added()
         {
             Assert.Throws<InvalidOperationException>(() => new ClassBuilder()
                 .WithName("MyClass")
@@ -81,20 +81,6 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithModifier("static")
                 .WithModifier("static"));
-        }
-
-        // TODO change all of these instances to argument exceptions
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        public void Builder_throws_argument_exception_when_modifier_is_invalid(string value)
-        {
-            Assert.Throws<ArgumentException>(() => new ClassBuilder()
-                .WithName("MyClass")
-                .WithNamespace("MyNamespace")
-                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithModifier(value));
         }
     }
 }

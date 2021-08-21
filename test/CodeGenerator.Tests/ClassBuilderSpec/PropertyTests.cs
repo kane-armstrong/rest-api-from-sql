@@ -4,7 +4,7 @@ using Xunit;
 
 namespace CodeGenerator.Tests.ClassBuilderSpec
 {
-    public class WithPropertyTests
+    public class PropertyTests
     {
         [Theory]
         [InlineData("MyTestProperty")]
@@ -12,7 +12,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("MyTestProperty1")]
         [InlineData("_")]
         [InlineData("My_test_property")]
-        public void Builder_adds_single_property_correctly(string value)
+        public void A_single_property_is_added_correctly(string value)
         {
             var prop = new PropertyDefinition("string", value);
             var sut = new ClassBuilder();
@@ -26,7 +26,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_adds_multiple_properties_correctly()
+        public void Multiple_properties_are_added_correctly()
         {
             var sut = new ClassBuilder();
             var prop1 = new PropertyDefinition("string", "MyProperty1");
@@ -43,7 +43,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_adds_property_with_value_correctly()
+        public void A_property_with_a_value_is_rendered_correctly()
         {
             var sut = new ClassBuilder();
             var prop = new PropertyDefinition("string", "MyProperty1", "=> \"things\";");
@@ -66,7 +66,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("1abc")]
         [InlineData("A property")]
         [InlineData("MyTestProperty.TheThing")]
-        public void Builder_throws_argument_exception_when_name_is_invalid(string value)
+        public void An_argument_exception_is_thrown_when_property_name_is_invalid(string value)
         {
             var sut = new ClassBuilder();
             Assert.Throws<ArgumentException>(() => sut
@@ -77,7 +77,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_throws_invalid_operation_exception_when_property_already_added()
+        public void An_invalid_operation_exception_is_thrown_when_a_property_with_the_same_name_has_already_been_added()
         {
             var sut = new ClassBuilder();
             var prop = new PropertyDefinition("string", "MyProperty");
@@ -90,7 +90,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_throws_invalid_operation_exception_when_name_is_the_same_as_the_enclosing_type()
+        public void An_invalid_operation_exception_is_thrown_when_the_property_name_is_the_same_as_the_enclosing_type()
         {
             var sut = new ClassBuilder();
             Assert.Throws<InvalidOperationException>(() => sut

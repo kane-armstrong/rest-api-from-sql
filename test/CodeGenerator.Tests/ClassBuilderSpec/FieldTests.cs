@@ -4,7 +4,7 @@ using Xunit;
 
 namespace CodeGenerator.Tests.ClassBuilderSpec
 {
-    public class WithFieldTests
+    public class FieldTests
     {
         [Theory]
         [InlineData("MyTestField")]
@@ -12,7 +12,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("MyTestField1")]
         [InlineData("_")]
         [InlineData("My_test_field")]
-        public void Builder_adds_single_field_correctly(string value)
+        public void A_single_field_is_added_correctly(string value)
         {
             var field = new FieldDefinition("string", value);
             var sut = new ClassBuilder();
@@ -26,7 +26,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_adds_multiple_fields_correctly()
+        public void Multiple_fields_are_added_correctly()
         {
             var sut = new ClassBuilder();
             var field1 = new FieldDefinition("string", "MyField1");
@@ -43,7 +43,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_adds_field_with_value_correctly()
+        public void Fields_with_values_are_rendered_correctly()
         {
             var sut = new ClassBuilder();
             var field = new FieldDefinition("string", "TheMeaning", " = 42;");
@@ -66,7 +66,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("1abc")]
         [InlineData("A field")]
         [InlineData("MyTestField.TheThing")]
-        public void Builder_throws_argument_exception_when_name_is_invalid(string value)
+        public void An_argument_exception_is_thrown_when_the_field_name_is_invalid(string value)
         {
             var sut = new ClassBuilder();
             Assert.Throws<ArgumentException>(() => sut
@@ -77,7 +77,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_throws_invalid_operation_exception_when_field_already_added()
+        public void An_invalid_operation_exception_is_thrown_when_the_field_has_already_been_added()
         {
             var sut = new ClassBuilder();
             var field = new FieldDefinition("string", "MyField");
@@ -90,7 +90,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_throws_invalid_operation_exception_when_name_is_the_same_as_the_enclosing_type()
+        public void An_invalid_operation_exception_is_thrown_when_adding_a_field_with_the_same_name_as_the_enclosing_type()
         {
             var sut = new ClassBuilder();
             Assert.Throws<InvalidOperationException>(() => sut

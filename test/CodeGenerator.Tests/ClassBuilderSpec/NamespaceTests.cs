@@ -4,7 +4,7 @@ using Xunit;
 
 namespace CodeGenerator.Tests.ClassBuilderSpec
 {
-    public class WithNamespaceTests
+    public class NamespaceTests
     {
         [Theory]
         [InlineData("MyTestNamespace")]
@@ -13,7 +13,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("_")]
         [InlineData("My_test_namespace")]
         [InlineData("MyTestNamespace.TheThing")]
-        public void Builder_sets_namespace_correctly(string value)
+        public void Namespace_is_set_correctly(string value)
         {
             var sut = new ClassBuilder();
             var result = sut
@@ -25,7 +25,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_uses_most_recently_configured_namespace()
+        public void The_most_recently_configured_namespace_is_used()
         {
             var sut = new ClassBuilder();
             const string ns1 = "MyTestNamespace";
@@ -49,7 +49,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("1abc")]
         [InlineData("A namespace")]
         [InlineData("MyTestNamespace.The Thing")]
-        public void Builder_throws_argument_exception_when_namespace_could_never_compile(string value)
+        public void An_argument_exception_is_thrown_when_the_namespace_is_invalid(string value)
         {
             var sut = new ClassBuilder();
             Assert.Throws<ArgumentException>(() => sut
@@ -59,7 +59,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         }
 
         [Fact]
-        public void Builder_throws_invalid_operation_exception_when_namespace_is_not_provided()
+        public void An_invalid_operation_exception_is_thrown_when_the_namespace_is_not_provided()
         {
             var sut = new ClassBuilder();
             Assert.Throws<InvalidOperationException>(() => sut
