@@ -2,15 +2,15 @@
 using FluentAssertions;
 using Xunit;
 
-namespace CodeGenerator.Tests.PropertyDefinitionSpec
+namespace CodeGenerator.Tests.PropertySpec
 {
-    public class PropertyDefinitionTests
+    public class PropertyTests
     {
         [Fact]
         public void Constructor_sets_type_correctly()
         {
             const string type = "int";
-            var sut = new PropertyDefinition(type, "MyProperty");
+            var sut = new Property(type, "MyProperty");
             sut.Type.Should().Be(type);
         }
 
@@ -18,7 +18,7 @@ namespace CodeGenerator.Tests.PropertyDefinitionSpec
         public void Constructor_sets_name_correctly()
         {
             const string name = "MyProperty";
-            var sut = new PropertyDefinition("int", name);
+            var sut = new Property("int", name);
             sut.Name.Should().Be(name);
         }
 
@@ -26,7 +26,7 @@ namespace CodeGenerator.Tests.PropertyDefinitionSpec
         public void Constructor_sets_value_correctly()
         {
             const string value = " => 5;";
-            var sut = new PropertyDefinition("int", "MyProperty", value);
+            var sut = new Property("int", "MyProperty", value);
             sut.Value.Should().Be(value);
         }
 
@@ -39,7 +39,7 @@ namespace CodeGenerator.Tests.PropertyDefinitionSpec
         [InlineData("virtual")]
         public void Valid_modifiers_are_added_correctly(string value)
         {
-            var sut = new PropertyDefinition("string", "arg");
+            var sut = new Property("string", "arg");
             sut.AddModifier(value);
             sut.Modifiers.Should().Contain(value);
         }
@@ -47,7 +47,7 @@ namespace CodeGenerator.Tests.PropertyDefinitionSpec
         [Fact]
         public void Multiple_modifiers_are_added_correctly()
         {
-            var sut = new PropertyDefinition("int", "MyProperty");
+            var sut = new Property("int", "MyProperty");
             sut.AddModifier("static");
             sut.AddModifier("new");
             sut.Modifiers.Count.Should().Be(2);
@@ -60,7 +60,7 @@ namespace CodeGenerator.Tests.PropertyDefinitionSpec
         [InlineData("STATIC")]
         public void Adding_an_invalid_modifier_throws_argument_exception(string value)
         {
-            var sut = new PropertyDefinition("string", "MyProperty");
+            var sut = new Property("string", "MyProperty");
             Assert.Throws<ArgumentException>(() => sut.AddModifier(value));
         }
         
@@ -68,7 +68,7 @@ namespace CodeGenerator.Tests.PropertyDefinitionSpec
         public void Adding_a_modifier_that_has_already_been_added_causes_an_invalid_operation_exception()
         {
             const string modifier = "static";
-            var sut = new PropertyDefinition("int", "MyProperty");
+            var sut = new Property("int", "MyProperty");
             sut.AddModifier(modifier);
             Assert.Throws<InvalidOperationException>(() => sut.AddModifier(modifier));
         }
@@ -77,7 +77,7 @@ namespace CodeGenerator.Tests.PropertyDefinitionSpec
         public void Adding_the_sealed_modifier_when_the_property_is_not_an_override_causes_invalid_operation_exception()
         {
             const string modifier = "sealed";
-            var sut = new PropertyDefinition("int", "MyProperty");
+            var sut = new Property("int", "MyProperty");
             Assert.Throws<InvalidOperationException>(() => sut.AddModifier(modifier));
         }
 
@@ -85,7 +85,7 @@ namespace CodeGenerator.Tests.PropertyDefinitionSpec
         public void Adding_the_sealed_modifier_works_when_the_property_is_an_override()
         {
             const string modifier = "sealed";
-            var sut = new PropertyDefinition("int", "MyProperty");
+            var sut = new Property("int", "MyProperty");
             sut.AddModifier("override");
             sut.AddModifier(modifier);
             sut.Modifiers.Should().Contain(modifier);
@@ -94,7 +94,7 @@ namespace CodeGenerator.Tests.PropertyDefinitionSpec
         [Fact]
         public void Modifiers_are_optional()
         {
-            var sut = new PropertyDefinition("string", "MyProperty");
+            var sut = new Property("string", "MyProperty");
             sut.Modifiers.Should().BeEmpty();
         }
 
@@ -102,7 +102,7 @@ namespace CodeGenerator.Tests.PropertyDefinitionSpec
         public void Adding_attributes_actually_works()
         {
             const string attr = "[Obsolete]";
-            var sut = new PropertyDefinition("string", "MyProperty");
+            var sut = new Property("string", "MyProperty");
             sut.AddAttribute(attr);
             sut.Attributes.Should().Contain(attr);
         }
@@ -112,7 +112,7 @@ namespace CodeGenerator.Tests.PropertyDefinitionSpec
         [InlineData("")]
         public void Adding_an_invalid_attribute_throws_an_argument_exception(string value)
         {
-            var sut = new PropertyDefinition("string", "MyProperty");
+            var sut = new Property("string", "MyProperty");
             Assert.Throws<ArgumentException>(() => sut.AddAttribute(value));
         }
 
@@ -120,7 +120,7 @@ namespace CodeGenerator.Tests.PropertyDefinitionSpec
         public void Adding_an_attribute_that_has_already_been_added_throws_invalid_operation_exception()
         {
             const string attr = "[Obsolete]";
-            var sut = new PropertyDefinition("string", "MyProperty");
+            var sut = new Property("string", "MyProperty");
             sut.AddAttribute(attr);
             Assert.Throws<InvalidOperationException>(() => sut.AddAttribute(attr));
         }

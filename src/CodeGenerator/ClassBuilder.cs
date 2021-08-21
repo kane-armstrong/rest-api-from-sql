@@ -41,10 +41,10 @@ namespace CodeGenerator
         private readonly List<string> _modifiers = new();
         private readonly List<string> _usingDirectives = new();
         private readonly List<Method> _methods = new();
-        private readonly List<PropertyDefinition> _properties = new();
+        private readonly List<Property> _properties = new();
         private readonly List<string> _attributes = new();
         private readonly List<string> _constructors = new();
-        private readonly List<FieldDefinition> _fields = new();
+        private readonly List<Field> _fields = new();
         private readonly List<string> _implementedInterfaces = new();
 
         public ClassBuilder WithNamespace(string value)
@@ -118,7 +118,7 @@ namespace CodeGenerator
             return this;
         }
 
-        public ClassBuilder WithProperty(PropertyDefinition definition)
+        public ClassBuilder WithProperty(Property definition)
         {
             if (string.IsNullOrEmpty(definition.Name)
                 || !LegalTypeNameCharacters.IsMatch(definition.Name)
@@ -176,7 +176,7 @@ namespace CodeGenerator
             return this;
         }
 
-        public ClassBuilder WithField(FieldDefinition definition)
+        public ClassBuilder WithField(Field definition)
         {
             if (string.IsNullOrEmpty(definition.Name)
                 || !LegalTypeNameCharacters.IsMatch(definition.Name)

@@ -61,10 +61,10 @@ return Ok(pet);");
                 .ImplementingInterface("IAnotherEmptyInterface")
                 .WithAttribute("[Authorize]")
                 .WithAttribute("[SomeExceptionFilter]")
-                .WithField(new FieldDefinition("PetsDbContext", "_context"))
-                .WithField(new FieldDefinition("int", "_whatever", " = 42;"))
-                .WithProperty(new PropertyDefinition("string", "SomeProperty"))
-                .WithProperty(new PropertyDefinition("PetsDbContext", "Context", " => _context;"))
+                .WithField(new Field("PetsDbContext", "_context"))
+                .WithField(new Field("int", "_whatever", " = 42;"))
+                .WithProperty(new Property("string", "SomeProperty"))
+                .WithProperty(new Property("PetsDbContext", "Context", " => _context;"))
                 .WithConstructor(@"public PetsController(PetsDbContext context, ILogger<PetsController> logger) : base(logger) 
 {
     _context = context;

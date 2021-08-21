@@ -4,51 +4,33 @@ using System.Linq;
 
 namespace CodeGenerator
 {
-    public class PropertyDefinition
+    public class Field
     {
         private static readonly string[] AllowedModifiers =
         {
-            "abstract",
-            "extern",
+            "const",
             "new",
-            "override",
-            "sealed",
+            "readonly",
             "static",
-            "virtual"
+            "volatile"
         };
 
         public string Name { get; }
         public string Type { get; }
         public string Value { get; }
-        public List<string> Attributes { get; } = new();
         public List<string> Modifiers { get; } = new();
 
-        public PropertyDefinition(string type, string name)
+        public Field(string type, string name)
         {
             Name = name;
             Type = type;
         }
 
-        public PropertyDefinition(string type, string name, string value)
+        public Field(string type, string name, string value)
         {
             Name = name;
             Type = type;
             Value = value;
-        }
-
-        public void AddAttribute(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                throw new ArgumentException("Attribute must have a value");
-            }
-
-            if (Attributes.Contains(value))
-            {
-                throw new InvalidOperationException("Attribute has already been added.");
-            }
-
-            Attributes.Add(value);
         }
 
         public void AddModifier(string value)
@@ -63,9 +45,9 @@ namespace CodeGenerator
                 throw new InvalidOperationException("Argument has already been added.");
             }
 
-            if (!Modifiers.Contains("override") && value == "sealed")
+            if (value == "const" && Value == null)
             {
-                throw new InvalidOperationException("Property cannot be sealed because it is not an override.");
+                throw new InvalidOperationException("A field cannot be marked const when it does not have a value.");
             }
 
             Modifiers.Add(value);

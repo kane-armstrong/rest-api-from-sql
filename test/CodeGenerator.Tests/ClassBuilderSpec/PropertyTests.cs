@@ -14,7 +14,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("My_test_property")]
         public void A_single_property_is_added_correctly(string value)
         {
-            var prop = new PropertyDefinition("string", value);
+            var prop = new Property("string", value);
             var sut = new ClassBuilder();
             var result = sut
                 .WithNamespace("MyNamespace")
@@ -29,8 +29,8 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         public void Multiple_properties_are_added_correctly()
         {
             var sut = new ClassBuilder();
-            var prop1 = new PropertyDefinition("string", "MyProperty1");
-            var prop2 = new PropertyDefinition("string", "MyProperty2");
+            var prop1 = new Property("string", "MyProperty1");
+            var prop2 = new Property("string", "MyProperty2");
             var result = sut
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
@@ -46,7 +46,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         public void A_property_with_a_value_is_rendered_correctly()
         {
             var sut = new ClassBuilder();
-            var prop = new PropertyDefinition("string", "MyProperty1", "=> \"things\";");
+            var prop = new Property("string", "MyProperty1", "=> \"things\";");
             var result = sut
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
@@ -72,13 +72,13 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithName("MyClass");
-            Assert.Throws<ArgumentException>(() => sut.WithProperty(new PropertyDefinition("void", value)));
+            Assert.Throws<ArgumentException>(() => sut.WithProperty(new Property("void", value)));
         }
 
         [Fact]
         public void An_invalid_operation_exception_is_thrown_when_a_property_with_the_same_name_has_already_been_added()
         {
-            var prop = new PropertyDefinition("string", "MyProperty");
+            var prop = new Property("string", "MyProperty");
             var sut = new ClassBuilder()
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
@@ -94,7 +94,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithName("MyClass");
-            Assert.Throws<InvalidOperationException>(() => sut.WithProperty(new PropertyDefinition("string", "MyClass")));
+            Assert.Throws<InvalidOperationException>(() => sut.WithProperty(new Property("string", "MyClass")));
         }
     }
 }

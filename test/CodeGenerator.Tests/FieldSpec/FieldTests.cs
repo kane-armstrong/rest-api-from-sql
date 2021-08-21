@@ -1,16 +1,16 @@
-﻿using FluentAssertions;
-using System;
+﻿using System;
+using FluentAssertions;
 using Xunit;
 
-namespace CodeGenerator.Tests.FieldDefinitionSpec
+namespace CodeGenerator.Tests.FieldSpec
 {
-    public class FieldDefinitionTests
+    public class FieldTests
     {
         [Fact]
         public void Constructor_sets_type_correctly()
         {
             const string type = "int";
-            var sut = new FieldDefinition(type, "myField");
+            var sut = new Field(type, "myField");
             sut.Type.Should().Be(type);
         }
 
@@ -18,7 +18,7 @@ namespace CodeGenerator.Tests.FieldDefinitionSpec
         public void Constructor_sets_name_correctly()
         {
             const string name = "myField";
-            var sut = new FieldDefinition("int", name);
+            var sut = new Field("int", name);
             sut.Name.Should().Be(name);
         }
 
@@ -26,7 +26,7 @@ namespace CodeGenerator.Tests.FieldDefinitionSpec
         public void Constructor_sets_value_correctly()
         {
             const string value = " = 5;";
-            var sut = new FieldDefinition("int", "myField", value);
+            var sut = new Field("int", "myField", value);
             sut.Value.Should().Be(value);
         }
 
@@ -37,7 +37,7 @@ namespace CodeGenerator.Tests.FieldDefinitionSpec
         [InlineData("volatile")]
         public void Valid_modifiers_are_added_correctly(string value)
         {
-            var sut = new FieldDefinition("string", "myField");
+            var sut = new Field("string", "myField");
             sut.AddModifier(value);
             sut.Modifiers.Should().Contain(value);
         }
@@ -45,7 +45,7 @@ namespace CodeGenerator.Tests.FieldDefinitionSpec
         [Fact]
         public void Multiple_modifiers_are_added_correctly()
         {
-            var sut = new FieldDefinition("int", "myField", " = 5;");
+            var sut = new Field("int", "myField", " = 5;");
             sut.AddModifier("static");
             sut.AddModifier("readonly");
             sut.Modifiers.Count.Should().Be(2);
@@ -58,7 +58,7 @@ namespace CodeGenerator.Tests.FieldDefinitionSpec
         [InlineData("STATIC")]
         public void Adding_an_invalid_modifier_throws_argument_exception(string value)
         {
-            var sut = new FieldDefinition("string", "myField");
+            var sut = new Field("string", "myField");
             Assert.Throws<ArgumentException>(() => sut.AddModifier(value));
         }
 
@@ -66,7 +66,7 @@ namespace CodeGenerator.Tests.FieldDefinitionSpec
         public void Adding_const_modifier_works_when_field_does_have_a_value()
         {
             const string modifier = "const";
-            var sut = new FieldDefinition("int", "myField", " = 5;");
+            var sut = new Field("int", "myField", " = 5;");
             sut.AddModifier(modifier);
             sut.Modifiers.Should().Contain(modifier);
         }
@@ -75,7 +75,7 @@ namespace CodeGenerator.Tests.FieldDefinitionSpec
         public void Adding_const_modifier_causes_invalid_operation_exception_when_field_does_not_have_a_value()
         {
             const string modifier = "const";
-            var sut = new FieldDefinition("int", "myField");
+            var sut = new Field("int", "myField");
             Assert.Throws<InvalidOperationException>(() => sut.AddModifier(modifier));
         }
 
@@ -83,7 +83,7 @@ namespace CodeGenerator.Tests.FieldDefinitionSpec
         public void Adding_a_modifier_that_has_already_been_added_causes_an_invalid_operation_exception()
         {
             const string modifier = "static";
-            var sut = new FieldDefinition("int", "myField");
+            var sut = new Field("int", "myField");
             sut.AddModifier(modifier);
             Assert.Throws<InvalidOperationException>(() => sut.AddModifier(modifier));
         }
@@ -91,7 +91,7 @@ namespace CodeGenerator.Tests.FieldDefinitionSpec
         [Fact]
         public void Modifiers_are_optional()
         {
-            var sut = new FieldDefinition("string", "myField");
+            var sut = new Field("string", "myField");
             sut.Modifiers.Should().BeEmpty();
         }
     }

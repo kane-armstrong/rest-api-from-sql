@@ -14,7 +14,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("My_test_field")]
         public void A_single_field_is_added_correctly(string value)
         {
-            var field = new FieldDefinition("string", value);
+            var field = new Field("string", value);
             var sut = new ClassBuilder();
             var result = sut
                 .WithNamespace("MyNamespace")
@@ -29,8 +29,8 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         public void Multiple_fields_are_added_correctly()
         {
             var sut = new ClassBuilder();
-            var field1 = new FieldDefinition("string", "MyField1");
-            var field2 = new FieldDefinition("string", "MyField2");
+            var field1 = new Field("string", "MyField1");
+            var field2 = new Field("string", "MyField2");
             var result = sut
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
@@ -46,7 +46,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         public void Fields_with_values_are_rendered_correctly()
         {
             var sut = new ClassBuilder();
-            var field = new FieldDefinition("string", "TheMeaning", " = 42;");
+            var field = new Field("string", "TheMeaning", " = 42;");
             var result = sut
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
@@ -73,14 +73,14 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithName("MyClass")
-                .WithField(new FieldDefinition("void", value)));
+                .WithField(new Field("void", value)));
         }
 
         [Fact]
         public void An_invalid_operation_exception_is_thrown_when_the_field_has_already_been_added()
         {
             var sut = new ClassBuilder();
-            var field = new FieldDefinition("string", "MyField");
+            var field = new Field("string", "MyField");
             Assert.Throws<InvalidOperationException>(() => sut
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
@@ -96,7 +96,7 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithName("MyClass");
-            Assert.Throws<InvalidOperationException>(() => sut.WithField(new FieldDefinition("string", "MyClass")));
+            Assert.Throws<InvalidOperationException>(() => sut.WithField(new Field("string", "MyClass")));
         }
     }
 }
