@@ -152,7 +152,6 @@ namespace CodeGenerator
             if (_attributes.Contains(definition))
             {
                 throw new InvalidOperationException("Attribute has already been added");
-
             }
 
             _attributes.Add(definition);
