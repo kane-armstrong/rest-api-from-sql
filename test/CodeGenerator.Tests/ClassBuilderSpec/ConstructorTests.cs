@@ -54,12 +54,11 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData(null)]
         public void An_argument_exception_is_thrown_when_constructor_is_invalid(string value)
         {
-            var sut = new ClassBuilder();
-            Assert.Throws<ArgumentException>(() => sut
+            var sut = new ClassBuilder()
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
-                .WithConstructor(value)
-                .WithAccessibilityLevel(ClassAccessibilityLevel.Public));
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public);
+            Assert.Throws<ArgumentException>(() => sut.WithConstructor(value));
         }
     }
 }

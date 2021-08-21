@@ -51,21 +51,20 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("MyTestNamespace.The Thing")]
         public void An_argument_exception_is_thrown_when_the_namespace_is_invalid(string value)
         {
-            var sut = new ClassBuilder();
-            Assert.Throws<ArgumentException>(() => sut
+            var sut = new ClassBuilder()
                 .WithName("MyClass")
-                .WithNamespace(value)
-                .WithAccessibilityLevel(ClassAccessibilityLevel.Public));
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public);
+
+            Assert.Throws<ArgumentException>(() => sut.WithNamespace(value));
         }
 
         [Fact]
         public void An_invalid_operation_exception_is_thrown_when_the_namespace_is_not_provided()
         {
-            var sut = new ClassBuilder();
-            Assert.Throws<InvalidOperationException>(() => sut
+            var sut = new ClassBuilder()
                 .WithName("MyClass")
-                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .Build());
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public);
+            Assert.Throws<InvalidOperationException>(() => sut.Build());
         }
     }
 }

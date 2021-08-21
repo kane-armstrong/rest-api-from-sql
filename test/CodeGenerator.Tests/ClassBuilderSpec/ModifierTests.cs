@@ -49,11 +49,11 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("unsafe")]
         public void An_argument_exception_is_thrown_when_the_modifier_is_invalid(string value)
         {
-            Assert.Throws<ArgumentException>(() => new ClassBuilder()
+            var sut = new ClassBuilder()
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
-                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithModifier(value));
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public);
+            Assert.Throws<ArgumentException>(() => sut.WithModifier(value));
         }
 
         [Theory]
@@ -68,19 +68,18 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithModifier(existing);
-            Assert.Throws<InvalidOperationException>(() => sut
-                .WithModifier(toAdd));
+            Assert.Throws<InvalidOperationException>(() => sut.WithModifier(toAdd));
         }
 
         [Fact]
         public void An_invalid_operation_exception_is_thrown_when_the_modifier_has_already_been_added()
         {
-            Assert.Throws<InvalidOperationException>(() => new ClassBuilder()
+            var sut = new ClassBuilder()
                 .WithName("MyClass")
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithModifier("static")
-                .WithModifier("static"));
+                .WithModifier("static");
+            Assert.Throws<InvalidOperationException>(() => sut.WithModifier("static"));
         }
     }
 }

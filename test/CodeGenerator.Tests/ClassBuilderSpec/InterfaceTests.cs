@@ -54,12 +54,11 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("MyTestInterface.TheThing")]
         public void An_argument_exception_is_thrown_when_interface_is_invalid(string value)
         {
-            var sut = new ClassBuilder();
-            Assert.Throws<ArgumentException>(() => sut
+            var sut = new ClassBuilder()
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithName("MyClass")
-                .ImplementingInterface(value));
+                .WithName("MyClass");
+            Assert.Throws<ArgumentException>(() => sut.ImplementingInterface(value));
         }
     }
 }

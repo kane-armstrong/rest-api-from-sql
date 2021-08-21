@@ -61,12 +61,11 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [Fact]
         public void An_argument_null_exception_is_thrown_when_method_is_null()
         {
-            var sut = new ClassBuilder();
-            Assert.Throws<ArgumentNullException>(() => sut
+            var sut = new ClassBuilder()
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
-                .WithMethod(null)
-                .WithAccessibilityLevel(ClassAccessibilityLevel.Public));
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public);
+            Assert.Throws<ArgumentNullException>(() => sut.WithMethod(null));
         }
 
         [Fact]

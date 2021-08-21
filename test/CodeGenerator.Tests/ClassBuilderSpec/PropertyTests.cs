@@ -68,36 +68,33 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("MyTestProperty.TheThing")]
         public void An_argument_exception_is_thrown_when_property_name_is_invalid(string value)
         {
-            var sut = new ClassBuilder();
-            Assert.Throws<ArgumentException>(() => sut
+            var sut = new ClassBuilder()
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithName("MyClass")
-                .WithProperty(new PropertyDefinition("void", value)));
+                .WithName("MyClass");
+            Assert.Throws<ArgumentException>(() => sut.WithProperty(new PropertyDefinition("void", value)));
         }
 
         [Fact]
         public void An_invalid_operation_exception_is_thrown_when_a_property_with_the_same_name_has_already_been_added()
         {
-            var sut = new ClassBuilder();
             var prop = new PropertyDefinition("string", "MyProperty");
-            Assert.Throws<InvalidOperationException>(() => sut
+            var sut = new ClassBuilder()
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithName("MyClass")
-                .WithProperty(prop)
-                .WithProperty(prop));
+                .WithProperty(prop);
+            Assert.Throws<InvalidOperationException>(() => sut.WithProperty(prop));
         }
 
         [Fact]
         public void An_invalid_operation_exception_is_thrown_when_the_property_name_is_the_same_as_the_enclosing_type()
         {
-            var sut = new ClassBuilder();
-            Assert.Throws<InvalidOperationException>(() => sut
+            var sut = new ClassBuilder()
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithName("MyClass")
-                .WithProperty(new PropertyDefinition("string", "MyClass")));
+                .WithName("MyClass");
+            Assert.Throws<InvalidOperationException>(() => sut.WithProperty(new PropertyDefinition("string", "MyClass")));
         }
     }
 }

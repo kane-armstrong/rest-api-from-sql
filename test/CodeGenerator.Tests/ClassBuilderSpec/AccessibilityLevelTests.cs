@@ -44,11 +44,8 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [Fact]
         public void An_invalid_operation_exception_is_thrown_when_accessibility_level_is_not_provided()
         {
-            var sut = new ClassBuilder();
-            Assert.Throws<InvalidOperationException>(() => sut
-                .WithNamespace("MyTestNamespace")
-                .WithName("TestMethod")
-                .Build());
+            var sut = new ClassBuilder().WithNamespace("MyTestNamespace").WithName("TestMethod");
+            Assert.Throws<InvalidOperationException>(() => sut.Build());
         }
     }
 }

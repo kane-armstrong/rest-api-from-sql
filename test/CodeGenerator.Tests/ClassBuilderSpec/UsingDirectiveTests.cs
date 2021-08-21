@@ -53,12 +53,11 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("A namespace")]
         public void An_argument_exception_is_thrown_when_the_namespace_is_invalid(string value)
         {
-            var sut = new ClassBuilder();
-            Assert.Throws<ArgumentException>(() => sut
+            var sut = new ClassBuilder()
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithName("MyClass")
-                .UsingNamespace(value));
+                .WithName("MyClass");
+            Assert.Throws<ArgumentException>(() => sut.UsingNamespace(value));
         }
 
         [Fact]

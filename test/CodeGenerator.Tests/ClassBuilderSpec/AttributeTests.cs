@@ -52,14 +52,13 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [Fact]
         public void An_invalid_operation_exception_is_thrown_when_the_attribute_has_already_been_added()
         {
-            var sut = new ClassBuilder();
             const string attribute = "[Table(\"SomeTableName\")]";
-            Assert.Throws<InvalidOperationException>(() => sut
+            var sut = new ClassBuilder()
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
                 .WithName("MyClass")
-                .WithAttribute(attribute)
-                .WithAttribute(attribute));
+                .WithAttribute(attribute);
+            Assert.Throws<InvalidOperationException>(() => sut.WithAttribute(attribute));
         }
     }
 }

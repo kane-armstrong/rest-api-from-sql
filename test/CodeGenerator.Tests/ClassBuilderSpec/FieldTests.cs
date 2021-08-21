@@ -92,12 +92,11 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [Fact]
         public void An_invalid_operation_exception_is_thrown_when_adding_a_field_with_the_same_name_as_the_enclosing_type()
         {
-            var sut = new ClassBuilder();
-            Assert.Throws<InvalidOperationException>(() => sut
+            var sut = new ClassBuilder()
                 .WithNamespace("MyNamespace")
                 .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithName("MyClass")
-                .WithField(new FieldDefinition("string", "MyClass")));
+                .WithName("MyClass");
+            Assert.Throws<InvalidOperationException>(() => sut.WithField(new FieldDefinition("string", "MyClass")));
         }
     }
 }

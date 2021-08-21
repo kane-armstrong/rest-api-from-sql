@@ -52,12 +52,11 @@ namespace CodeGenerator.Tests.ClassBuilderSpec
         [InlineData("MyTestBaseClass.TheThing")]
         public void An_argument_exception_is_thrown_when_base_class_name_is_invalid(string value)
         {
-            var sut = new ClassBuilder();
-            Assert.Throws<ArgumentException>(() => sut
+            var sut = new ClassBuilder()
                 .WithNamespace("MyNamespace")
                 .WithName("MyClass")
-                .WithBaseClass(value)
-                .WithAccessibilityLevel(ClassAccessibilityLevel.Public));
+                .WithAccessibilityLevel(ClassAccessibilityLevel.Public);
+            Assert.Throws<ArgumentException>(() => sut.WithBaseClass(value));
         }
     }
 }
