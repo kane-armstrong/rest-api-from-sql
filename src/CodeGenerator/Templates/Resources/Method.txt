@@ -1,0 +1,5 @@
+﻿$if(attributes)$$trunc(attributes):{x |$x$$\n$}$$last(attributes):{x |$x$}$$endif$
+$accessibilityLevel$ $if(modifiers)$$modifiers:{x |$x$ }$$endif$$returnType$ $name$($if(arguments)$$trunc(arguments):{x |$if(x.Attributes)$$x.Attributes:{y|$y$}$$endif$$if(x.Modifier)$$x.Modifier$ $endif$$x.Type$ $x.Name$$x.Value$, }$$last(arguments):{x |$if(x.Attributes)$$x.Attributes:{y|$y$}$$endif$$if(x.Modifier)$$x.Modifier$ $endif$$x.Type$ $x.Name$$x.Value$}$$endif$)$if(isAbstract)$;$else$
+{
+    $if(body)$$body$$endif$
+}$endif$

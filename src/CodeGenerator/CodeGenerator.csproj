@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Templates\Resources\Class.txt" />
+    <None Remove="Templates\Resources\Method.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Resources\Method.txt" />
+    <EmbeddedResource Include="Templates\Resources\Class.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Antlr3.Runtime" Version="3.5.1" />
+    <PackageReference Include="Pedantic.IO.EmbeddedResource" Version="0.9.0-pre-02" />
+    <PackageReference Include="StringTemplate4" Version="4.0.8" />
+  </ItemGroup>
+
+</Project>

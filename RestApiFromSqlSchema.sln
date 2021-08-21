@@ -15,15 +15,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestApiFromSqlSchema.Consol
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestApiFromSqlSchema", "src\RestApiFromSqlSchema\RestApiFromSqlSchema.csproj", "{9EB3797B-7387-4001-89B0-28D9A071C484}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchemaExplorer", "src\SchemaExplorer\SchemaExplorer.csproj", "{445F5342-8484-482C-979E-8FED2FC6E287}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchemaExplorer", "src\SchemaExplorer\SchemaExplorer.csproj", "{445F5342-8484-482C-979E-8FED2FC6E287}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchemaExplorer.SqlServer", "src\SchemaExplorer.SqlServer\SchemaExplorer.SqlServer.csproj", "{D5317058-52DA-42DC-AB63-680B4F303E13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchemaExplorer.SqlServer", "src\SchemaExplorer.SqlServer\SchemaExplorer.SqlServer.csproj", "{D5317058-52DA-42DC-AB63-680B4F303E13}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{77DA7F24-2AE1-40D1-9475-BADF4977BA9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchemaExplorer.SqlServer.Tests", "test\SchemaExplorer.SqlServer.Tests\SchemaExplorer.SqlServer.Tests.csproj", "{B3F49663-C52D-4E80-86FC-2FAAF1832D68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchemaExplorer.SqlServer.Tests", "test\SchemaExplorer.SqlServer.Tests\SchemaExplorer.SqlServer.Tests.csproj", "{B3F49663-C52D-4E80-86FC-2FAAF1832D68}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SchemaExplorer.SqlServer.Tests.Db", "test\SchemaExplorer.SqlServer.Tests.Db\SchemaExplorer.SqlServer.Tests.Db.sqlproj", "{F297A50D-6EBC-483C-A38D-2753B9F322E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGenerator", "src\CodeGenerator\CodeGenerator.csproj", "{26E00290-1ADB-4AE4-9DEC-839A5C898E5B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeGenerator.Tests", "test\CodeGenerator.Tests\CodeGenerator.Tests.csproj", "{5F425E56-7113-482F-82EF-67B112A68672}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,14 @@ Global
 		{F297A50D-6EBC-483C-A38D-2753B9F322E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F297A50D-6EBC-483C-A38D-2753B9F322E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F297A50D-6EBC-483C-A38D-2753B9F322E1}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{26E00290-1ADB-4AE4-9DEC-839A5C898E5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26E00290-1ADB-4AE4-9DEC-839A5C898E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26E00290-1ADB-4AE4-9DEC-839A5C898E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26E00290-1ADB-4AE4-9DEC-839A5C898E5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F425E56-7113-482F-82EF-67B112A68672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F425E56-7113-482F-82EF-67B112A68672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F425E56-7113-482F-82EF-67B112A68672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F425E56-7113-482F-82EF-67B112A68672}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +80,8 @@ Global
 		{D5317058-52DA-42DC-AB63-680B4F303E13} = {877005FF-A8AA-4FC3-ADB3-84D97C80E6EE}
 		{B3F49663-C52D-4E80-86FC-2FAAF1832D68} = {77DA7F24-2AE1-40D1-9475-BADF4977BA9E}
 		{F297A50D-6EBC-483C-A38D-2753B9F322E1} = {77DA7F24-2AE1-40D1-9475-BADF4977BA9E}
+		{26E00290-1ADB-4AE4-9DEC-839A5C898E5B} = {877005FF-A8AA-4FC3-ADB3-84D97C80E6EE}
+		{5F425E56-7113-482F-82EF-67B112A68672} = {77DA7F24-2AE1-40D1-9475-BADF4977BA9E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E5B154C3-8815-4766-8BA0-DBF8F5E13A8F}
