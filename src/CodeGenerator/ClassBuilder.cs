@@ -40,7 +40,7 @@ namespace CodeGenerator
 
         private readonly List<string> _modifiers = new();
         private readonly List<string> _usingDirectives = new();
-        private readonly List<string> _methods = new();
+        private readonly List<Method> _methods = new();
         private readonly List<PropertyDefinition> _properties = new();
         private readonly List<string> _attributes = new();
         private readonly List<string> _constructors = new();
@@ -101,14 +101,20 @@ namespace CodeGenerator
             return this;
         }
 
-        public ClassBuilder WithMethod(string definition)
+        public ClassBuilder WithMethod(Method method)
         {
-            if (definition == null)
+            if (method == null)
             {
-                throw new ArgumentException("Method definition is required");
+                throw new ArgumentNullException(nameof(method));
             }
 
-            _methods.Add(definition);
+            if (_methods.Any(x =>
+                x.Name == method.Name && x.Arguments.All(y => method.Arguments.Any(z => z.Type == y.Type))))
+            {
+                throw new InvalidOperationException("Method signature conflicts with an existing method signature");
+            }
+
+            _methods.Add(method);
             return this;
         }
 
@@ -287,7 +293,7 @@ namespace CodeGenerator
             template.Add(ClassTemplateAttributes.Fields, _fields);
             template.Add(ClassTemplateAttributes.Properties, _properties);
             template.Add(ClassTemplateAttributes.Constructors, _constructors);
-            template.Add(ClassTemplateAttributes.MethodDefinitions, _methods);
+            template.Add(ClassTemplateAttributes.Methods, _methods.Select(x => x.Render()));
 
             return template.Render();
         }

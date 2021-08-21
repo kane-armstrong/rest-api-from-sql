@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Antlr4.StringTemplate;
+﻿using Antlr4.StringTemplate;
 using CodeGenerator.Templates;
 using CodeGenerator.Templates.Resources;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("CodeGenerator.Tests")]
 namespace CodeGenerator
 {
     public class Method
@@ -104,7 +106,7 @@ namespace CodeGenerator
             _attributes.Add(definition);
         }
 
-        public string Render()
+        internal string Render()
         {
             var template = new Template(TemplateContent.Method, StartDelimiter, EndDelimiter);
 

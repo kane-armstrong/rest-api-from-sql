@@ -11,7 +11,7 @@
         internal const string Fields = "fields";
         internal const string Properties = "properties";
         internal const string Constructors = "constructors";
-        internal const string MethodDefinitions = "methods";
+        internal const string Methods = "methods";
         internal const string BaseClass = "baseClass";
         internal const string ImplementedInterfaces = "implementedInterfaces";
     }
