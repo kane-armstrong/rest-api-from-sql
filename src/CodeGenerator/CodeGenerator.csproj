@@ -5,13 +5,29 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Templates\Resources\Class.txt" />
-    <None Remove="Templates\Resources\Method.txt" />
+    <None Remove="Projects\Templates\Resources\Global.txt" />
+    <None Remove="Projects\Templates\Resources\NetCoreWebApiAppSettings.txt" />
+    <None Remove="Projects\Templates\Resources\NetCoreWebApiCsproj.txt" />
+    <None Remove="Projects\Templates\Resources\NetCoreWebApiLaunchSettings.txt" />
+    <None Remove="Projects\Templates\Resources\NetCoreWebApiProgram.txt" />
+    <None Remove="Projects\Templates\Resources\NetCoreWebApiStartup.txt" />
+    <None Remove="Projects\Templates\Resources\ProjectSection.txt" />
+    <None Remove="Projects\Templates\Resources\Solution.txt" />
+    <None Remove="Classes\Templates\Resources\Class.txt" />
+    <None Remove="Classes\Templates\Resources\Method.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Templates\Resources\Method.txt" />
-    <EmbeddedResource Include="Templates\Resources\Class.txt" />
+    <EmbeddedResource Include="Projects\Templates\Resources\Global.txt" />
+    <EmbeddedResource Include="Projects\Templates\Resources\NetCoreWebApiAppSettings.txt" />
+    <EmbeddedResource Include="Projects\Templates\Resources\NetCoreWebApiCsproj.txt" />
+    <EmbeddedResource Include="Projects\Templates\Resources\NetCoreWebApiLaunchSettings.txt" />
+    <EmbeddedResource Include="Projects\Templates\Resources\NetCoreWebApiProgram.txt" />
+    <EmbeddedResource Include="Projects\Templates\Resources\NetCoreWebApiStartup.txt" />
+    <EmbeddedResource Include="Projects\Templates\Resources\ProjectSection.txt" />
+    <EmbeddedResource Include="Projects\Templates\Resources\Solution.txt" />
+    <EmbeddedResource Include="Classes\Templates\Resources\Method.txt" />
+    <EmbeddedResource Include="Classes\Templates\Resources\Class.txt" />
   </ItemGroup>
 
   <ItemGroup>
