@@ -13,37 +13,37 @@ using CodeGenerator.Solutions.Global.Sections;
 
 namespace CodeGenerator.Solutions
 {
-    public class SolutionFile
+    public class Solution
     {
         private const char StartDelim = '$';
         private const char EndDelim = '$';
 
         private readonly Guid _sharedProjectId;
         private readonly Guid _solutionGuid;
-        private readonly List<ProjectFile> _projects;
+        private readonly List<Project> _projects;
 
         private readonly string _solutionDirectory;
         private readonly string _solutionName;
 
         private string SolutionPath => $"{_solutionDirectory}\\{_solutionName}.sln";
 
-        public SolutionFile(string directory, string name)
+        public Solution(string directory, string name)
         {
-            _projects = new List<ProjectFile>();
+            _projects = new List<Project>();
             _solutionDirectory = directory;
             _solutionName = name;
             _solutionGuid = Guid.NewGuid();
             _sharedProjectId = Guid.NewGuid();
         }
 
-        private string GenerateProjectRootPath(ProjectFile project) => $"{_solutionDirectory}\\{project.Name}";
+        private string GenerateProjectRootPath(Project project) => $"{_solutionDirectory}\\{project.Name}";
 
-        public void AddProject(ProjectFile project)
+        public void AddProject(Project project)
         {
-            if (_projects.Any(x => x.Name.Equals(project.Name, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                throw new SolutionGenerationException(string.Format(SharedResources.AddProjectNameCollisionException, nameof(project.Name), project.Name));
-            }
+            //if (_projects.Any(x => x.Name.Equals(project.Name, StringComparison.InvariantCultureIgnoreCase)))
+            //{
+            //    throw new SolutionGenerationException(string.Format(SharedResources.AddProjectNameCollisionException, nameof(project.Name), project.Name));
+            //}
 
             project.Id = _sharedProjectId;
             _projects.Add(project);
@@ -61,16 +61,16 @@ namespace CodeGenerator.Solutions
             foreach (var projectFile in _projects)
             {
                 var root = $"{GenerateProjectRootPath(projectFile)}";
-                foreach (var file in projectFile.ClassFiles)
-                {
-                    var filePath = $"{root}\\{file.RelativePath}\\{file.FileName}";
-                    if (File.Exists(filePath))
-                    {
-                        File.Delete(filePath);
-                    }
+                //foreach (var file in projectFile.ClassFiles)
+                //{
+                //    var filePath = $"{root}\\{file.RelativePath}\\{file.FileName}";
+                //    if (File.Exists(filePath))
+                //    {
+                //        File.Delete(filePath);
+                //    }
 
-                    File.AppendAllText(filePath, file.FileContent);
-                }
+                //    File.AppendAllText(filePath, file.FileContent);
+                //}
             }
         }
 
@@ -81,10 +81,10 @@ namespace CodeGenerator.Solutions
             {
                 var root = GenerateProjectRootPath(projectFile);
                 CreateDirectoryIfNotExists(root);
-                foreach (var file in projectFile.ClassFiles)
-                {
-                    CreateDirectoryIfNotExists($"{root}\\{file.RelativePath}");
-                }
+                //foreach (var file in projectFile.ClassFiles)
+                //{
+                //    CreateDirectoryIfNotExists($"{root}\\{file.RelativePath}");
+                //}
             }
         }
 
@@ -129,7 +129,7 @@ namespace CodeGenerator.Solutions
             return template.Render();
         }
 
-        private static string GenerateProjectFileContent(ProjectFile project, string solutionDirectory)
+        private static string GenerateProjectFileContent(Project project, string solutionDirectory)
         {
             var template = new Template(TemplateContent.ProjectSection, '$', '$');
             template.Add(TemplateKeys.ProjectId, project.Id.ToString().ToUpper());
@@ -151,7 +151,7 @@ namespace CodeGenerator.Solutions
             }
             catch (Exception e)
             {
-                throw new SolutionGenerationException(SharedResources.CreateSolutionDirectoryGeneralException, e);
+                //throw new SolutionGenerationException(SharedResources.CreateSolutionDirectoryGeneralException, e);
             }
         }
 
