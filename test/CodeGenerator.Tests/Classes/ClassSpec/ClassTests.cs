@@ -2,14 +2,14 @@
 using FluentAssertions;
 using Xunit;
 
-namespace CodeGenerator.Tests.Classes.ClassBuilderSpec
+namespace CodeGenerator.Tests.Classes.ClassSpec
 {
-    public class ClassBuilderTests
+    public class ClassTests
     {
         [Fact]
         public void Fully_configured_classes_are_rendered_in_the_correct_format()
         {
-            var sut = new ClassBuilder();
+            var sut = new Class("MyApplication.Controllers", ClassAccessibilityLevel.Public, "PetsController");
 
             var method1 = new Method(MethodAccessibilityLevel.Public, "Task<IActionResult>", "Create",
                     @"await _context.Pets.AddAsync(pet);
@@ -49,36 +49,32 @@ return Ok(pet);");
             var method4Arg = new MethodArgument("string", "text", "in");
             method4.AddArgument(method4Arg);
 
-            var result = sut
-                .UsingNamespace("MyApplication.Infrastructure.Database")
-                .UsingNamespace("Microsoft.EntityFrameworkCore")
-                .UsingNamespace("Microsoft.AspNetCore.Mvc")
-                .WithNamespace("MyApplication.Controllers")
-                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .WithModifier("sealed")
-                .WithName("PetsController")
-                .WithBaseClass("MyBaseController")
-                .ImplementingInterface("IEmptyInterface")
-                .ImplementingInterface("IAnotherEmptyInterface")
-                .WithAttribute("[Authorize]")
-                .WithAttribute("[SomeExceptionFilter]")
-                .WithField(new Field("PetsDbContext", "_context"))
-                .WithField(new Field("int", "_whatever", " = 42;"))
-                .WithProperty(new Property("string", "SomeProperty"))
-                .WithProperty(new Property("PetsDbContext", "Context", " => _context;"))
-                .WithConstructor(@"public PetsController(PetsDbContext context, ILogger<PetsController> logger) : base(logger) 
+            sut.AddUsingDirective("MyApplication.Infrastructure.Database");
+            sut.AddUsingDirective("Microsoft.EntityFrameworkCore");
+            sut.AddUsingDirective("Microsoft.AspNetCore.Mvc");
+            sut.AddModifier("sealed");
+            sut.AddBaseClass("MyBaseController");
+            sut.AddInterface("IEmptyInterface");
+            sut.AddInterface("IAnotherEmptyInterface");
+            sut.AddAttribute("[Authorize]");
+            sut.AddAttribute("[SomeExceptionFilter]");
+            sut.AddField(new Field("PetsDbContext", "_context"));
+            sut.AddField(new Field("int", "_whatever", " = 42;"));
+            sut.AddProperty(new Property("string", "SomeProperty"));
+            sut.AddProperty(new Property("PetsDbContext", "Context", " => _context;"));
+            sut.AddConstructor(@"public PetsController(PetsDbContext context, ILogger<PetsController> logger) : base(logger) 
 {
     _context = context;
-}")
-                .WithConstructor(@"public PetsController(ILogger<PetsController> logger) : base(logger) 
+}");
+            sut.AddConstructor(@"public PetsController(ILogger<PetsController> logger) : base(logger) 
 {
-}")
-                .WithMethod(method1)
-                .WithMethod(method2)
-                .WithMethod(method3)
-                .WithMethod(method4)
-                .Build();
+}");
+            sut.AddMethod(method1);
+            sut.AddMethod(method2);
+            sut.AddMethod(method3);
+            sut.AddMethod(method4);
 
+            var result = sut.Render();
             result.Should().Be(@"using MyApplication.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -139,13 +135,8 @@ namespace MyApplication.Controllers
         [Fact]
         public void Minimally_configured_classes_are_rendered_correctly_without_any_excess_whitespace()
         {
-            var sut = new ClassBuilder();
-            var result = sut
-                .WithName("PetsController")
-                .WithNamespace("MyApplication.Controllers")
-                .WithAccessibilityLevel(ClassAccessibilityLevel.Public)
-                .Build();
-
+            var sut = new Class("MyApplication.Controllers", ClassAccessibilityLevel.Public, "PetsController");
+            var result = sut.Render();
             result.Should().Be(@"namespace MyApplication.Controllers
 {
     public class PetsController

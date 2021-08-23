@@ -8,7 +8,7 @@ using CodeGenerator.Classes.Templates.Resources;
 
 namespace CodeGenerator.Classes
 {
-    public class ClassBuilder
+    public class Class
     {
         private const char StartDelimiter = '$';
         private const char EndDelimiter = '$';
@@ -33,11 +33,6 @@ namespace CodeGenerator.Classes
         private static readonly Regex LegalTypeNameCharacters = new("^[a-zA-Z0-9_]+$");
         private static readonly Regex LegalTypeNameLeadingCharacters = new("^[a-zA-Z_]+$");
 
-        private string _namespace;
-        private string _className;
-        private ClassAccessibilityLevel? _accessibilityLevel;
-        private string _baseClass;
-
         private readonly List<string> _modifiers = new();
         private readonly List<string> _usingDirectives = new();
         private readonly List<Method> _methods = new();
@@ -47,14 +42,38 @@ namespace CodeGenerator.Classes
         private readonly List<Field> _fields = new();
         private readonly List<string> _implementedInterfaces = new();
 
-        public ClassBuilder WithNamespace(string value)
+        public string Namespace { get; }
+        public string ClassName { get; }
+        public ClassAccessibilityLevel AccessibilityLevel { get; }
+        public string BaseClass { get; private set; }
+
+        public IReadOnlyList<string> Modifiers => _modifiers;
+        public IReadOnlyList<string> UsingDirectives => _usingDirectives;
+        public IReadOnlyList<Method> Methods => _methods;
+        public IReadOnlyList<Property> Properties => _properties;
+        public IReadOnlyList<string> Attributes => _attributes;
+        public IReadOnlyList<string> Constructors => _constructors;
+        public IReadOnlyList<Field> Fields => _fields;
+        public IReadOnlyList<string> ImplementedInterfaces => _implementedInterfaces;
+
+        public Class(string classNamespace, ClassAccessibilityLevel classAccessibilityLevel,  string className)
         {
-            EnsureValidNamespace(value);
-            _namespace = value;
-            return this;
+            EnsureValidNamespace(classNamespace);
+            Namespace = classNamespace;
+
+            AccessibilityLevel = classAccessibilityLevel;
+
+            if (string.IsNullOrEmpty(className)
+                || !LegalTypeNameCharacters.IsMatch(className)
+                || !LegalTypeNameLeadingCharacters.IsMatch(className[..1]))
+            {
+                throw new ArgumentException("Invalid class name", nameof(className));
+            }
+
+            ClassName = className;
         }
 
-        public ClassBuilder UsingNamespace(string value)
+        public void AddUsingDirective(string value)
         {
             EnsureValidNamespace(value);
             if (_usingDirectives.Contains(value))
@@ -62,7 +81,6 @@ namespace CodeGenerator.Classes
                 throw new InvalidOperationException("Namespace has already been added");
             }
             _usingDirectives.Add(value);
-            return this;
         }
 
         private static void EnsureValidNamespace(string value)
@@ -82,26 +100,8 @@ namespace CodeGenerator.Classes
                 }
             }
         }
-
-        public ClassBuilder WithAccessibilityLevel(ClassAccessibilityLevel expected)
-        {
-            _accessibilityLevel = expected;
-            return this;
-        }
-
-        public ClassBuilder WithName(string value)
-        {
-            if (string.IsNullOrEmpty(value)
-                || !LegalTypeNameCharacters.IsMatch(value)
-                || !LegalTypeNameLeadingCharacters.IsMatch(value[..1]))
-            {
-                throw new ArgumentException("Invalid class name");
-            }
-            _className = value;
-            return this;
-        }
-
-        public ClassBuilder WithMethod(Method method)
+        
+        public void AddMethod(Method method)
         {
             if (method == null)
             {
@@ -115,10 +115,9 @@ namespace CodeGenerator.Classes
             }
 
             _methods.Add(method);
-            return this;
         }
 
-        public ClassBuilder WithProperty(Property definition)
+        public void AddProperty(Property definition)
         {
             if (string.IsNullOrEmpty(definition.Name)
                 || !LegalTypeNameCharacters.IsMatch(definition.Name)
@@ -132,17 +131,15 @@ namespace CodeGenerator.Classes
                 throw new InvalidOperationException("Property has already been added");
             }
 
-            if (definition.Name == _className)
+            if (definition.Name == ClassName)
             {
                 throw new InvalidOperationException("Property name cannot be the same as the enclosing type");
             }
 
             _properties.Add(definition);
-
-            return this;
         }
 
-        public ClassBuilder WithAttribute(string definition)
+        public void AddAttribute(string definition)
         {
             if (string.IsNullOrEmpty(definition))
             {
@@ -155,11 +152,9 @@ namespace CodeGenerator.Classes
             }
 
             _attributes.Add(definition);
-
-            return this;
         }
 
-        public ClassBuilder WithConstructor(string definition)
+        public void AddConstructor(string definition)
         {
             if (string.IsNullOrEmpty(definition))
             {
@@ -172,11 +167,9 @@ namespace CodeGenerator.Classes
             }
 
             _constructors.Add(definition);
-
-            return this;
         }
 
-        public ClassBuilder WithField(Field definition)
+        public void AddField(Field definition)
         {
             if (string.IsNullOrEmpty(definition.Name)
                 || !LegalTypeNameCharacters.IsMatch(definition.Name)
@@ -190,17 +183,15 @@ namespace CodeGenerator.Classes
                 throw new InvalidOperationException("Field has already been added");
             }
 
-            if (definition.Name == _className)
+            if (definition.Name == ClassName)
             {
                 throw new InvalidOperationException("Field name cannot be the same as the enclosing type");
             }
 
             _fields.Add(definition);
-
-            return this;
         }
 
-        public ClassBuilder WithBaseClass(string value)
+        public void AddBaseClass(string value)
         {
             if (string.IsNullOrEmpty(value)
                 || !LegalTypeNameCharacters.IsMatch(value)
@@ -209,11 +200,10 @@ namespace CodeGenerator.Classes
                 throw new ArgumentException("Invalid base class name");
             }
 
-            _baseClass = value;
-            return this;
+            BaseClass = value;
         }
 
-        public ClassBuilder ImplementingInterface(string value)
+        public void AddInterface(string value)
         {
             if (string.IsNullOrEmpty(value)
                 || !LegalTypeNameCharacters.IsMatch(value)
@@ -223,11 +213,9 @@ namespace CodeGenerator.Classes
             }
 
             _implementedInterfaces.Add(value);
-
-            return this;
         }
 
-        public ClassBuilder WithModifier(string value)
+        public void AddModifier(string value)
         {
             if (!AllowedModifiers.Contains(value))
             {
@@ -260,34 +248,19 @@ namespace CodeGenerator.Classes
             }
 
             _modifiers.Add(value);
-
-            return this;
         }
 
-        public string Build()
+        public string Render()
         {
-            if (_namespace == null)
-            {
-                throw new InvalidOperationException("A namespace is required");
-            }
-            if (_className == null)
-            {
-                throw new InvalidOperationException("A class name is required");
-            }
-            if (_accessibilityLevel == null)
-            {
-                throw new InvalidOperationException("An access modifier is required");
-            }
-
             var template = new Template(TemplateContent.Class, StartDelimiter, EndDelimiter);
 
-            template.Add(ClassTemplateAttributes.Namespace, _namespace);
-            template.Add(ClassTemplateAttributes.AccessibilityLevel, ClassAccessibilityLevelMap[_accessibilityLevel.Value]);
+            template.Add(ClassTemplateAttributes.Namespace, Namespace);
+            template.Add(ClassTemplateAttributes.AccessibilityLevel, ClassAccessibilityLevelMap[AccessibilityLevel]);
             template.Add(ClassTemplateAttributes.Modifiers, _modifiers);
-            template.Add(ClassTemplateAttributes.Name, _className);
+            template.Add(ClassTemplateAttributes.Name, ClassName);
             template.Add(ClassTemplateAttributes.UsingDirectives, _usingDirectives);
             template.Add(ClassTemplateAttributes.Attributes, _attributes);
-            template.Add(ClassTemplateAttributes.BaseClass, _baseClass);
+            template.Add(ClassTemplateAttributes.BaseClass, BaseClass);
             template.Add(ClassTemplateAttributes.ImplementedInterfaces, _implementedInterfaces);
             template.Add(ClassTemplateAttributes.Fields, _fields);
             template.Add(ClassTemplateAttributes.Properties, _properties);
