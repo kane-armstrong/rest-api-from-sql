@@ -1,110 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Antlr4.StringTemplate;
+﻿using Antlr4.StringTemplate;
 using CodeGenerator.Projects;
 using CodeGenerator.Projects.Templates;
 using CodeGenerator.Projects.Templates.Resources;
 using CodeGenerator.Solutions.Global;
 using CodeGenerator.Solutions.Global.Enumerations;
 using CodeGenerator.Solutions.Global.Sections;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace CodeGenerator.Solutions
 {
+    // TODO Remove stuff that is tagged as not making sense - if we need it back we still have SolutionFile
+    // TODO Move rendering to a template instead of ToString()ing everything - the latter is inconsistent
     public class Solution
     {
-        private const char StartDelim = '$';
-        private const char EndDelim = '$';
+        private const char StartDelimeter = '$';
+        private const char EndDelimeter = '$';
 
         private readonly Guid _sharedProjectId;
         private readonly Guid _solutionGuid;
-        private readonly List<Project> _projects;
+        private readonly List<ProjectSection> _projects = new();
 
         private readonly string _solutionDirectory;
         private readonly string _solutionName;
 
-        private string SolutionPath => $"{_solutionDirectory}\\{_solutionName}.sln";
-
         public Solution(string directory, string name)
         {
-            _projects = new List<Project>();
             _solutionDirectory = directory;
             _solutionName = name;
             _solutionGuid = Guid.NewGuid();
             _sharedProjectId = Guid.NewGuid();
         }
 
-        private string GenerateProjectRootPath(Project project) => $"{_solutionDirectory}\\{project.Name}";
-
         public void AddProject(Project project)
         {
-            //if (_projects.Any(x => x.Name.Equals(project.Name, StringComparison.InvariantCultureIgnoreCase)))
-            //{
-            //    throw new SolutionGenerationException(string.Format(SharedResources.AddProjectNameCollisionException, nameof(project.Name), project.Name));
-            //}
-
-            project.Id = _sharedProjectId;
-            _projects.Add(project);
-        }
-
-        public void SaveChanges()
-        {
-            CreateDirectories();
-            SaveSolutionFile();
-            SaveProjectSourceFiles();
-        }
-
-        private void SaveProjectSourceFiles()
-        {
-            foreach (var projectFile in _projects)
+            if (_projects.Any(x => x.Project.Name.Equals(project.Name, StringComparison.InvariantCultureIgnoreCase)))
             {
-                var root = $"{GenerateProjectRootPath(projectFile)}";
-                //foreach (var file in projectFile.ClassFiles)
-                //{
-                //    var filePath = $"{root}\\{file.RelativePath}\\{file.FileName}";
-                //    if (File.Exists(filePath))
-                //    {
-                //        File.Delete(filePath);
-                //    }
-
-                //    File.AppendAllText(filePath, file.FileContent);
-                //}
-            }
-        }
-
-        private void CreateDirectories()
-        {
-            CreateDirectoryIfNotExists(_solutionDirectory);
-            foreach (var projectFile in _projects)
-            {
-                var root = GenerateProjectRootPath(projectFile);
-                CreateDirectoryIfNotExists(root);
-                //foreach (var file in projectFile.ClassFiles)
-                //{
-                //    CreateDirectoryIfNotExists($"{root}\\{file.RelativePath}");
-                //}
-            }
-        }
-
-        private void SaveSolutionFile()
-        {
-            if (File.Exists(SolutionPath))
-            {
-                File.Delete(SolutionPath);
+                throw new InvalidOperationException($"Failed to add the project as a project with the name '{project.Name}' already exists in the solution.");
             }
 
-            var solutionFileContent = GenerateSolutionFileContent();
-            File.AppendAllText(SolutionPath, solutionFileContent);
+            var section = new ProjectSection(project, _sharedProjectId);
+            _projects.Add(section);
         }
 
-        private string GenerateSolutionFileContent()
+        private string Render()
         {
+            // TODO shift to template
             var projectSectionsBuilder = new StringBuilder();
             foreach (var project in _projects)
             {
-                projectSectionsBuilder.AppendLine(GenerateProjectFileContent(project, _solutionDirectory));
+                projectSectionsBuilder.AppendLine(project.Render());
             }
 
             string projectsSection;
@@ -118,41 +65,16 @@ namespace CodeGenerator.Solutions
             else
             {
                 projectsSection = projectSectionsBuilder.ToString();
+                // TODO template
                 globalSection = GenerateGlobalSection().ToString();
             }
 
-            var template = new Template(TemplateContent.Solution, StartDelim, EndDelim);
+            var template = new Template(TemplateContent.Solution, StartDelimeter, EndDelimeter);
 
-            template.Add(TemplateKeys.ProjectConfigurations, projectsSection);
-            template.Add(TemplateKeys.GlobalSection, globalSection);
+            template.Add(ProjectAttributes.ProjectConfigurations, projectsSection);
+            template.Add(ProjectAttributes.GlobalSection, globalSection);
 
             return template.Render();
-        }
-
-        private static string GenerateProjectFileContent(Project project, string solutionDirectory)
-        {
-            var template = new Template(TemplateContent.ProjectSection, '$', '$');
-            template.Add(TemplateKeys.ProjectId, project.Id.ToString().ToUpper());
-            template.Add(TemplateKeys.ProjectName, project.Name);
-            template.Add(TemplateKeys.ProjectRelativePath, $"{solutionDirectory}\\{project.Name}\\{project.FileName}");
-            template.Add(TemplateKeys.SectionId, project.SectionId.ToString().ToUpper());
-            return template.Render();
-        }
-
-        private static void CreateDirectoryIfNotExists(string path)
-        {
-            if (Directory.Exists(path))
-            {
-                return;
-            }
-            try
-            {
-                Directory.CreateDirectory(path);
-            }
-            catch (Exception e)
-            {
-                //throw new SolutionGenerationException(SharedResources.CreateSolutionDirectoryGeneralException, e);
-            }
         }
 
         private GlobalSection GenerateGlobalSection()

@@ -1,6 +1,6 @@
-﻿namespace CodeGenerator.Projects.Templates
+﻿namespace CodeGenerator.Solutions.Templates
 {
-    internal static class TemplateKeys
+    internal static class ProjectAttributes
     {
         internal const string ProjectConfigurations = "projectConfigurations";
         internal const string GlobalSection = "globalSection";
