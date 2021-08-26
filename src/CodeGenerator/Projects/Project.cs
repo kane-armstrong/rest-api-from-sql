@@ -1,4 +1,7 @@
-﻿using CodeGenerator.Classes;
+﻿using Antlr4.StringTemplate;
+using CodeGenerator.Classes;
+using CodeGenerator.Projects.Templates;
+using CodeGenerator.Projects.Templates.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +10,9 @@ namespace CodeGenerator.Projects
 {
     public class Project
     {
+        private const char StartDelimiter = '$';
+        private const char EndDelimiter = '$';
+
         private readonly List<Class> _classes = new();
         private readonly List<PackageReference> _packageReferences = new();
 
@@ -16,9 +22,8 @@ namespace CodeGenerator.Projects
         public string TargetFramework { get; }
         public IReadOnlyList<Class> Classes => _classes.AsReadOnly();
         public IReadOnlyList<PackageReference> PackageReferences => _packageReferences.AsReadOnly();
-        public string Path { get; }
 
-        public Project(string name, string targetFramework, string directoryPath)
+        public Project(string name, string targetFramework)
         {
             // TODO validate name properly (project system/file system constraints)
             if (string.IsNullOrEmpty(name))
@@ -32,15 +37,8 @@ namespace CodeGenerator.Projects
                 throw new ArgumentException("Target framework is invalid", nameof(targetFramework));
             }
 
-            // TODO validate properly (just format, don't check if exists)
-            if (string.IsNullOrEmpty(directoryPath))
-            {
-                throw new ArgumentException("Target framework is invalid", nameof(directoryPath));
-            }
-
             Name = name;
             TargetFramework = targetFramework;
-            Path = @$"{directoryPath}\{Name}.csproj";
             Sdk = "Microsoft.NET.Sdk.Web";
         }
 
@@ -51,7 +49,6 @@ namespace CodeGenerator.Projects
                 throw new ArgumentException("Sdk is required", nameof(sdk));
             }
 
-            // TODO set this via ctor, maybe use something better than string
             Sdk = sdk;
         }
 
@@ -87,7 +84,13 @@ namespace CodeGenerator.Projects
 
         public string Render()
         {
-            return "";
+            var template = new Template(TemplateContent.Project, StartDelimiter, EndDelimiter);
+
+            template.Add(ProjectAttributes.Sdk, Sdk);
+            template.Add(ProjectAttributes.TargetFramework, TargetFramework);
+            template.Add(ProjectAttributes.PackageReferences, _packageReferences);
+
+            return template.Render();
         }
     }
 }

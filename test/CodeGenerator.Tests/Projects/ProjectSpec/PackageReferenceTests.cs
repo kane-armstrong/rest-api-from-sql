@@ -1,6 +1,6 @@
-﻿using CodeGenerator.Projects;
+﻿using System;
+using CodeGenerator.Projects;
 using FluentAssertions;
-using System;
 using Xunit;
 
 namespace CodeGenerator.Tests.Projects.ProjectSpec

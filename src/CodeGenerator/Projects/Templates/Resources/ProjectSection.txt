@@ -1,2 +1,0 @@
-﻿Project("{$projectId$}") = "$projectName$", "$projectRelativePath$", "{$sectionId$}"
-EndProject

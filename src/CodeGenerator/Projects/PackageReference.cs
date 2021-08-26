@@ -24,6 +24,11 @@ namespace CodeGenerator.Projects
                 throw new ArgumentException("Name is required", nameof(name));
             }
 
+            if (string.IsNullOrEmpty(version))
+            {
+                throw new ArgumentException("Version is required", nameof(version));
+            }
+
             Name = name;
             Version = version;
         }

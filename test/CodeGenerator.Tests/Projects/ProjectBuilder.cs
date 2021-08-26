@@ -28,7 +28,7 @@ namespace CodeGenerator.Tests.Projects
 
         public Project Build()
         {
-            return new Project(_name ?? "MyProject", _targetFramework ?? "net5.0", _path ?? @"C:\projects");
+            return new Project(_name ?? "MyProject", _targetFramework ?? "net5.0");
         }
     }
 }

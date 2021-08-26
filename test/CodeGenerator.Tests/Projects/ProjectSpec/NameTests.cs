@@ -20,7 +20,7 @@ namespace CodeGenerator.Tests.Projects.ProjectSpec
         [InlineData("")]
         public void An_argument_exception_is_thrown_for_invalid_project_names(string value)
         {
-            Assert.Throws<ArgumentException>(() => new Project(value, "net5.0", @"C:\projects"));
+            Assert.Throws<ArgumentException>(() => new Project(value, "net5.0"));
         }
     }
 }
