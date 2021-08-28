@@ -7,14 +7,14 @@
   <ItemGroup>
     <None Remove="Classes\Templates\Resources\Class.txt" />
     <None Remove="Classes\Templates\Resources\Method.txt" />
-    <None Remove="Projects\Templates\Resources\ProjectSection.txt" />
+    <None Remove="Projects\Templates\Resources\Project.txt" />
     <None Remove="Solutions\Templates\Resources\ProjectSection.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Classes\Templates\Resources\Method.txt" />
     <EmbeddedResource Include="Classes\Templates\Resources\Class.txt" />
-    <EmbeddedResource Include="Projects\Templates\Resources\ProjectSection.txt" />
+    <EmbeddedResource Include="Projects\Templates\Resources\Project.txt" />
     <EmbeddedResource Include="Solutions\Templates\Resources\ProjectSection.txt" />
   </ItemGroup>
 

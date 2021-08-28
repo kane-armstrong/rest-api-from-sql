@@ -1,8 +1,8 @@
 ﻿using Antlr4.StringTemplate;
 using CodeGenerator.Projects;
-using CodeGenerator.Projects.Templates;
-using CodeGenerator.Projects.Templates.Resources;
 using System;
+using CodeGenerator.Solutions.Templates;
+using CodeGenerator.Solutions.Templates.Resources;
 
 namespace CodeGenerator.Solutions
 {
@@ -22,10 +22,11 @@ namespace CodeGenerator.Solutions
         public string Render()
         {
             var template = new Template(TemplateContent.ProjectSection, '$', '$');
-            template.Add(ProjectAttributes.ProjectId, Id.ToString().ToUpper());
-            template.Add(ProjectAttributes.ProjectName, Project.Name);
-            template.Add(ProjectAttributes.ProjectRelativePath, @$"{Project.Path}.csproj");
-            template.Add(ProjectAttributes.SectionId, SectionId.ToString().ToUpper());
+            template.Add(ProjectSectionAttributes.ProjectId, Id.ToString().ToUpper());
+            template.Add(ProjectSectionAttributes.ProjectName, Project.Name);
+            // TODO Project relative path should ideally support e.g. putting it in src or test
+            template.Add(ProjectSectionAttributes.ProjectRelativePath, @$"{Project.Name}\{Project.Name}.csproj");
+            template.Add(ProjectSectionAttributes.SectionId, SectionId.ToString().ToUpper());
             return template.Render();
         }
     }

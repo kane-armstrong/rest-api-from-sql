@@ -1,7 +1,5 @@
 ﻿using Antlr4.StringTemplate;
 using CodeGenerator.Projects;
-using CodeGenerator.Projects.Templates;
-using CodeGenerator.Projects.Templates.Resources;
 using CodeGenerator.Solutions.Global;
 using CodeGenerator.Solutions.Global.Enumerations;
 using CodeGenerator.Solutions.Global.Sections;
@@ -9,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CodeGenerator.Solutions.Templates;
+using CodeGenerator.Solutions.Templates.Resources;
 
 namespace CodeGenerator.Solutions
 {
@@ -16,8 +16,8 @@ namespace CodeGenerator.Solutions
     // TODO Move rendering to a template instead of ToString()ing everything - the latter is inconsistent
     public class Solution
     {
-        private const char StartDelimeter = '$';
-        private const char EndDelimeter = '$';
+        private const char StartDelimiter = '$';
+        private const char EndDelimiter = '$';
 
         private readonly Guid _sharedProjectId;
         private readonly Guid _solutionGuid;
@@ -69,10 +69,10 @@ namespace CodeGenerator.Solutions
                 globalSection = GenerateGlobalSection().ToString();
             }
 
-            var template = new Template(TemplateContent.Solution, StartDelimeter, EndDelimeter);
+            var template = new Template(TemplateContent.Solution, StartDelimiter, EndDelimiter);
 
-            template.Add(ProjectAttributes.ProjectConfigurations, projectsSection);
-            template.Add(ProjectAttributes.GlobalSection, globalSection);
+            template.Add(SolutionAttributes.ProjectConfigurations, projectsSection);
+            template.Add(SolutionAttributes.GlobalSection, globalSection);
 
             return template.Render();
         }
