@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>$targetFramework$</TargetFramework>
   </PropertyGroup>
-
   $if(packageReferences)$
   
   <ItemGroup>
-    $packageReferences:{x |<PackageReference Include="$x.Name$"$if(x.Version)$ Version="$x.Version$"$endif$ />}$
+    $trunc(packageReferences):{x |<PackageReference Include="$x.Name$"$if(x.Version)$ Version="$x.Version$"$endif$ />$\n$}$$\\$
+    $last(packageReferences):{x |     <PackageReference Include="$x.Name$"$if(x.Version)$ Version="$x.Version$"$endif$ />}$
   </ItemGroup>
   $endif$
 </Project>
