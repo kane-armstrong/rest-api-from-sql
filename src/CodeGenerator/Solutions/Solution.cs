@@ -19,7 +19,7 @@ namespace CodeGenerator.Solutions
         private const char StartDelimiter = '$';
         private const char EndDelimiter = '$';
 
-        private readonly Guid _solutionGuid;
+        public Guid SolutionGuid { get; }
         private readonly List<ProjectSection> _projects = new();
 
         private readonly string _solutionDirectory;
@@ -29,7 +29,7 @@ namespace CodeGenerator.Solutions
         {
             _solutionDirectory = directory;
             _solutionName = name;
-            _solutionGuid = Guid.NewGuid();
+            SolutionGuid = Guid.NewGuid();
         }
 
         public void AddProject(Project project)
@@ -97,7 +97,7 @@ namespace CodeGenerator.Solutions
                 projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Release, CpuConfiguration.x86, activeConfig));
                 projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Release, CpuConfiguration.x86, buildConfig));
             }
-            return new GlobalSection(solutionConfigurationPlatforms, projectConfigurationPlatforms, new SolutionProperties(false), new ExtensibilityGlobals(_solutionGuid));
+            return new GlobalSection(solutionConfigurationPlatforms, projectConfigurationPlatforms, new SolutionProperties(false), new ExtensibilityGlobals(SolutionGuid));
         }
     }
 }
