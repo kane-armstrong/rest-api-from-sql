@@ -28,7 +28,7 @@ namespace CodeGenerator.Solutions.Global
             ExtensibilityGlobals = extensibilityGlobals;
         }
 
-        private const string Tab = "\t";
+        private const string Tab = "    ";
 
         public override string ToString()
         {
