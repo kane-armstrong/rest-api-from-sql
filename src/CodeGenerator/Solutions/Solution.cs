@@ -19,7 +19,6 @@ namespace CodeGenerator.Solutions
         private const char StartDelimiter = '$';
         private const char EndDelimiter = '$';
 
-        private readonly Guid _sharedProjectId;
         private readonly Guid _solutionGuid;
         private readonly List<ProjectSection> _projects = new();
 
@@ -31,7 +30,6 @@ namespace CodeGenerator.Solutions
             _solutionDirectory = directory;
             _solutionName = name;
             _solutionGuid = Guid.NewGuid();
-            _sharedProjectId = Guid.NewGuid();
         }
 
         public void AddProject(Project project)
@@ -41,7 +39,7 @@ namespace CodeGenerator.Solutions
                 throw new InvalidOperationException($"Failed to add the project as a project with the name '{project.Name}' already exists in the solution.");
             }
 
-            var section = new ProjectSection(project, _sharedProjectId);
+            var section = new ProjectSection(project);
             _projects.Add(section);
         }
 
@@ -86,18 +84,18 @@ namespace CodeGenerator.Solutions
             {
                 var activeConfig = new ActiveConfigurationId();
                 var buildConfig = new BuildConfigurationId(0);
-                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.SectionId, BuildConfiguration.Debug, CpuConfiguration.Any_CPU, activeConfig));
-                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.SectionId, BuildConfiguration.Debug, CpuConfiguration.Any_CPU, buildConfig));
-                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.SectionId, BuildConfiguration.Debug, CpuConfiguration.x64, activeConfig));
-                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.SectionId, BuildConfiguration.Debug, CpuConfiguration.x64, buildConfig));
-                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.SectionId, BuildConfiguration.Debug, CpuConfiguration.x86, activeConfig));
-                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.SectionId, BuildConfiguration.Debug, CpuConfiguration.x86, buildConfig));
-                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.SectionId, BuildConfiguration.Release, CpuConfiguration.Any_CPU, activeConfig));
-                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.SectionId, BuildConfiguration.Release, CpuConfiguration.Any_CPU, buildConfig));
-                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.SectionId, BuildConfiguration.Release, CpuConfiguration.x64, activeConfig));
-                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.SectionId, BuildConfiguration.Release, CpuConfiguration.x64, buildConfig));
-                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.SectionId, BuildConfiguration.Release, CpuConfiguration.x86, activeConfig));
-                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.SectionId, BuildConfiguration.Release, CpuConfiguration.x86, buildConfig));
+                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Debug, CpuConfiguration.Any_CPU, activeConfig));
+                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Debug, CpuConfiguration.Any_CPU, buildConfig));
+                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Debug, CpuConfiguration.x64, activeConfig));
+                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Debug, CpuConfiguration.x64, buildConfig));
+                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Debug, CpuConfiguration.x86, activeConfig));
+                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Debug, CpuConfiguration.x86, buildConfig));
+                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Release, CpuConfiguration.Any_CPU, activeConfig));
+                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Release, CpuConfiguration.Any_CPU, buildConfig));
+                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Release, CpuConfiguration.x64, activeConfig));
+                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Release, CpuConfiguration.x64, buildConfig));
+                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Release, CpuConfiguration.x86, activeConfig));
+                projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Release, CpuConfiguration.x86, buildConfig));
             }
             return new GlobalSection(solutionConfigurationPlatforms, projectConfigurationPlatforms, new SolutionProperties(false), new ExtensibilityGlobals(_solutionGuid));
         }

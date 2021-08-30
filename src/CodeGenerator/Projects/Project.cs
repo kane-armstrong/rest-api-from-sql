@@ -16,6 +16,9 @@ namespace CodeGenerator.Projects
         private readonly List<Class> _classes = new();
         private readonly List<PackageReference> _packageReferences = new();
 
+        /// <remarks>Currently only supports C# projects (csproj).</remarks>>
+        public Guid ProjectTypeId { get; }
+        public Guid ProjectId { get; }
         /// <remarks>Defaults to Microsoft.NET.Sdk.Web</remarks>>
         public string Sdk { get; private set; }
         public string Name { get; }
@@ -37,6 +40,8 @@ namespace CodeGenerator.Projects
                 throw new ArgumentException("Target framework is invalid", nameof(targetFramework));
             }
 
+            ProjectTypeId = ProjectTypeIds.Csproj;
+            ProjectId = Guid.NewGuid();
             Name = name;
             TargetFramework = targetFramework;
             Sdk = "Microsoft.NET.Sdk.Web";

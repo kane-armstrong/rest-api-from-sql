@@ -1,2 +1,2 @@
-﻿Project("{$projectId$}") = "$projectName$", "$projectRelativePath$", "{$sectionId$}"
+﻿Project("{$projectTypeId$}") = "$projectName$", "$projectRelativePath$", "{$projectId$}"
 EndProject
