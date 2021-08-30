@@ -45,34 +45,27 @@ namespace CodeGenerator.Solutions
             _projects.Add(section);
         }
 
-        private string Render()
+        public string Render()
         {
             // TODO shift to template
-            var projectSectionsBuilder = new StringBuilder();
+
+            var projects = new List<string>();
             foreach (var project in _projects)
             {
-                projectSectionsBuilder.AppendLine(project.Render());
+                projects.Add(project.Render());
             }
 
-            string projectsSection;
-            string globalSection;
-
-            if (!_projects.Any())
+            var globalSection = GenerateGlobalSection();
+            string globalSectionString = null;
+            if (globalSection.ProjectConfigurationPlatforms.Any())
             {
-                projectsSection = "";
-                globalSection = "";
+                globalSectionString = globalSection.ToString();
             }
-            else
-            {
-                projectsSection = projectSectionsBuilder.ToString();
-                // TODO template
-                globalSection = GenerateGlobalSection().ToString();
-            }
-
+            
             var template = new Template(TemplateContent.Solution, StartDelimiter, EndDelimiter);
 
-            template.Add(SolutionAttributes.ProjectConfigurations, projectsSection);
-            template.Add(SolutionAttributes.GlobalSection, globalSection);
+            template.Add(SolutionAttributes.ProjectConfigurations, projects);
+            template.Add(SolutionAttributes.GlobalSection, globalSectionString);
 
             return template.Render();
         }
