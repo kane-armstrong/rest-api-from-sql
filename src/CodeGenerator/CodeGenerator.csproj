@@ -5,13 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Templates\Resources\Class.txt" />
-    <None Remove="Templates\Resources\Method.txt" />
+    <None Remove="Classes\Templates\Resources\Class.txt" />
+    <None Remove="Classes\Templates\Resources\Method.txt" />
+    <None Remove="Projects\Templates\Resources\Project.txt" />
+    <None Remove="Solutions\Templates\Resources\ProjectSection.txt" />
+    <None Remove="Solutions\Templates\Resources\Solution.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Templates\Resources\Method.txt" />
-    <EmbeddedResource Include="Templates\Resources\Class.txt" />
+    <EmbeddedResource Include="Classes\Templates\Resources\Method.txt" />
+    <EmbeddedResource Include="Classes\Templates\Resources\Class.txt" />
+    <EmbeddedResource Include="Projects\Templates\Resources\Project.txt" />
+    <EmbeddedResource Include="Solutions\Templates\Resources\ProjectSection.txt" />
+    <EmbeddedResource Include="Solutions\Templates\Resources\Solution.txt" />
   </ItemGroup>
 
   <ItemGroup>
