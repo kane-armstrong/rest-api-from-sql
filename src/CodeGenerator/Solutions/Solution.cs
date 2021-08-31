@@ -3,33 +3,40 @@ using CodeGenerator.Projects;
 using CodeGenerator.Solutions.Global;
 using CodeGenerator.Solutions.Global.Enumerations;
 using CodeGenerator.Solutions.Global.Sections;
+using CodeGenerator.Solutions.Templates;
+using CodeGenerator.Solutions.Templates.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using CodeGenerator.Solutions.Templates;
-using CodeGenerator.Solutions.Templates.Resources;
 
 namespace CodeGenerator.Solutions
 {
-    // TODO Remove stuff that is tagged as not making sense - if we need it back we still have SolutionFile
-    // TODO Move rendering to a template instead of ToString()ing everything - the latter is inconsistent
     public class Solution
     {
         private const char StartDelimiter = '$';
         private const char EndDelimiter = '$';
-
-        public Guid SolutionGuid { get; }
         private readonly List<ProjectSection> _projects = new();
 
-        private readonly string _solutionDirectory;
-        private readonly string _solutionName;
+        public Guid Id { get; }
+        public string Directory { get; }
+        public string Name { get; }
 
         public Solution(string directory, string name)
         {
-            _solutionDirectory = directory;
-            _solutionName = name;
-            SolutionGuid = Guid.NewGuid();
+            if (string.IsNullOrEmpty(directory))
+            {
+                throw new ArgumentException(nameof(directory));
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException(nameof(name));
+            }
+            
+            Id = Guid.NewGuid();
+
+            Directory = directory;
+            Name = name;
         }
 
         public void AddProject(Project project)
@@ -45,8 +52,6 @@ namespace CodeGenerator.Solutions
 
         public string Render()
         {
-            // TODO shift to template
-
             var projects = new List<string>();
             foreach (var project in _projects)
             {
@@ -59,7 +64,7 @@ namespace CodeGenerator.Solutions
             {
                 globalSectionString = globalSection.ToString();
             }
-            
+
             var template = new Template(TemplateContent.Solution, StartDelimiter, EndDelimiter);
 
             template.Add(SolutionAttributes.ProjectConfigurations, projects);
@@ -97,7 +102,7 @@ namespace CodeGenerator.Solutions
                 projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Release, CpuConfiguration.x86, activeConfig));
                 projectConfigurationPlatforms.Add(new ProjectConfigurationPlatform(project.Project.ProjectId, BuildConfiguration.Release, CpuConfiguration.x86, buildConfig));
             }
-            return new GlobalSection(solutionConfigurationPlatforms, projectConfigurationPlatforms, new SolutionProperties(false), new ExtensibilityGlobals(SolutionGuid));
+            return new GlobalSection(solutionConfigurationPlatforms, projectConfigurationPlatforms, new SolutionProperties(false), new ExtensibilityGlobals(Id));
         }
     }
 }

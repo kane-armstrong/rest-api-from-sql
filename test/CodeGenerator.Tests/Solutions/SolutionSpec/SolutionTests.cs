@@ -16,7 +16,7 @@ namespace CodeGenerator.Tests.Solutions.SolutionSpec
 
             var projectTypeId = project.ProjectTypeId.ToString().ToUpper();
             var projectId = project.ProjectId.ToString().ToUpper();
-            var solutionGuid = sut.SolutionGuid.ToString().ToUpper();
+            var solutionId = sut.Id.ToString().ToUpper();
 
             var result = sut.Render();
             result.Should().Be($@"Microsoft Visual Studio Solution File, Format Version 12.00
@@ -52,7 +52,7 @@ Global
         HideSolutionNode = FALSE
     EndGlobalSection
     GlobalSection(ExtensibilityGlobals) = postSolution
-        SolutionGuid = {{{solutionGuid}}}
+        SolutionGuid = {{{solutionId}}}
     EndGlobalSection
 EndGlobal
 ");
@@ -69,7 +69,7 @@ EndGlobal
             sut.AddProject(project1);
             sut.AddProject(project2);
 
-            var solutionGuid = sut.SolutionGuid.ToString().ToUpper();
+            var solutionId = sut.Id.ToString().ToUpper();
             
             var projectTypeId1 = project1.ProjectTypeId.ToString().ToUpper();
             var projectId1 = project1.ProjectId.ToString().ToUpper();
@@ -125,7 +125,7 @@ Global
         HideSolutionNode = FALSE
     EndGlobalSection
     GlobalSection(ExtensibilityGlobals) = postSolution
-        SolutionGuid = {{{solutionGuid}}}
+        SolutionGuid = {{{solutionId}}}
     EndGlobalSection
 EndGlobal
 ");
