@@ -1,14 +1,13 @@
 ﻿using CodeGenerator.Solutions.Global.Enumerations;
 
-namespace CodeGenerator.Solutions.Global
-{
-    public abstract class ProjectConfigurationId
-    {
-        public ProjectConfigurationCode Code { get; }
+namespace CodeGenerator.Solutions.Global;
 
-        protected ProjectConfigurationId(ProjectConfigurationCode code)
-        {
-            Code = code;
-        }
+public abstract class ProjectConfigurationId
+{
+    public ProjectConfigurationCode Code { get; }
+
+    protected ProjectConfigurationId(ProjectConfigurationCode code)
+    {
+        Code = code;
     }
 }

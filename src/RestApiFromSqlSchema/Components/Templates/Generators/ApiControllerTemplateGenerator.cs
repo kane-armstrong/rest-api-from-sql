@@ -4,181 +4,180 @@ using SchemaExplorer;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RestApiFromSqlSchema.Components.Templates.Generators
+namespace RestApiFromSqlSchema.Components.Templates.Generators;
+
+public static class ApiControllerTemplateGenerator
 {
-    public static class ApiControllerTemplateGenerator
+    public static ApiControllerTemplate Generate(Table table)
     {
-        public static ApiControllerTemplate Generate(Table table)
+        var config = new ApiControllerTemplate
         {
-            var config = new ApiControllerTemplate
-            {
-                Namespace = table.SchemaName,
-                TypeName = table.Name.LegalCsharpName,
-                IncludeUniqueKeyActions = table.HasUniqueKeys,
-                GetByUniqueKeyTemplates = new List<GetByIdApiActionTemplate>(),
-                EditByUniqueKeyTemplates = new List<EditApiActionTemplate>(),
-                DeleteByUniqueKeyTemplates = new List<DeleteApiActionTemplate>(),
-                ListApiActionTemplate = ConfigureListApiActionTemplate(table),
-                GetByIdApiActionTemplate = ConfigureGetByIdApiActionTemplate(table),
-                CreateApiActionTemplate = ConfigureCreateApiActionTemplate(table),
-                EditApiActionTemplate = ConfigureEditApiActionTemplate(table),
-                DeleteApiActionTemplate = ConfigureDeleteApiActionTemplate(table)
-            };
+            Namespace = table.SchemaName,
+            TypeName = table.Name.LegalCsharpName,
+            IncludeUniqueKeyActions = table.HasUniqueKeys,
+            GetByUniqueKeyTemplates = new List<GetByIdApiActionTemplate>(),
+            EditByUniqueKeyTemplates = new List<EditApiActionTemplate>(),
+            DeleteByUniqueKeyTemplates = new List<DeleteApiActionTemplate>(),
+            ListApiActionTemplate = ConfigureListApiActionTemplate(table),
+            GetByIdApiActionTemplate = ConfigureGetByIdApiActionTemplate(table),
+            CreateApiActionTemplate = ConfigureCreateApiActionTemplate(table),
+            EditApiActionTemplate = ConfigureEditApiActionTemplate(table),
+            DeleteApiActionTemplate = ConfigureDeleteApiActionTemplate(table)
+        };
 
-            if (table.HasUniqueKeys)
-            {
-                var uniqueKeyGroups = table.Constraints.Where(x => x.ConstraintType == ConstraintType.Unique).ToList().GroupBy(x => x.ConstraintName);
+        if (table.HasUniqueKeys)
+        {
+            var uniqueKeyGroups = table.Constraints.Where(x => x.ConstraintType == ConstraintType.Unique).ToList().GroupBy(x => x.ConstraintName);
 
-                foreach (var group in uniqueKeyGroups)
-                {
-                    config.GetByUniqueKeyTemplates.Add(ConfigureGetByUniqueKeyTemplate(table, group));
-                    config.EditByUniqueKeyTemplates.Add(ConfigureEditByUniqueKeyTemplate(table, group));
-                    config.DeleteByUniqueKeyTemplates.Add(ConfigureDeleteByUniqueKeyTemplate(table, group));
-                }
+            foreach (var group in uniqueKeyGroups)
+            {
+                config.GetByUniqueKeyTemplates.Add(ConfigureGetByUniqueKeyTemplate(table, group));
+                config.EditByUniqueKeyTemplates.Add(ConfigureEditByUniqueKeyTemplate(table, group));
+                config.DeleteByUniqueKeyTemplates.Add(ConfigureDeleteByUniqueKeyTemplate(table, group));
             }
-
-            return config;
         }
 
-        private static GetByIdApiActionTemplate ConfigureGetByUniqueKeyTemplate(Table table, IGrouping<string, Constraint> group)
+        return config;
+    }
+
+    private static GetByIdApiActionTemplate ConfigureGetByUniqueKeyTemplate(Table table, IGrouping<string, Constraint> group)
+    {
+        var columns = table.Columns.Where(x => group.Select(y => y).Any(z => z.ColumnName.ActualName == x.ActualName)).ToList();
+        return new GetByIdApiActionTemplate
         {
-            var columns = table.Columns.Where(x => group.Select(y => y).Any(z => z.ColumnName.ActualName == x.ActualName)).ToList();
-            return new GetByIdApiActionTemplate
-            {
-                Route = string.Join("_", group.Select(x => x).Select(x => x.ColumnName.ActualName)),
-                RouteName = $"Get_{table.SchemaName}_{table.Name.ActualName}_By_{string.Join("_", group.Select(x => x.ColumnName.ActualName))}",
-                FilterableColumns = columns
-            };
-        }
+            Route = string.Join("_", group.Select(x => x).Select(x => x.ColumnName.ActualName)),
+            RouteName = $"Get_{table.SchemaName}_{table.Name.ActualName}_By_{string.Join("_", group.Select(x => x.ColumnName.ActualName))}",
+            FilterableColumns = columns
+        };
+    }
 
-        private static EditApiActionTemplate ConfigureEditByUniqueKeyTemplate(Table table, IGrouping<string, Constraint> group)
+    private static EditApiActionTemplate ConfigureEditByUniqueKeyTemplate(Table table, IGrouping<string, Constraint> group)
+    {
+        var keyColumns = new List<Column>();
+
+        if (table.HasCompositeKey)
         {
-            var keyColumns = new List<Column>();
-
-            if (table.HasCompositeKey)
-            {
-                keyColumns.AddRange(table.CompositeKeyColumns);
-            }
-
-            if (table.HasKeyColumn)
-            {
-                keyColumns.Add(table.KeyColumn);
-            }
-
-            var filterableColumns = table.Columns.Where(x => group.Select(y => y).Any(z => z.ColumnName.ActualName == x.ActualName)).ToList();
-            return new EditApiActionTemplate
-            {
-                Route = string.Join("_", group.Select(x => x).Select(x => x.ColumnName.ActualName)),
-                RouteName = $"Edit_{table.SchemaName}_{table.Name.ActualName}_By_{string.Join("_", group.Select(x => x.ColumnName.ActualName))}",
-                FilterableColumns = filterableColumns,
-                EditableColumns = table.Columns,
-                KeyColumns = keyColumns
-            };
+            keyColumns.AddRange(table.CompositeKeyColumns);
         }
 
-        private static DeleteApiActionTemplate ConfigureDeleteByUniqueKeyTemplate(Table table, IGrouping<string, Constraint> group)
+        if (table.HasKeyColumn)
         {
-            var filterableColumns = table.Columns.Where(x => group.Select(y => y).Any(z => z.ColumnName.ActualName == x.ActualName)).ToList();
-            return new DeleteApiActionTemplate
-            {
-                Route = string.Join("_", group.Select(x => x).Select(x => x.ColumnName.ActualName)),
-                RouteName = $"Delete_{table.SchemaName}_{table.Name.ActualName}_By_{string.Join("_", group.Select(x => x.ColumnName.ActualName))}",
-                FilterableColumns = filterableColumns
-            };
+            keyColumns.Add(table.KeyColumn);
         }
 
-        private static ListApiActionTemplate ConfigureListApiActionTemplate(Table table)
+        var filterableColumns = table.Columns.Where(x => group.Select(y => y).Any(z => z.ColumnName.ActualName == x.ActualName)).ToList();
+        return new EditApiActionTemplate
         {
-            var orderByColumns = new List<Column>();
-            if (table.HasKeyColumn)
-            {
-                orderByColumns.Add(table.KeyColumn);
-            }
+            Route = string.Join("_", group.Select(x => x).Select(x => x.ColumnName.ActualName)),
+            RouteName = $"Edit_{table.SchemaName}_{table.Name.ActualName}_By_{string.Join("_", group.Select(x => x.ColumnName.ActualName))}",
+            FilterableColumns = filterableColumns,
+            EditableColumns = table.Columns,
+            KeyColumns = keyColumns
+        };
+    }
 
-            if (table.HasCompositeKey)
-            {
-                orderByColumns.AddRange(table.CompositeKeyColumns);
-            }
-
-            return new ListApiActionTemplate
-            {
-                Route = "",
-                RouteName = $"List_{table.SchemaName}_{table.Name.ActualName}",
-                OrderByColumns = orderByColumns
-            };
-        }
-
-        private static GetByIdApiActionTemplate ConfigureGetByIdApiActionTemplate(Table table)
+    private static DeleteApiActionTemplate ConfigureDeleteByUniqueKeyTemplate(Table table, IGrouping<string, Constraint> group)
+    {
+        var filterableColumns = table.Columns.Where(x => group.Select(y => y).Any(z => z.ColumnName.ActualName == x.ActualName)).ToList();
+        return new DeleteApiActionTemplate
         {
-            return new GetByIdApiActionTemplate
-            {
-                Route = GenerateActionRoute(table),
-                RouteName = $"GetById_{table.SchemaName}_{table.Name.ActualName}",
-                FilterableColumns = FindFilterableColumns(table)
-            };
-        }
+            Route = string.Join("_", group.Select(x => x).Select(x => x.ColumnName.ActualName)),
+            RouteName = $"Delete_{table.SchemaName}_{table.Name.ActualName}_By_{string.Join("_", group.Select(x => x.ColumnName.ActualName))}",
+            FilterableColumns = filterableColumns
+        };
+    }
 
-        private static CreateApiActionTemplate ConfigureCreateApiActionTemplate(Table table)
+    private static ListApiActionTemplate ConfigureListApiActionTemplate(Table table)
+    {
+        var orderByColumns = new List<Column>();
+        if (table.HasKeyColumn)
         {
-            return new CreateApiActionTemplate
-            {
-                Route = "",
-                RouteName = $"Create_{table.SchemaName}_{table.Name.ActualName}"
-            };
+            orderByColumns.Add(table.KeyColumn);
         }
 
-        private static EditApiActionTemplate ConfigureEditApiActionTemplate(Table table)
+        if (table.HasCompositeKey)
         {
-            var keyColumns = new List<Column>();
-
-            if (table.HasCompositeKey)
-            {
-                keyColumns.AddRange(table.CompositeKeyColumns);
-            }
-
-            if (table.HasKeyColumn)
-            {
-                keyColumns.Add(table.KeyColumn);
-            }
-
-            return new EditApiActionTemplate
-            {
-                Route = GenerateActionRoute(table),
-                RouteName = $"Edit_{table.SchemaName}_{table.Name.ActualName}",
-                FilterableColumns = FindFilterableColumns(table),
-                EditableColumns = table.Columns,
-                ExistingEntityVariableName = "existing",
-                ModelVariableName = "value",
-                KeyColumns = keyColumns
-            };
+            orderByColumns.AddRange(table.CompositeKeyColumns);
         }
 
-        private static DeleteApiActionTemplate ConfigureDeleteApiActionTemplate(Table table)
+        return new ListApiActionTemplate
         {
-            return new DeleteApiActionTemplate
-            {
-                Route = "",
-                RouteName = $"Delete_{table.SchemaName}_{table.Name.ActualName}",
-                FilterableColumns = FindFilterableColumns(table)
-            };
+            Route = "",
+            RouteName = $"List_{table.SchemaName}_{table.Name.ActualName}",
+            OrderByColumns = orderByColumns
+        };
+    }
+
+    private static GetByIdApiActionTemplate ConfigureGetByIdApiActionTemplate(Table table)
+    {
+        return new GetByIdApiActionTemplate
+        {
+            Route = GenerateActionRoute(table),
+            RouteName = $"GetById_{table.SchemaName}_{table.Name.ActualName}",
+            FilterableColumns = FindFilterableColumns(table)
+        };
+    }
+
+    private static CreateApiActionTemplate ConfigureCreateApiActionTemplate(Table table)
+    {
+        return new CreateApiActionTemplate
+        {
+            Route = "",
+            RouteName = $"Create_{table.SchemaName}_{table.Name.ActualName}"
+        };
+    }
+
+    private static EditApiActionTemplate ConfigureEditApiActionTemplate(Table table)
+    {
+        var keyColumns = new List<Column>();
+
+        if (table.HasCompositeKey)
+        {
+            keyColumns.AddRange(table.CompositeKeyColumns);
         }
 
-        private static IList<Column> FindFilterableColumns(Table table)
+        if (table.HasKeyColumn)
         {
-            return table.HasKeyColumn
-                ? new List<Column> { table.KeyColumn }
-                : table.CompositeKeyColumns.ToList();
+            keyColumns.Add(table.KeyColumn);
         }
 
-        private static string GenerateActionRoute(Table table)
+        return new EditApiActionTemplate
         {
-            if (table.HasKeyColumn)
-            {
-                return $"{{{table.KeyColumn.ActualName.ToCamelCase()}}}";
-            }
-            var compositeKeys = table.CompositeKeyColumns.ToList();
-            var routeParams = compositeKeys.Select(x => $"{x.ActualName.ToCamelCase()}/{{{x.ActualName.ToCamelCase()}}}");
-            return string.Join("/", routeParams);
+            Route = GenerateActionRoute(table),
+            RouteName = $"Edit_{table.SchemaName}_{table.Name.ActualName}",
+            FilterableColumns = FindFilterableColumns(table),
+            EditableColumns = table.Columns,
+            ExistingEntityVariableName = "existing",
+            ModelVariableName = "value",
+            KeyColumns = keyColumns
+        };
+    }
+
+    private static DeleteApiActionTemplate ConfigureDeleteApiActionTemplate(Table table)
+    {
+        return new DeleteApiActionTemplate
+        {
+            Route = "",
+            RouteName = $"Delete_{table.SchemaName}_{table.Name.ActualName}",
+            FilterableColumns = FindFilterableColumns(table)
+        };
+    }
+
+    private static IList<Column> FindFilterableColumns(Table table)
+    {
+        return table.HasKeyColumn
+            ? new List<Column> { table.KeyColumn }
+            : table.CompositeKeyColumns.ToList();
+    }
+
+    private static string GenerateActionRoute(Table table)
+    {
+        if (table.HasKeyColumn)
+        {
+            return $"{{{table.KeyColumn.ActualName.ToCamelCase()}}}";
         }
+        var compositeKeys = table.CompositeKeyColumns.ToList();
+        var routeParams = compositeKeys.Select(x => $"{x.ActualName.ToCamelCase()}/{{{x.ActualName.ToCamelCase()}}}");
+        return string.Join("/", routeParams);
     }
 }

@@ -2,53 +2,52 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodeGenerator.Classes
+namespace CodeGenerator.Classes;
+
+public class MethodArgument
 {
-    public class MethodArgument
+    private static readonly string[] AllowedModifiers =
     {
-        private static readonly string[] AllowedModifiers =
-        {
-            "ref",
-            "out",
-            "params",
-            "in"
-        };
+        "ref",
+        "out",
+        "params",
+        "in"
+    };
 
-        public string Type { get; }
-        public string Name { get; }
-        public string Modifier { get; }
-        public List<string> Attributes { get; } = new();
+    public string Type { get; }
+    public string Name { get; }
+    public string Modifier { get; }
+    public List<string> Attributes { get; } = new();
 
-        public MethodArgument(string type, string name)
+    public MethodArgument(string type, string name)
+    {
+        Type = type;
+        Name = name;
+    }
+
+    public MethodArgument(string type, string name, string modifier)
+    {
+        Type = type;
+        Name = name;
+        if (!AllowedModifiers.Contains(modifier))
         {
-            Type = type;
-            Name = name;
+            throw new ArgumentException("Modifier is not a valid method argument modifier", nameof(modifier));
+        }
+        Modifier = modifier;
+    }
+
+    public void AddAttribute(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            throw new ArgumentException("Attribute must have a value");
         }
 
-        public MethodArgument(string type, string name, string modifier)
+        if (Attributes.Contains(value))
         {
-            Type = type;
-            Name = name;
-            if (!AllowedModifiers.Contains(modifier))
-            {
-                throw new ArgumentException("Modifier is not a valid method argument modifier", nameof(modifier));
-            }
-            Modifier = modifier;
+            throw new InvalidOperationException("Attribute has already been added.");
         }
 
-        public void AddAttribute(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                throw new ArgumentException("Attribute must have a value");
-            }
-
-            if (Attributes.Contains(value))
-            {
-                throw new InvalidOperationException("Attribute has already been added.");
-            }
-
-            Attributes.Add(value);
-        }
+        Attributes.Add(value);
     }
 }

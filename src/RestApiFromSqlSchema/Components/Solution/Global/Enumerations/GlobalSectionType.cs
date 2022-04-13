@@ -1,8 +1,7 @@
-﻿namespace RestApiFromSqlSchema.Components.Solution.Global.Enumerations
+﻿namespace RestApiFromSqlSchema.Components.Solution.Global.Enumerations;
+
+public enum GlobalSectionType
 {
-    public enum GlobalSectionType
-    {
-        preSolution,
-        postSolution
-    }
+    preSolution,
+    postSolution
 }

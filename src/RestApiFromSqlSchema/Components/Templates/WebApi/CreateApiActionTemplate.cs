@@ -1,8 +1,7 @@
-﻿namespace RestApiFromSqlSchema.Components.Templates.WebApi
+﻿namespace RestApiFromSqlSchema.Components.Templates.WebApi;
+
+public class CreateApiActionTemplate
 {
-    public class CreateApiActionTemplate
-    {
-        public string Route { get; set; }
-        public string RouteName { get; set; }
-    }
+    public string Route { get; set; }
+    public string RouteName { get; set; }
 }

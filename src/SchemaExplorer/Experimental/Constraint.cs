@@ -1,9 +1,8 @@
-﻿namespace SchemaExplorer.Experimental
+﻿namespace SchemaExplorer.Experimental;
+
+public class Constraint
 {
-    public class Constraint
-    {
-        public string Name { get; set; }
-        public ConstraintType ConstraintType { get; set; }
-        public int OrdinalPosition { get; set; }
-    }
+    public string Name { get; set; }
+    public ConstraintType ConstraintType { get; set; }
+    public int OrdinalPosition { get; set; }
 }

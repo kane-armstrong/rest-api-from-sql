@@ -1,12 +1,11 @@
-﻿namespace CodeGenerator.Classes
+﻿namespace CodeGenerator.Classes;
+
+public enum ClassAccessibilityLevel
 {
-    public enum ClassAccessibilityLevel
-    {
-        Public,
-        Protected,
-        Internal,
-        Private,
-        ProtectedInternal,
-        PrivateProtected
-    }
+    Public,
+    Protected,
+    Internal,
+    Private,
+    ProtectedInternal,
+    PrivateProtected
 }

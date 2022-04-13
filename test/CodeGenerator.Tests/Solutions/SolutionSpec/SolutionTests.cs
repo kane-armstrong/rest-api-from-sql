@@ -3,23 +3,23 @@ using CodeGenerator.Solutions;
 using FluentAssertions;
 using Xunit;
 
-namespace CodeGenerator.Tests.Solutions.SolutionSpec
+namespace CodeGenerator.Tests.Solutions.SolutionSpec;
+
+public class SolutionTests
 {
-    public class SolutionTests
+    [Fact]
+    public void Solutions_with_a_single_project_render_correctly()
     {
-        [Fact]
-        public void Solutions_with_a_single_project_render_correctly()
-        {
-            var sut = new Solution(@"c:\temp", "MySolution");
-            var project = new Project("MyProject", "net5.0");
-            sut.AddProject(project);
+        var sut = new Solution(@"c:\temp", "MySolution");
+        var project = new Project("MyProject", "net5.0");
+        sut.AddProject(project);
 
-            var projectTypeId = project.ProjectTypeId.ToString().ToUpper();
-            var projectId = project.ProjectId.ToString().ToUpper();
-            var solutionId = sut.Id.ToString().ToUpper();
+        var projectTypeId = project.ProjectTypeId.ToString().ToUpper();
+        var projectId = project.ProjectId.ToString().ToUpper();
+        var solutionId = sut.Id.ToString().ToUpper();
 
-            var result = sut.Render();
-            result.Should().Be($@"Microsoft Visual Studio Solution File, Format Version 12.00
+        var result = sut.Render();
+        result.Should().Be($@"Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -56,29 +56,29 @@ Global
     EndGlobalSection
 EndGlobal
 ");
-        }
+    }
 
-        [Fact]
-        public void Solutions_with_multiple_projects_render_correctly()
-        {
-            var sut = new Solution(@"c:\temp", "MySolution");
+    [Fact]
+    public void Solutions_with_multiple_projects_render_correctly()
+    {
+        var sut = new Solution(@"c:\temp", "MySolution");
             
-            var project1 = new Project("MyProject1", "net5.0");
-            var project2 = new Project("MyProject2", "net5.0");
+        var project1 = new Project("MyProject1", "net5.0");
+        var project2 = new Project("MyProject2", "net5.0");
             
-            sut.AddProject(project1);
-            sut.AddProject(project2);
+        sut.AddProject(project1);
+        sut.AddProject(project2);
 
-            var solutionId = sut.Id.ToString().ToUpper();
+        var solutionId = sut.Id.ToString().ToUpper();
             
-            var projectTypeId1 = project1.ProjectTypeId.ToString().ToUpper();
-            var projectId1 = project1.ProjectId.ToString().ToUpper();
+        var projectTypeId1 = project1.ProjectTypeId.ToString().ToUpper();
+        var projectId1 = project1.ProjectId.ToString().ToUpper();
 
-            var projectTypeId2 = project2.ProjectTypeId.ToString().ToUpper();
-            var projectId2 = project2.ProjectId.ToString().ToUpper();
+        var projectTypeId2 = project2.ProjectTypeId.ToString().ToUpper();
+        var projectId2 = project2.ProjectId.ToString().ToUpper();
 
-            var result = sut.Render();
-            result.Should().Be($@"Microsoft Visual Studio Solution File, Format Version 12.00
+        var result = sut.Render();
+        result.Should().Be($@"Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -129,18 +129,17 @@ Global
     EndGlobalSection
 EndGlobal
 ");
-        }
+    }
 
-        [Fact]
-        public void Empty_solutions_are_rendered_in_the_correct_format()
-        {
-            var sut = new Solution(@"c:\temp", "MySolution");
-            var result = sut.Render();
-            result.Should().Be(@"Microsoft Visual Studio Solution File, Format Version 12.00
+    [Fact]
+    public void Empty_solutions_are_rendered_in_the_correct_format()
+    {
+        var sut = new Solution(@"c:\temp", "MySolution");
+        var result = sut.Render();
+        result.Should().Be(@"Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 ");
-        }
     }
 }

@@ -1,14 +1,13 @@
-﻿namespace RestApiFromSqlSchema.Rendering
-{
-    internal class IdentifierConfiguration
-    {
-        internal string Identifier { get; }
-        internal string Predicate { get; }
+﻿namespace RestApiFromSqlSchema.Rendering;
 
-        internal IdentifierConfiguration(string identifier, string predicate)
-        {
-            Identifier = identifier;
-            Predicate = predicate;
-        }
+internal class IdentifierConfiguration
+{
+    internal string Identifier { get; }
+    internal string Predicate { get; }
+
+    internal IdentifierConfiguration(string identifier, string predicate)
+    {
+        Identifier = identifier;
+        Predicate = predicate;
     }
 }

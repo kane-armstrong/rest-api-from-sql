@@ -1,14 +1,13 @@
 ﻿using System.Reflection;
 using Pedantic.IO;
 
-namespace CodeGenerator.Classes.Templates.Resources
-{
-    internal static class TemplateContent
-    {
-        private static Assembly Assembly => typeof(TemplateContent).Assembly;
-        private static string Namespace => typeof(TemplateContent).Namespace;
+namespace CodeGenerator.Classes.Templates.Resources;
 
-        internal static string Class => EmbeddedResource.ReadAllText(Assembly, $"{Namespace}.Class.txt");
-        internal static string Method => EmbeddedResource.ReadAllText(Assembly, $"{Namespace}.Method.txt");
-    }
+internal static class TemplateContent
+{
+    private static Assembly Assembly => typeof(TemplateContent).Assembly;
+    private static string Namespace => typeof(TemplateContent).Namespace;
+
+    internal static string Class => EmbeddedResource.ReadAllText(Assembly, $"{Namespace}.Class.txt");
+    internal static string Method => EmbeddedResource.ReadAllText(Assembly, $"{Namespace}.Method.txt");
 }

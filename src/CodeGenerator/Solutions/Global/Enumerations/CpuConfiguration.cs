@@ -1,9 +1,8 @@
-﻿namespace CodeGenerator.Solutions.Global.Enumerations
+﻿namespace CodeGenerator.Solutions.Global.Enumerations;
+
+public enum CpuConfiguration
 {
-    public enum CpuConfiguration
-    {
-        Any_CPU,
-        x86,
-        x64
-    }
+    Any_CPU,
+    x86,
+    x64
 }

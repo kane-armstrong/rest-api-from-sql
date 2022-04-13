@@ -1,8 +1,7 @@
-﻿namespace RestApiFromSqlSchema.Components.Solution.Global.Enumerations
+﻿namespace RestApiFromSqlSchema.Components.Solution.Global.Enumerations;
+
+public enum ProjectConfigurationCode
 {
-    public enum ProjectConfigurationCode
-    {
-        ActiveCfg,
-        Build
-    }
+    ActiveCfg,
+    Build
 }

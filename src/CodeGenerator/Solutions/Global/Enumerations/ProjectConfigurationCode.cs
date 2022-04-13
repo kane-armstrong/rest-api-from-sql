@@ -1,8 +1,7 @@
-﻿namespace CodeGenerator.Solutions.Global.Enumerations
+﻿namespace CodeGenerator.Solutions.Global.Enumerations;
+
+public enum ProjectConfigurationCode
 {
-    public enum ProjectConfigurationCode
-    {
-        ActiveCfg,
-        Build
-    }
+    ActiveCfg,
+    Build
 }

@@ -1,14 +1,13 @@
 ﻿using RestApiFromSqlSchema.Components.Solution.Global.Enumerations;
 
-namespace RestApiFromSqlSchema.Components.Solution.Global
-{
-    public abstract class ProjectConfigurationId
-    {
-        public ProjectConfigurationCode Code { get; }
+namespace RestApiFromSqlSchema.Components.Solution.Global;
 
-        protected ProjectConfigurationId(ProjectConfigurationCode code)
-        {
-            Code = code;
-        }
+public abstract class ProjectConfigurationId
+{
+    public ProjectConfigurationCode Code { get; }
+
+    protected ProjectConfigurationId(ProjectConfigurationCode code)
+    {
+        Code = code;
     }
 }

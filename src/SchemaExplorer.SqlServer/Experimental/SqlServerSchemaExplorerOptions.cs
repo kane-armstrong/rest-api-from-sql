@@ -1,7 +1,6 @@
-﻿namespace SchemaExplorer.SqlServer.Experimental
+﻿namespace SchemaExplorer.SqlServer.Experimental;
+
+public class SqlServerSchemaExplorerOptions
 {
-    public class SqlServerSchemaExplorerOptions
-    {
-        public string ConnectionString { get; set; }
-    }
+    public string ConnectionString { get; set; }
 }

@@ -1,8 +1,7 @@
-﻿namespace CodeGenerator.Solutions.Global.Enumerations
+﻿namespace CodeGenerator.Solutions.Global.Enumerations;
+
+public enum GlobalSectionType
 {
-    public enum GlobalSectionType
-    {
-        preSolution,
-        postSolution
-    }
+    preSolution,
+    postSolution
 }

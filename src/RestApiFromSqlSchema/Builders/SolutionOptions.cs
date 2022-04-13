@@ -1,8 +1,7 @@
-﻿namespace RestApiFromSqlSchema.Builders
+﻿namespace RestApiFromSqlSchema.Builders;
+
+public class SolutionOptions
 {
-    public class SolutionOptions
-    {
-        public string Directory { get; set; }
-        public string Name { get; set; }
-    }
+    public string Directory { get; set; }
+    public string Name { get; set; }
 }
