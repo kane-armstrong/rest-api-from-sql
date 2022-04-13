@@ -10,96 +10,95 @@ using SchemaExplorer.Experimental;
 using SchemaExplorer.SqlServer.Internal;
 using SchemaExplorer.SqlServer.Internal.Resources;
 
-namespace SchemaExplorer.SqlServer.Experimental
+namespace SchemaExplorer.SqlServer.Experimental;
+
+public class SqlServerSchemaExplorer : SchemaExplorer.Experimental.ISchemaExplorer
 {
-    public class SqlServerSchemaExplorer : SchemaExplorer.Experimental.ISchemaExplorer
+    private readonly SqlServerSchemaExplorerOptions _options;
+
+    public SqlServerSchemaExplorer(IOptions<SqlServerSchemaExplorerOptions> options)
     {
-        private readonly SqlServerSchemaExplorerOptions _options;
+        _options = options?.Value ?? throw new ArgumentException("Options are required", nameof(options));
+    }
 
-        public SqlServerSchemaExplorer(IOptions<SqlServerSchemaExplorerOptions> options)
+    public async Task<Database> ExploreDatabase(CancellationToken cancellationToken)
+    {
+        var metadata = await GetColumnSchemaOfAllTablesAsync(cancellationToken);
+        var databaseName = metadata.First().TableCatalog;
+        var schemaNames = metadata.Select(x => x.TableSchema).Distinct().ToList();
+
+        var tableConstraints = await GetConstraintsOfAllTablesAsync(cancellationToken);
+
+        var schemas = new List<Schema>();
+        foreach (var schemaName in schemaNames)
         {
-            _options = options?.Value ?? throw new ArgumentException("Options are required", nameof(options));
-        }
+            var tableNames = metadata
+                .Where(x => x.TableSchema == schemaName)
+                .Select(x => x.TableName)
+                .Distinct()
+                .ToList();
 
-        public async Task<Database> ExploreDatabase(CancellationToken cancellationToken)
-        {
-            var metadata = await GetColumnSchemaOfAllTablesAsync(cancellationToken);
-            var databaseName = metadata.First().TableCatalog;
-            var schemaNames = metadata.Select(x => x.TableSchema).Distinct().ToList();
-
-            var tableConstraints = await GetConstraintsOfAllTablesAsync(cancellationToken);
-
-            var schemas = new List<Schema>();
-            foreach (var schemaName in schemaNames)
+            var tables = new List<SchemaExplorer.Experimental.Table>();
+            foreach (var tableName in tableNames)
             {
-                var tableNames = metadata
-                    .Where(x => x.TableSchema == schemaName)
-                    .Select(x => x.TableName)
-                    .Distinct()
+                var columns = metadata
+                    .Where(x => x.TableSchema == schemaName && x.TableName == tableName)
+                    .Select(x => new SchemaExplorer.Experimental.Column
+                    {
+                        AllowsNulls = x.IsNullable,
+                        DataType = x.DataType,
+                        Name = x.ColumnName,
+                        Order = x.OrdinalPosition
+                    })
                     .ToList();
 
-                var tables = new List<SchemaExplorer.Experimental.Table>();
-                foreach (var tableName in tableNames)
+                foreach (var column in columns)
                 {
-                    var columns = metadata
-                        .Where(x => x.TableSchema == schemaName && x.TableName == tableName)
-                        .Select(x => new SchemaExplorer.Experimental.Column
+                    column.Constraints = tableConstraints
+                        .Where(x => x.TableSchema == schemaName && x.TableName == tableName && x.ColumnName == column.Name)
+                        .Select(x => new SchemaExplorer.Experimental.Constraint
                         {
-                            AllowsNulls = x.IsNullable,
-                            DataType = x.DataType,
-                            Name = x.ColumnName,
-                            Order = x.OrdinalPosition
-                        })
-                        .ToList();
-
-                    foreach (var column in columns)
-                    {
-                        column.Constraints = tableConstraints
-                            .Where(x => x.TableSchema == schemaName && x.TableName == tableName && x.ColumnName == column.Name)
-                            .Select(x => new SchemaExplorer.Experimental.Constraint
-                            {
-                                ConstraintType = x.ConstraintType,
-                                Name = x.ConstraintName,
-                                OrdinalPosition = x.OrdinalPosition
-                            });
-                    }
-
-                    tables.Add(new SchemaExplorer.Experimental.Table
-                    {
-                        Name = tableName,
-                        Columns = columns
-                    });
+                            ConstraintType = x.ConstraintType,
+                            Name = x.ConstraintName,
+                            OrdinalPosition = x.OrdinalPosition
+                        });
                 }
 
-                schemas.Add(new Schema
+                tables.Add(new SchemaExplorer.Experimental.Table
                 {
-                    Name = schemaName,
-                    Tables = tables
+                    Name = tableName,
+                    Columns = columns
                 });
             }
 
-            return new Database
+            schemas.Add(new Schema
             {
-                Name = databaseName,
-                Schema = schemas
-            };
+                Name = schemaName,
+                Tables = tables
+            });
         }
 
-        // TODO Association of check and default constraints isn't working
-        private async Task<List<TableConstraints>> GetConstraintsOfAllTablesAsync(CancellationToken cancellationToken)
+        return new Database
         {
-            await using var connection = new SqlConnection(_options.ConnectionString);
-            await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
-            var results = await connection.QueryAsync<TableConstraints>(QueryContent.TableConstraintsQuery).ConfigureAwait(false);
-            return results.ToList();
-        }
+            Name = databaseName,
+            Schema = schemas
+        };
+    }
 
-        private async Task<List<ColumnSchema>> GetColumnSchemaOfAllTablesAsync(CancellationToken cancellationToken)
-        {
-            await using var connection = new SqlConnection(_options.ConnectionString);
-            await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
-            var results = await connection.QueryAsync<ColumnSchema>(QueryContent.ColumnSchemaQuery).ConfigureAwait(false);
-            return results.ToList();
-        }
+    // TODO Association of check and default constraints isn't working
+    private async Task<List<TableConstraints>> GetConstraintsOfAllTablesAsync(CancellationToken cancellationToken)
+    {
+        await using var connection = new SqlConnection(_options.ConnectionString);
+        await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
+        var results = await connection.QueryAsync<TableConstraints>(QueryContent.TableConstraintsQuery).ConfigureAwait(false);
+        return results.ToList();
+    }
+
+    private async Task<List<ColumnSchema>> GetColumnSchemaOfAllTablesAsync(CancellationToken cancellationToken)
+    {
+        await using var connection = new SqlConnection(_options.ConnectionString);
+        await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
+        var results = await connection.QueryAsync<ColumnSchema>(QueryContent.ColumnSchemaQuery).ConfigureAwait(false);
+        return results.ToList();
     }
 }

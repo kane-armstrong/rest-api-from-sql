@@ -1,19 +1,18 @@
 ﻿using RestApiFromSqlSchema.Components.Solution.Global.Enumerations;
 
-namespace RestApiFromSqlSchema.Components.Solution.Global
+namespace RestApiFromSqlSchema.Components.Solution.Global;
+
+public class BuildConfigurationId : ProjectConfigurationId
 {
-    public class BuildConfigurationId : ProjectConfigurationId
+    public int Id { get; }
+
+    public BuildConfigurationId(int id) : base(ProjectConfigurationCode.Build)
     {
-        public int Id { get; }
+        Id = id;
+    }
 
-        public BuildConfigurationId(int id) : base(ProjectConfigurationCode.Build)
-        {
-            Id = id;
-        }
-
-        public override string ToString()
-        {
-            return $"{Code}.{Id}";
-        }
+    public override string ToString()
+    {
+        return $"{Code}.{Id}";
     }
 }

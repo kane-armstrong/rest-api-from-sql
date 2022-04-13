@@ -1,9 +1,8 @@
-﻿namespace RestApiFromSqlSchema.Components.Solution.Global.Enumerations
+﻿namespace RestApiFromSqlSchema.Components.Solution.Global.Enumerations;
+
+public enum CpuConfiguration
 {
-    public enum CpuConfiguration
-    {
-        Any_CPU,
-        x86,
-        x64
-    }
+    Any_CPU,
+    x86,
+    x64
 }

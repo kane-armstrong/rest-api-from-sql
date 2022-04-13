@@ -1,8 +1,7 @@
-﻿namespace CodeGenerator.Solutions.Global.Enumerations
+﻿namespace CodeGenerator.Solutions.Global.Enumerations;
+
+public enum BuildConfiguration
 {
-    public enum BuildConfiguration
-    {
-        Debug,
-        Release
-    }
+    Debug,
+    Release
 }

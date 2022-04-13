@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace SchemaExplorer.Experimental
+namespace SchemaExplorer.Experimental;
+
+public class Table
 {
-    public class Table
-    {
-        public string Name { get; set; }
-        public IEnumerable<Column> Columns { get; set; }
-    }
+    public string Name { get; set; }
+    public IEnumerable<Column> Columns { get; set; }
 }

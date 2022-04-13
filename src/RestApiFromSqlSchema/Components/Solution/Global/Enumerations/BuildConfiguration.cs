@@ -1,8 +1,7 @@
-﻿namespace RestApiFromSqlSchema.Components.Solution.Global.Enumerations
+﻿namespace RestApiFromSqlSchema.Components.Solution.Global.Enumerations;
+
+public enum BuildConfiguration
 {
-    public enum BuildConfiguration
-    {
-        Debug,
-        Release
-    }
+    Debug,
+    Release
 }
