@@ -1,0 +1,31 @@
+<Project Sdk="MSBuild.Sdk.SqlProj/2.0.0">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<SqlServerVersion>Sql150</SqlServerVersion>
+		<!-- For additional properties that can be set here, please refer to https://github.com/rr-wfm/MSBuild.Sdk.SqlProj#model-properties -->
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!-- Refer to https://github.com/rr-wfm/MSBuild.Sdk.SqlProj#publishing-support for supported publishing options -->
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Schema\dbo\Tables\JoinWithMe.sql" />
+	  <None Remove="Schema\dbo\Tables\NameThatAppearsInMultipleSchema.sql" />
+	  <None Remove="Schema\dbo\Tables\WithCheckConstraint.sql" />
+	  <None Remove="Schema\dbo\Tables\WithDefaultConstraint.sql" />
+	  <None Remove="Schema\dbo\Tables\WithForeignKeyConstraint.sql" />
+	  <None Remove="Schema\dbo\Tables\WithFourPrimaryKeys.sql" />
+	  <None Remove="Schema\dbo\Tables\WithNoPrimaryKey.sql" />
+	  <None Remove="Schema\dbo\Tables\WithOnePrimaryKey.sql" />
+	  <None Remove="Schema\dbo\Tables\WithTwoPrimaryKeys.sql" />
+	  <None Remove="Schema\dbo\Tables\WithUniqueConstraint.sql" />
+	  <None Remove="Schema\Demo\DemoSchema.sql" />
+	  <None Remove="Schema\Demo\Tables\NameThatAppearsInMultipleSchema.sql" />
+	  <None Remove="Schema\Demo\Tables\WithAllNotNullDataTypes.sql" />
+	  <None Remove="Schema\Demo\Tables\WithAllNullDataTypes.sql" />
+	  <None Remove="Security\TestRunnerLogin.sql" />
+	  <None Remove="Security\TestRunnerRole.sql" />
+	  <None Remove="Security\TestRunnerUser.sql" />
+	</ItemGroup>
+</Project>
